@@ -1,10 +1,5 @@
 import '../../Styles/Global.css';
-import {
-    FaUser,
-    FaChartBar,
-    FaUserCog,
-    FaQuestionCircle,
-  } from "react-icons/fa";
+import {FaUserCircle} from "react-icons/fa";
 
 function NavBarAdmin(/*nome*/){
 
@@ -14,7 +9,7 @@ function NavBarAdmin(/*nome*/){
             <p className="optionNav">Pacientes</p>
             <p className="optionNav">Psicologos</p>
             <p className="bemvindo">Bem vindo, nome | sair</p>
-            <a className="user"><FaUser /></a>
+            <i class="fas fa-code fa-5x" className="user"><FaUserCircle /></i>
         </header>
     );
 
