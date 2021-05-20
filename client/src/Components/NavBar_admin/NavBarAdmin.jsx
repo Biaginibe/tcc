@@ -1,4 +1,4 @@
-import '../../Styles/Global.css';
+import '../../Pages/Admin/css/admin.css';
 import {FaUserCircle} from "react-icons/fa";
 
 function NavBarAdmin(/*nome*/){

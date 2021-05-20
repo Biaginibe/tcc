@@ -1,0 +1,41 @@
+/*CSS NAVBAR*/
+.navbarDesktop {
+    margin: auto 0;
+    background-color: #135cb2;
+    display: flex;
+    width: 100%;
+  }
+  
+  .logo {
+    color: #e8e8e8;
+    margin: auto 0;
+    padding: 0.5% 1.5% 0.5% 0.5%;
+    font-size: 240%;
+    font-family: "Red Rose", cursive;
+  
+    /*borda*/
+    border: #377fd2;
+    border-width: thin;
+    border-right-style: groove;
+  }
+  
+  .optionNav {
+    color: #e8e8e8;
+    margin: auto 0;
+    padding: 0% 2%;
+    font-size: 150%;
+    font-family: "Quattrocento", serif;
+  }
+  .bemvindo {
+    margin: auto 0;
+    padding-left: 42%;
+    padding-right: 3%;
+    color: #e8e8e8;
+  }
+  .user {
+    margin: auto 0;
+    padding: 1%;
+    /* background-color: #b3b3b3;
+    border-radius: 50%; */
+  }
+  
