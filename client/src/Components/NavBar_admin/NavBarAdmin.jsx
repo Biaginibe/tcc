@@ -1,4 +1,4 @@
-import '../../Pages/Admin/css/admin.css';
+import '../../Pages/Admin/css/style.css';
 import {FaUserCircle} from "react-icons/fa";
 
 function NavBarAdmin(/*nome*/){
@@ -9,7 +9,7 @@ function NavBarAdmin(/*nome*/){
             <p className="optionNav">Pacientes</p>
             <p className="optionNav">Psicologos</p>
             <p className="bemvindo">Bem vindo, nome | sair</p>
-            <i class="fas fa-code fa-5x" className="user"><FaUserCircle /></i>
+            <FaUserCircle size={32} style={{color: '#e8e8e8', margin: 'auto 0', padding:'auto 0'}}/>
         </header>
     );
 
