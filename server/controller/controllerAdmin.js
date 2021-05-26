@@ -9,9 +9,8 @@ module.exports = {
 				if (error) throw error;				
 				return res.json(results);
 			});
-			
 		} catch (error) {
-			console.log('ERRO PORRA ' + error);
+			console.log(error);
 		}
 	},
 	async listAllPsicologo(req, res) {

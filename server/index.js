@@ -9,14 +9,14 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//aqui ele já cai na tela de admin LISTAR TODOS OS PACIENTES
+//importando o controllerAdmin
 const admin = require('./controller/controllerAdmin');
-app.post('/admin/paciente', admin.listAllPaciente);
-//teste
+// app.post('/admin/paciente', admin.listAllPaciente);
+//aqui ele já cai na tela de admin LISTAR TODOS OS PACIENTES
 app.get('/admin', admin.listAllPaciente);
 
 //para LISTAR TODOS OS PSICOLOGOS!
-app.post('/admin/psicologo', admin.listAllPsicologo);
+app.get('/admin/psicologo', admin.listAllPsicologo);
 
 app.listen(port, () => {
 	console.log(`running on port ${port}.`);
