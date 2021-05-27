@@ -11,11 +11,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //importando o controllerAdmin
 const admin = require('./controller/controllerAdmin');
-// app.post('/admin/paciente', admin.listAllPaciente);
-//aqui ele já cai na tela de admin LISTAR TODOS OS PACIENTES
-app.get('/admin', admin.listAllPaciente);
 
-//para LISTAR TODOS OS PSICOLOGOS!
+//listar todos os usuarios 
+app.get('/admin', admin.listAllUsers)
+
+//listar todos os usuarios que são PACIENTES
+app.get('/admin/paciente', admin.listAllPaciente);
+
+//listar todos os usuarios que são PSICOLOGOS!
 app.get('/admin/psicologo', admin.listAllPsicologo);
 
 app.listen(port, () => {
