@@ -5,7 +5,7 @@ class User extends Model {
 		super.init({
             cpf: DataTypes.STRING, 
             nome: DataTypes.STRING, 
-            ativoInativo: DataTypes.STRING,
+            ativo: DataTypes.BOOLEAN,
             senha: DataTypes.STRING,
             perfil: DataTypes.INTEGER,
             idade: DataTypes.INTEGER,

@@ -18,8 +18,8 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			ativoInativo: {
-				type: Sequelize.STRING,
+			ativo: {
+				type: Sequelize.BOOLEAN,
 				allowNull: false,
 			},
 			senha: {
