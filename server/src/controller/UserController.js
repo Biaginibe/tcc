@@ -22,7 +22,6 @@ module.exports = {
 
 		return res.json(users);
 	},
-	// disable_enableUser ainda n funcional, ou talvez sim.. descubra
 	async disable_enableUser(req, res) {
 		const user = await User.findOne({  
             
