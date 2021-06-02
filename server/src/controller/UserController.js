@@ -29,7 +29,6 @@ module.exports = {
                 id: req.body.id
             },
         });
-        //console.log(user.dataValues.ativo)
 		if (user.dataValues.ativo) {
 			await User.update(
 				{ ativo: false },

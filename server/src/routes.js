@@ -2,6 +2,7 @@ const express = require('express');
 const UserController = require('./controller/UserController');
 const PatienteController = require('./controller/PatienteController');
 const PsychologistController = require('./controller/PsychologistController');
+const ScheduleController = require('./controller/ScheduleController');
 
 const routes = express.Router();
 
@@ -34,5 +35,10 @@ routes.put('/disable_enablePsychologist', PsychologistController.disable_enableP
 
 //deleta o psicologo (precisa passar o id)
 routes.delete('/deletePsychologist', PsychologistController.deletePsychologist);
+
+//================================== S P R I N T 2 ===========================================
+
+routes.post('/psychologist/:psychologist_id/schedule', ScheduleController.createScheduler)
+
 
 module.exports = routes;
