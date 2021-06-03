@@ -19,7 +19,7 @@ module.exports = {
 	},
 	async findAllUsers(req, res) {
 		const users = await User.findAll();
-
+		console.log("backend response"+res.json(users));
 		return res.json(users);
 	},
 	async disable_enableUser(req, res) {
