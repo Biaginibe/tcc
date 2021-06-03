@@ -13,19 +13,40 @@ import CRUDTable,
 import './css/styles.css';
 
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
+// const AtivoRenderer = ({field})=> {if(field == 1 ){
+// field = <textarea "Psicologo"/>;}
+// else field = "paciente"
+// };
 
+console.log("teste2");
 let tasks = [
   {
     id: 1,
-    title: 'Create an example',
-    description: 'Create an example of how to use the component',
+    cpf: 1212121211,
+    nome: 'Create an example of how to use the component',
   },
   {
     id: 2,
-    title: 'Improve',
-    description: 'Improve the component!',
+    cpf: 5543534534,
+    nome: 'Improve the component!',
+  },
+  {
+    id: 4,
+    cpf: 234234234,
+    nome: 'Create an example of how to use the component',
+  },
+  {
+    id: 3,
+    cpf: 55554444,
+    nome: 'Josué',
+    ativo: 1,
+    perfil:'psicologo',
+    idade: 18,
+    email: "aaa@111.com",
+    genero: "masc",
   },
 ];
+
 
 const SORTERS = {
   NUMBER_ASCENDING: mapper => (a, b) => mapper(a) - mapper(b),
@@ -61,14 +82,19 @@ const service = {
     count += 1;
     tasks.push({
       ...task,
-      id: count,
+      
     });
     return Promise.resolve(task);
   },
   update: (data) => {
     const task = tasks.find(t => t.id === data.id);
-    task.title = data.title;
-    task.description = data.description;
+    task.cpf = data.cpf;
+    task.nome = data.nome;
+    task.ativo = data.ativo;
+    task.perfil = data.perfil;
+    task.idade = data.idade;
+    task.email = data.email;
+    task.genero = data.genero;
     return Promise.resolve(task);
   },
   delete: (data) => {
@@ -85,41 +111,70 @@ const styles = {
 const Example = () => (
   <div style={styles.container}>
     <CRUDTable
-      caption="Tasks"
+      caption="Usuários"
       fetchItems={payload => service.fetchItems(payload)}
     >
       <Fields>
         <Field
           name="id"
-          label="Id"
+          label="ID"
           hideInCreateForm
           readOnly
         />
         <Field
-          name="title"
-          label="Title"
-          placeholder="Title"
+          name="cpf"
+          label="CPF"
+          placeholder="CPF"
         />
         <Field
-          name="description"
-          label="Description"
+          name="nome"
+          label="Nome"
           render={DescriptionRenderer}
+        />
+        <Field
+          name="ativo"
+          label="Ativo"
+          type="boolean"
+          // render={AtivoRenderer}
+          placeholder=""
+        />
+        
+        <Field
+          name="perfil"
+          label="Perfil"
+          placeholder="Perfil"
+        />
+        <Field
+          name="idade"
+          label="Idade"
+          placeholder="Idade"
+        />
+        <Field
+          name="email"
+          label="Email"
+          placeholder="Email"
+
+        />
+        <Field
+          name="genero"
+          label="Genêro"
+          placeholder="Genêro"
         />
       </Fields>
       <CreateForm
-        title="Task Creation"
+        cpf="Task Creation"
         message="Create a new task!"
         trigger="Create Task"
         onSubmit={task => service.create(task)}
         submitText="Create"
         validate={(values) => {
           const errors = {};
-          if (!values.title) {
-            errors.title = 'Please, provide task\'s title';
+          if (!values.cpf) {
+            errors.cpf = 'Please, provide task\'s cpf';
           }
 
-          if (!values.description) {
-            errors.description = 'Please, provide task\'s description';
+          if (!values.nome) {
+            errors.nome = 'Please, provide task\'s nome';
           }
 
           return errors;
@@ -127,7 +182,7 @@ const Example = () => (
       />
 
       <UpdateForm
-        title="Task Update Process"
+        cpf="Task Update Process"
         message="Update task"
         trigger="Update"
         onSubmit={task => service.update(task)}
@@ -139,12 +194,12 @@ const Example = () => (
             errors.id = 'Please, provide id';
           }
 
-          if (!values.title) {
-            errors.title = 'Please, provide task\'s title';
+          if (!values.cpf) {
+            errors.cpf = 'Please, provide task\'s cpf';
           }
 
-          if (!values.description) {
-            errors.description = 'Please, provide task\'s description';
+          if (!values.nome) {
+            errors.nome = 'Please, provide task\'s nome';
           }
 
           return errors;
@@ -152,7 +207,7 @@ const Example = () => (
       />
 
       <DeleteForm
-        title="Task Delete Process"
+        cpf="Task Delete Process"
         message="Are you sure you want to delete the task?"
         trigger="Delete"
         onSubmit={task => service.delete(task)}
@@ -167,8 +222,10 @@ const Example = () => (
       />
     </CRUDTable>
   </div>
+  
 );
 
-Example.propTypes = {};
+
+
 
 export default Example;
