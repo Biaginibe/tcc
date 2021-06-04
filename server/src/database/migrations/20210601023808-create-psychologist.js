@@ -2,7 +2,7 @@
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable('psychologist', {
+		await queryInterface.createTable('psychologists', {
 			id: {
 				type: Sequelize.INTEGER,
 				autoIncrement: true,
@@ -40,7 +40,7 @@ module.exports = {
 			id_cliente: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-				references: { model: 'client', key: 'id' },
+				references: { model: 'clients', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
 			},  
@@ -56,6 +56,6 @@ module.exports = {
 	},
 
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable('psychologist');
+		await queryInterface.dropTable('psychologists');
 	},
 };

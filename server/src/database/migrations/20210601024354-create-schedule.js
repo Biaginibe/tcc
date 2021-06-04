@@ -2,29 +2,29 @@
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable('schedule', {
+		await queryInterface.createTable('schedules', {
 			id: {
 				type: Sequelize.INTEGER,
 				autoIncrement: true,
 				allowNull: false,
 				primaryKey: true,
 			},
-			diasDisponiveis: {
+			diaDisponivel: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			horariosDisponiveis: {
+			horarioDisponivel: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			fila: {
-				type: Sequelize.INTEGER,
+			disponivel: {
+				type: Sequelize.BOOLEAN,
 				allowNull: false,
 			},
       id_psicologo: {
         type: Sequelize.INTEGER,
 				allowNull: false,
-        references: { model: 'psychologist', key: 'id'},
+        references: { model: 'psychologists', key: 'id'},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
@@ -40,6 +40,6 @@ module.exports = {
 	},
 
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable('schedule');
+		await queryInterface.dropTable('schedules');
 	},
 };

@@ -12,6 +12,10 @@ class Psychologist extends Model {
             crp: DataTypes.STRING,
         }, {sequelize});
 	}
+
+    static associate(models){
+        this.belongsTo(models.Client, {foreignKey: 'id_cliente', as: 'client'})
+    }
 }
 
 module.exports = Psychologist;
