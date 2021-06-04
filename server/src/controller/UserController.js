@@ -23,44 +23,41 @@ module.exports = {
 		return res.json(users);
 	},
 	async disable_enableUser(req, res) {
-		const user = await User.findOne({  
-            
-            where: {
-                id: req.body.id
-            },
-        });
-        //console.log(user.dataValues.ativo)
+		const {id_user} = req.params;
+		console.log(id_user)
+		const user = await User.findByPk(id_user);
 		if (user.dataValues.ativo) {
 			await User.update(
 				{ ativo: false },
 				{
 					where: {
-						id: req.body.id,
+						id: id_user,
 					},
 				}
 			);
-			const change = `usuario com id ${req.body.id} foi desativado`;
+			const change = `usuario com id ${id_user} foi desativado`;
 			return res.json(change);
 		} else {
 			await User.update(
 				{ ativo: true },
 				{
 					where: {
-						id: req.body.id,
+						id: id_user,
 					},
 				}
 			);
-			const change = `usuario com id ${req.body.id} foi ativado`;
+			const change = `usuario com id ${id_user} foi ativado`;
 			return res.json(change);
 		}
 	},
 	async deleteUser(req, res) {
+		const {id_user} = req.params;
 		await User.destroy({
 			where: {
-				id: req.body.id,
+				id: id_user,
 			},
 		});
-		success = `usuario com id ${req.body.id} deletado com sucesso`;
+		success = `usuario com id ${id_user} deletado com sucesso`;
 		return res.json(success);
 	},
 };
