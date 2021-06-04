@@ -1,8 +1,9 @@
 import React from 'react';
-
+import "./css/table.css"
 const UserTable = (props) => {
     return (
-        <table>
+        <div className="table-wrapper">
+        <table className="fl-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -12,21 +13,22 @@ const UserTable = (props) => {
                     <th>Perfil</th>
                     <th>Idade</th>
                     <th>Email</th>
-                    <th>Email</th>
-                    <th>Actions</th>
+                    <th>Genêro</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 { props.users.length > 0 ? (
                     props.users.map(user => {
                         const {id, nome, cpf, ativo, perfil, idade, email, genero} = user;
+                        console.log(ativo);
                         return (
                             <tr key={id}>
                                 <td>{id}</td>
                                 <td>{nome}</td>
                                 <td>{cpf}</td>
-                                <td>{ativo}</td>
-                                <td>{perfil}</td>
+                                <td>{ativo===true ? "ativo" : "desativado"}</td>
+                                <td>{perfil===2 ? "psicólogo" : perfil===3 ? "paciente" : "admin" }</td>
                                 <td>{idade}</td>
                                 <td>{email}</td>
                                 <td>{genero}</td>
@@ -45,6 +47,7 @@ const UserTable = (props) => {
                 }
             </tbody>
         </table>
+        </div>
     )
 }
 
