@@ -1,55 +1,88 @@
 const User = require('../model/User');
+const Psychologist = require('../model/Psychologist');
 
 module.exports = {
-    async findAllPsycologists(req, res){
-        
-            const Psycologists = await User.findAll({ 
-                where: {
-                    perfil: 2,
-                },
-            });
-            return res.json(Psycologists);
-        
-    },
-    async disable_enablePsychologist(req, res) {
-		const psychologist = await User.findOne({  
-            
-            where: {
-                id: req.body.id
-            },
-        });
-        //console.log(user.dataValues.ativo)
+	async createPerfilPsychologist(req, res) {
+		const { id_cliente } = req.params;
+		const { metodologia, numeroContato,	prefFaixaEtaria, valorConsulta,	tempoSessao, descricao, crp } = req.body;
+
+		const client = await User.findByPk(id_cliente);
+
+		if (!client) {
+			return res.status(400).json({ error: 'Client not found.' });
+		}
+
+		const psychologist = await Psychologist.create({
+			metodologia,
+			numeroContato,
+			prefFaixaEtaria,
+			valorConsulta,
+			tempoSessao,
+			descricao,
+			crp,
+			id_cliente,
+		});
+
+		return res.json(psychologist);
+	},
+	async findAllPerfil(req, res){
+			const perfilPsychologist = await Psychologist.findAll();
+	
+			if (!perfilPsychologist) {
+				return res.status(400).json({ error: 'Not found' });
+			}
+	
+			return res.json(perfilPsychologist);
+		
+	},
+	async findAllPsycologists(req, res) {
+		const psycologists = await User.findAll({
+			where: {
+				perfil: 2,
+			},
+		});
+		return res.json(psycologists);
+	},
+	async disable_enablePsychologist(req, res) {
+		const {id_user} = req.params;
+
+		const psychologist = await User.findOne({
+			where: {
+				id: id_user,
+			},
+		});
 		if (psychologist.dataValues.ativo) {
 			await User.update(
 				{ ativo: false },
 				{
 					where: {
-						id: req.body.id,
+						id: id_user,
 					},
 				}
 			);
-			const change = `psicologo com id ${req.body.id} foi desativado`;
+			const change = `psicologo com id ${id_user} foi desativado`;
 			return res.json(change);
 		} else {
 			await User.update(
 				{ ativo: true },
 				{
 					where: {
-						id: req.body.id,
+						id: id_user,
 					},
 				}
 			);
-			const change = `psicologo com id ${req.body.id} foi ativado`;
+			const change = `psicologo com id ${id_user} foi ativado`;
 			return res.json(change);
 		}
 	},
 	async deletePsychologist(req, res) {
+		const {id_user} = req.params;
 		await User.destroy({
 			where: {
-				id: req.body.id,
+				id: id_user,
 			},
 		});
-		success = `psicologo com id ${req.body.id} deletado com sucesso`;
+		success = `psicologo com id ${id_user} deletado com sucesso`;
 		return res.json(success);
 	},
-}
+};
