@@ -35,7 +35,7 @@ module.exports = {
 					},
 				}
 			);
-			const change = `usuario com id ${id_user} foi desativado`;
+			const change = `User whith id ${id_user} has been successfully disabled`;
 			return res.json(change);
 		} else {
 			await User.update(
@@ -46,7 +46,7 @@ module.exports = {
 					},
 				}
 			);
-			const change = `usuario com id ${id_user} foi ativado`;
+			const change = `User whith id ${id_user} has been successfully activated`;
 			return res.json(change);
 		}
 	},
@@ -57,7 +57,7 @@ module.exports = {
 				id: id_user,
 			},
 		});
-		success = `usuario com id ${id_user} deletado com sucesso`;
+		success = `User whith id ${id_user} has been successfully deleted`;
 		return res.json(success);
 	},
 };
