@@ -5,155 +5,83 @@ import useAsyncRequest from "../../Hooks/useAsyncRequest";
 import NavBarAdmin from "../../Components/NavBar_admin/NavBarAdmin";
 import TabelaAdmin from "../../Components/Tabelas_Admin/TabelaAdmin";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import useAxios from "axios-hooks";
 import UserTable from "../../Components/UserTable/UserTable";
 import AddUserForm from "../forms/AddUserForm";
 import EditUserForm from "../forms/EditUserForm";
 
-
 /*VAI SER NOSSO INDEX NA TELA DO ADMIN*/
 
 const Admin = () => {
   const [users, setUsers] = useState(null);
-  const deleteUser = (id) => {
-    axios.delete(`http://localhost:3333/deleteUsers/${id}`)  
-    .then(res => {  
-      console.log(res);  
-      console.log(res.data);  
-  
-      const users = this.state.users.filter(item => item.id !== id);  
-      this.setState({ users });  
-    })
-};
-
-  
   const [{ data, loading, error }, refetch] = useAxios(
-    "http://localhost:3333/findUsers"
+    "http://localhost:3333/admin/findUsers"
   );
-  console.log(data); 
-  
-  
-    
-  
+
+  const deleteUser = (id) => {
+    axios
+      .delete(`http://localhost:3333/admin/${id}/deleteUser`)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        setUsers(users.filter((user) => user.id !== id));
+      })
+      .catch((error) => {
+        console.error("Erro!!", error);
+      });
+  };
+  const enableUser = (id, e) => {
+    axios
+      .put(`http://localhost:3333/admin/${id}/disable_enablePatiente`)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        setUsers(users);
+        refetch(); // <- o refetch funciona como um atualizador da tabela, mas ao mesmo tempo ele recarrega todos os outros componentes(faz parecer que deu refresh na página)
+      })
+      .catch((error) => {
+        console.error("Erro!!", error);
+      });
+  };
+
+  // eventual função pra cancelar fetch
+  const externalRefetch = async () => {
+    try {
+      await refetch();
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    if (data !== null) {
+      setUsers(data);
+    }
+  }, [data]);
+
+  console.log(users);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
-  if(data){
-  return (
-    <div className="container">
-      <NavBarAdmin />
-      <h1>Página do Adminstrador</h1>
-      <div className="row">
-        <div className="five columns">
-         
-        </div>
-        {loading || !data ? (
-          <p>Loading...</p>
-        ) : (
-          <div className="seven columns">
-            <h2>View users</h2>
+  if (users) {
+    return (
+      <div className="container">
+        <NavBarAdmin />
+        <h1>Página do Adminstrador</h1>
 
-            <UserTable users={data} deleteUser={deleteUser} />
+        {loading || !users ? (
+          <p>Carregando...</p>
+        ) : (
+          <div className="table-container">
+            <UserTable
+              users={users}
+              deleteUser={deleteUser}
+              enableUser={enableUser}
+            />
           </div>
         )}
       </div>
-    </div>
-  );
-        }else return <p>Error!</p>;
+    );
+  } else return <p>Error!</p>;
 };
 
 export default Admin;
-// const teste = [
-//   {
-//     id: 1,
-//     nome: "alonso",
-//     idade: 16,
-//     tipo: "paciente",
-//   },
-//   {
-//     id: 2,
-//     nome: "afonso",
-//     idade: 17,
-//     tipo: "paciente",
-//   },
-// ];
-// const data = [
-//   {
-//     id: 1,
-//     cpf: 1212121211,
-//     nome: "Create an example of how to use the component",
-//   },
-//   {
-//     id: 2,
-//     cpf: 5543534534,
-//     nome: "Improve the component!",
-//   },
-//   {
-//     id: 4,
-//     cpf: 234234234,
-//     nome: "Create an example of how to use the component",
-//   },
-//   {
-//     id: 3,
-//     cpf: 55554444,
-//     nome: "Josué",
-//     ativo: false,
-//     perfil: "psicologo",
-//     idade: 18,
-//     email: "aaa@111.com",
-//     genero: "masc",
-//   },
-// ];
-
-// function Admin() {
-//   const {
-//     results,
-//     error,
-//     loading,
-//   } = useFetch("http:/localhost:3333/findUsers");
-// console.log(results)
-// if (loading)
-//     return (
-//       <>
-//         <h1>CARREGANDO...</h1>
-//       </>
-//     );
-
-//   if (error)
-//     return (
-//       <>
-//         <h1>ERRO!</h1>
-//       </>
-//     );
-//  if( results )
-//   return (
-//     <div>
-//
-//       { console.log("teste"+results)}
-//       <Example resultados={results}/>
-//       {/* <ul className="expenses-list">
-//               <li className="table-title">
-//                 <small>Gastos Recentes</small>
-//                 <br />
-
-//               </li>
-//               {teste.map(({ id, nome, idade, tipo }) => (
-//                 <li key={id} className="list-item positive">
-//                   {nome}
-//                   <span
-//                     className={
-//                       idade === "gasto" ? "value positive" : "value negative"
-//                     }
-//                   >
-//                     {tipo}
-
-//                   </span>
-//                 </li>
-//               ))}
-
-//             </ul> */}
-//     </div>
-//   );
-//   else return <h1>Erro, tente novamente</h1>;
-
-// }

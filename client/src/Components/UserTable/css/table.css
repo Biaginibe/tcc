@@ -18,7 +18,7 @@ h2{
     padding: 30px 0;
 }
 
-/* Table Styles */
+/* Estilos da Tabela */
 
 .table-wrapper{
     margin: 10px 70px 70px;
@@ -62,7 +62,7 @@ h2{
     background: #F8F8F8;
 }
 
-/* Responsive */
+/* Responsividade */
 
 @media (max-width: 767px) {
     .fl-table {
