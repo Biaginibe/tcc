@@ -1,13 +1,18 @@
 import React from "react";
 import "./css/table.css";
+import { IoIosRemoveCircle } from "react-icons/io";
+import { IoTrashBinSharp } from "react-icons/io5";
 const UserTable = (props) => {
   return (
     <div className="table-wrapper">
+      <div className="page-title">
+          <h2>Tabela de {props.title}</h2>
+        </div>
       <table className="fl-table">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Nome</th>
             <th>CPF</th>
             <th>Ativo</th>
             <th>Perfil</th>
@@ -22,26 +27,32 @@ const UserTable = (props) => {
             props.users.map((user) => {
               const { id, nome, cpf, ativo, perfil, idade, email, genero } =
                 user;
-              console.log(ativo);
+
               return (
                 <tr key={id}>
                   <td>{id}</td>
                   <td>{nome}</td>
                   <td>{cpf}</td>
-                  <td>{ativo === true ? "ativo" : "desativado"}</td>
+                  <td>{ativo === true ? "Ativo" : "Desativado"}</td>
                   <td>
                     {perfil === 2
-                      ? "psicólogo"
+                      ? "Psicólogo"
                       : perfil === 3
-                      ? "paciente"
-                      : "admin"}
+                      ? "Paciente"
+                      : "Administrador"}
                   </td>
                   <td>{idade}</td>
                   <td>{email}</td>
                   <td>{genero}</td>
                   <td>
-                    <button onClick={() => props.deleteUser(id)}>Delete</button>
-                    <button onClick={() => props.enableUser(id)}>Edit</button>
+                    <div className="btn-table">
+                    <button onClick={() => props.deleteUser(id)}>
+                      <IoTrashBinSharp size={"20px"} />
+                    </button>
+                    <button onClick={() => props.enableUser(id)}>
+                      <IoIosRemoveCircle size={"20px"} />
+                    </button>
+                    </div>
                   </td>
                 </tr>
               );

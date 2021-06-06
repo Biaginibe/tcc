@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import "../../Styles/Global.css";
-import { useFetch } from "../../Hooks/useFetch";
-import useAsyncRequest from "../../Hooks/useAsyncRequest";
-import NavBarAdmin from "../../Components/NavBar_admin/NavBarAdmin";
-import TabelaAdmin from "../../Components/Tabelas_Admin/TabelaAdmin";
+import "../../../Styles/Global.css";
+import { useFetch } from "../../../Hooks/useFetch";
+import useAsyncRequest from "../../../Hooks/useAsyncRequest";
+import NavBarAdmin from "../../../Components/NavBar_admin/NavBarAdmin";
+import TabelaAdmin from "../../../Components/Tabelas_Admin/TabelaAdmin";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import useAxios from "axios-hooks";
-import UserTable from "../../Components/UserTable/UserTable";
-import AddUserForm from "../forms/AddUserForm";
-import EditUserForm from "../forms/EditUserForm";
+import UserTable from "../../../Components/UserTable/UserTable";
+import AddUserForm from "../../forms/AddUserForm";
+import EditUserForm from "../../forms/EditUserForm";
 
-/*VAI SER NOSSO INDEX NA TELA DO ADMIN*/
 
-const Admin = () => {
+
+const Psicologo = () => {
   const [users, setUsers] = useState(null);
   const [{ data, loading, error }, refetch] = useAxios(
-    "http://localhost:3333/admin/findUsers"
+    "http://localhost:3333/admin/findPsychologist"
   );
 
   const deleteUser = (id) => {
@@ -39,7 +39,7 @@ const Admin = () => {
         console.log(res.data);
         setUsers(users);
         refetch();
-        // <- o refetch funciona como um atualizador da tabela, mas ao mesmo tempo ele recarrega todos os outros componentes(faz parecer que deu refresh na página)
+         // <- o refetch funciona como um atualizador da tabela, mas ao mesmo tempo ele recarrega todos os outros componentes(faz parecer que deu refresh na página)
       })
       .catch((error) => {
         console.error("Erro!!", error);
@@ -52,6 +52,7 @@ const Admin = () => {
       await refetch();
     } catch (e) {}
   };
+ 
 
   useEffect(() => {
     if (data !== null) {
@@ -67,7 +68,6 @@ const Admin = () => {
     return (
       <div className="container">
         <NavBarAdmin />
-        
 
         {loading || !users ? (
           <p>Carregando...</p>
@@ -77,7 +77,7 @@ const Admin = () => {
               users={users}
               deleteUser={deleteUser}
               enableUser={enableUser}
-              title={"Usuários"}
+              title={"Psicólogos"}
             />
           </div>
         )}
@@ -86,4 +86,4 @@ const Admin = () => {
   } else return <p>Error!</p>;
 };
 
-export default Admin;
+export default Psicologo;
