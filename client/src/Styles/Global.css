@@ -4,7 +4,7 @@
   --bg-main: #2b323f;
   --bg-secondary: #444f64;
   --bg-btn: #20262f;
-  --text-color: #e5e5e5;
+  --text-color: #050505;
   --accent: #aabbde;
   --green: #58b77e;
   --red: #fd475a;
@@ -67,9 +67,25 @@ a {
 }
 
 button {
-  background-color: var(--bg-btn);
-  color: var(--accent);
-  padding: 1rem 2rem;
+  border-width: 0rem;
+  color: var(--red);
+  
+}
+.page-title{
+  display:flex;
+  justify-content: left;
+  align-content: center;
+  
+}
+.page-title h2{
+  background-color: #053165;
+  opacity:80%;
+  color:#e6e4e4;
+  font-size:large;
+  padding:0.2rem;
+  padding-top: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
 
