@@ -60,7 +60,7 @@ module.exports = {
 					},
 				}
 			);
-			const change = `psicologo com id ${id_user} foi desativado`;
+			const change = `Psychologist whith id ${id_user} has been successfully disabled`;
 			return res.json(change);
 		} else {
 			await User.update(
@@ -71,7 +71,7 @@ module.exports = {
 					},
 				}
 			);
-			const change = `psicologo com id ${id_user} foi ativado`;
+			const change = `Psychologist whith id ${id_user} has been successfully actived`;
 			return res.json(change);
 		}
 	},
@@ -82,7 +82,7 @@ module.exports = {
 				id: id_user,
 			},
 		});
-		success = `psicologo com id ${id_user} deletado com sucesso`;
+		success = `Psychologist whith id ${id_user} has been successfully deleted`;
 		return res.json(success);
 	},
 };
