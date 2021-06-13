@@ -6,7 +6,7 @@ import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
-export default function App() {
+export default function patienteView() {
 	const [origin, setOrigin] = useState(null);
 	const [destination, setDestination] = useState(null);
 
