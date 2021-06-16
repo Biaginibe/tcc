@@ -8,7 +8,6 @@ const css = StyleSheet.create({
 	},
 	map: {
         flex: 1,
-		backgroundColor: 'black',
 	},
 	source: {
 		height: '40%',
