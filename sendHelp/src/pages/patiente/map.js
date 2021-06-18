@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Text, View } from 'react-native';
-import { css } from './src/css/style';
+import { Text, View, TouchableOpacity, Button } from 'react-native';
+import { css } from '../../css/style';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { useState, useEffect } from 'react';
+import { Feather } from '@expo/vector-icons';
 
-export default function App() {
+export default function MapPatiente({navigation}) {
 	const [origin, setOrigin] = useState(null);
 	const [destination, setDestation] = useState(null);
 
@@ -34,11 +35,13 @@ export default function App() {
 
 	return (
 		<View style={css.container}>
+			{/* <Button title={'botão'} onPress={() => navigation.navigate('ProfilePsychologist')}/> */}
+				
 			<MapView
 				style={css.map}
 				initialRegion={origin}
 				showsUserLocation={true}
-        loadingEnabled={true}
+				loadingEnabled={true}
 			></MapView>
 			<StatusBar style="auto" />
 		</View>
