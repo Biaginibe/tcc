@@ -59,7 +59,7 @@ routes.delete(
 );
 
 //================================== S P R I N T 2 ===========================================
-
+//AGENDA!!
 routes.post(
 	'/psychologist/:id_psicologo/createSchedule',
 	ScheduleController.createScheduler
@@ -89,6 +89,9 @@ routes.delete(
 	'/psychologist/:id_psicologo/:id_schedule/deleteSchedule',
 	ScheduleController.deleteSchedule
 );
+
+//LOCALIZAÇÃO!!
+routes.get('/', ClientController.findAllPsychologistClients);
 
 //================================ E X T R A ===============================================
 

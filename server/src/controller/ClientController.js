@@ -1,6 +1,6 @@
 const Client = require('../model/Client');
 const User = require('../model/User');
-
+const { QueryTypes } = require('sequelize');
 module.exports = {
 	async createClient(req, res) {
 		const { id_user } = req.params;
@@ -14,13 +14,15 @@ module.exports = {
 
 		const client = await Client.create({
 			endereco,
-			flagLat,
 			latitude,
-			flagLong,
 			longitude,
 			id_user,
 		});
 
 		return res.send(client);
+	},
+	async findAllPsychologistClients(req, res) {
+		const clients = await Client.sequelize.query("SELECT c.* FROM clients c INNER JOIN users u ON (u.id = c.id_user) WHERE u.perfil= 2;", { type: QueryTypes.SELECT });
+		return res.send(clients);
 	},
 };
