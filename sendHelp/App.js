@@ -6,7 +6,7 @@ import { css } from './src/css/style';
 export default function app() {
 	return (
 		<NavigationContainer>
-			<Routes />
+			<Routes/>
 		</NavigationContainer>
 	);
 }

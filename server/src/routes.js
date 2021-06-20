@@ -93,6 +93,9 @@ routes.delete(
 //LOCALIZAÇÃO!!
 routes.get('/', ClientController.findAllPsychologistClients);
 
+//LISTAR!!
+routes.get('/listar', PsychologistController.findPsychologistProfileWithUserName)
+
 //================================ E X T R A ===============================================
 
 routes.post('/Psychologist/:id_user/client', ClientController.createClient);

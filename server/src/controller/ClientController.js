@@ -1,6 +1,7 @@
 const Client = require('../model/Client');
 const User = require('../model/User');
 const { QueryTypes } = require('sequelize');
+
 module.exports = {
 	async createClient(req, res) {
 		const { id_user } = req.params;
