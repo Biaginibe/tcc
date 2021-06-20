@@ -40,6 +40,7 @@ export default function MapPatiente() {
 		 try {
 			  const { data } = await instance.get('/');
 			  setPsychologist(data);
+			  console.log(psychologist)
 		  } catch (err) { console.error(err) }
 	  }
 	  
@@ -49,11 +50,7 @@ export default function MapPatiente() {
 
 	return (
 		<View style={css.container}>
-			{/* <Button title={'botão'} onPress={() => navigation.navigate('ProfilePsychologist')}/> */}
-			{/* <TouchableOpacity style={{alignItems:'flex-start', margin:10}} onPress={this.navigation.openDrawer()}>
-				<Entypo name="menu" size={24} color="#053165" />
-			</TouchableOpacity> */}
-			{/* <Filters/> */}
+			
 			<MapView
 				style={css.map}
 				initialRegion={origin}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-native';
 import MapPatiente from './pages/patiente/map';
 import ProfileUser from './pages/patiente/perfilUser';
-import ListPsychologist from './pages/patiente/listaPsycho';
+import ListPsychologist from './pages/patiente/ListarPsicologos/listaPsycho';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
