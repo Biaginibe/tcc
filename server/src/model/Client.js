@@ -4,10 +4,8 @@ class Client extends Model {
 	static init(sequelize) {
 		super.init({
             endereco: DataTypes.STRING, 
-            flagLat: DataTypes.STRING, 
-            latitude: DataTypes.INTEGER,
-            flagLong: DataTypes.STRING, 
-            longitude: DataTypes.INTEGER,
+            latitude: DataTypes.STRING,
+            longitude: DataTypes.STRING,
         }, {sequelize});
 	}
     static associate(models){

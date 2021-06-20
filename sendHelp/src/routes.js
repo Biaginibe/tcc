@@ -1,28 +1,104 @@
 import React from 'react';
+import { Button } from 'react-native';
 import MapPatiente from './pages/patiente/map';
-import ProfilePsycho from './pages/patiente/perfilPsycho';
+import ProfileUser from './pages/patiente/perfilUser';
+import ListPsychologist from './pages/patiente/listaPsycho';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Stack = createStackNavigator();
+const Tabs = createBottomTabNavigator();
+const MapStack = createStackNavigator();
+const ProfilelUserStack = createStackNavigator();
+const ListPsychologistStack = createStackNavigator();
+
+const MapStackScreen = () => (
+	<MapStack.Navigator>
+		<MapStack.Screen
+			name="Map"
+			component={MapPatiente}
+			options={{
+				title: 'SendHelp',
+				headerStyle: {
+					backgroundColor: '#053165',
+				},
+				headerTintColor: '#fff',
+				headerTitleStyle: {
+					fontWeight: 'bold',
+				},
+			}}
+		/>
+	</MapStack.Navigator>
+);
+const ProfilelUserStackScreen = () => (
+	<ProfilelUserStack.Navigator>
+		<ProfilelUserStack.Screen
+			name="Perfil"
+			component={ProfileUser}
+			options={{
+				title: 'SendHelp - Seu Perfil',
+				headerStyle: {
+					backgroundColor: '#053165',
+				},
+				headerTintColor: '#fff',
+				headerTitleStyle: {
+					fontWeight: 'bold',
+				},
+			}}
+		/>
+	</ProfilelUserStack.Navigator>
+);
+const ListPsychologistStackScreen = () => (
+	<ListPsychologistStack.Navigator>
+		<ListPsychologistStack.Screen
+			name="Lista"
+			component={ListPsychologist}
+			options={{
+				title: 'SendHelp',
+				headerStyle: {
+					backgroundColor: '#053165',
+				},
+				headerTintColor: '#fff',
+				headerTitleStyle: {
+					fontWeight: 'bold',
+				},
+			}}
+		/>
+	</ListPsychologistStack.Navigator>
+);
 
 export default function Routes() {
 	return (
-		<Stack.Navigator initialRouteName="Map">
-			<Stack.Screen
-				name="Map"
-				component={MapPatiente}
-				options={{
-					title: 'SendHelp',
-					headerStyle: {
-						backgroundColor: '#053165',
-					},
-					headerTintColor: '#fff',
-					headerTitleStyle: {
-						fontWeight: 'bold',
-					},
-				}}
-			/>
-			<Stack.Screen name="ProfilePsychologist" component={ProfilePsycho} />
-		</Stack.Navigator>
+		<Tabs.Navigator
+			initialRouteName="Mapa"
+			screenOptions={({ route }) => ({
+				tabBarIcon: ({ focused, color, size }) => {
+					let iconName;
+
+					if (route.name === 'Mapa') {
+						iconName = focused
+							? 'map-marker-radius'
+							: 'map-marker-radius-outline';
+					} else if (route.name === 'Perfil') {
+						iconName = focused ? 'account-circle' : 'account-circle-outline';
+					} else if (route.name === 'Lista') {
+						iconName = focused ? 'view-list' : 'view-list-outline';
+					}
+
+
+					// You can return any component that you like here!
+					return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+				},
+			})}
+			tabBarOptions={{
+				activeTintColor: '#0851aa',
+				inactiveTintColor: 'gray',
+			}}
+		>
+			<Tabs.Screen name="Mapa" component={MapStackScreen} />
+			<Tabs.Screen name="Lista" component={ListPsychologistStackScreen} />
+			<Tabs.Screen name="Perfil" component={ProfilelUserStackScreen} />
+		</Tabs.Navigator>
 	);
 }

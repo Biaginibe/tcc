@@ -5,9 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { css } from './src/css/style';
 export default function app() {
 	return (
-		
-	<NavigationContainer>
-		<Routes/>
-	</NavigationContainer>
+		<NavigationContainer>
+			<Routes/>
+		</NavigationContainer>
 	);
 }

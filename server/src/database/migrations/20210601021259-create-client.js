@@ -13,20 +13,12 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			flagLat: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
 			latitude: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-			},
-			flagLong: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
 			longitude: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING,
 				allowNull: false,
 			},
 			id_user: {

@@ -19,13 +19,12 @@ module.exports = {
 	},
 	async findAllUsers(req, res) {
 		const users = await User.findAll();
-		console.log("backend response"+res.json(users));
 		return res.json(users);
 	},
 	async disable_enableUser(req, res) {
-		const {id_user} = req.params;
-		console.log(id_user)
+		const { id_user } = req.params;
 		const user = await User.findByPk(id_user);
+		console.log(user);
 		if (user.dataValues.ativo) {
 			await User.update(
 				{ ativo: false },
@@ -51,7 +50,7 @@ module.exports = {
 		}
 	},
 	async deleteUser(req, res) {
-		const {id_user} = req.params;
+		const { id_user } = req.params;
 		await User.destroy({
 			where: {
 				id: id_user,

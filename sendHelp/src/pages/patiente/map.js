@@ -1,16 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Text, View, TouchableOpacity, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Button } from 'react-native';
 import { css } from '../../css/style';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-import { useState, useEffect } from 'react';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
+import { instance } from '../../config/axios';
+import Filters from '../../components/patiente/filter/Filter';
 
-export default function MapPatiente({navigation}) {
+
+export default function MapPatiente() {
 	const [origin, setOrigin] = useState(null);
-	const [destination, setDestation] = useState(null);
+	const [psychologist, setPsychologist] = useState(null);
 
 	useEffect(() => {
 		(async function getLocationAsync() {
@@ -24,8 +26,8 @@ export default function MapPatiente({navigation}) {
 				setOrigin({
 					latitude: location.coords.latitude,
 					longitude: location.coords.longitude,
-					latitudeDelta: 0.00922,
-					longitudeDelta: 0.00421,
+					latitudeDelta: 0.01922,
+					longitudeDelta: 0.01421,
 				});
 			} else {
 				throw new Error('Location permission not granted');
@@ -33,16 +35,46 @@ export default function MapPatiente({navigation}) {
 		})();
 	}, []);
 
+	useEffect(() => {
+		async function fetch() {
+		 try {
+			  const { data } = await instance.get('/');
+			  setPsychologist(data);
+		  } catch (err) { console.error(err) }
+	  }
+	  
+	  fetch()
+		
+	  }, []);
+
 	return (
 		<View style={css.container}>
 			{/* <Button title={'botão'} onPress={() => navigation.navigate('ProfilePsychologist')}/> */}
-				
+			{/* <TouchableOpacity style={{alignItems:'flex-start', margin:10}} onPress={this.navigation.openDrawer()}>
+				<Entypo name="menu" size={24} color="#053165" />
+			</TouchableOpacity> */}
+			{/* <Filters/> */}
 			<MapView
 				style={css.map}
 				initialRegion={origin}
 				showsUserLocation={true}
 				loadingEnabled={true}
-			></MapView>
+				zoomEnabled={true}
+				showsMyLocationButton={true}
+			>{psychologist &&
+				psychologist.map((psychologist, index) => (
+					<Marker
+						key={index}
+						coordinate={{
+							latitude: Number(psychologist.latitude),
+							longitude: Number(psychologist.longitude),
+						}}
+					>
+						
+						<AntDesign name="enviroment" size={24} color="#054781" />
+					</Marker>
+				))}</MapView>
+			
 			<StatusBar style="auto" />
 		</View>
 	);
