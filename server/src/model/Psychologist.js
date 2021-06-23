@@ -9,6 +9,7 @@ class Psychologist extends Model {
             valorConsulta: DataTypes.STRING,
             tempoSessao: DataTypes.STRING,
             descricao: DataTypes.STRING,
+            tipoAtendimento: DataTypes.STRING,
             crp: DataTypes.STRING,
         }, {sequelize});
 	}

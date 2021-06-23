@@ -16,9 +16,7 @@ export default function MapPatiente() {
 
 	useEffect(() => {
 		(async function getLocationAsync() {
-			const { status, permissions } = await Permissions.askAsync(
-				Permissions.LOCATION
-			);
+			const { status } = await Location.requestPermissionsAsync();
 			if (status === 'granted') {
 				let location = await Location.getCurrentPositionAsync({
 					enableHighAccuracy: true,
@@ -40,7 +38,6 @@ export default function MapPatiente() {
 		 try {
 			  const { data } = await instance.get('/');
 			  setPsychologist(data);
-			  console.log(psychologist)
 		  } catch (err) { console.error(err) }
 	  }
 	  
@@ -50,27 +47,27 @@ export default function MapPatiente() {
 
 	return (
 		<View style={css.container}>
-			
 			<MapView
 				style={css.map}
 				initialRegion={origin}
 				showsUserLocation={true}
-				loadingEnabled={true}
+				loadingEnabled={false}
 				zoomEnabled={true}
 				showsMyLocationButton={true}
-			>{psychologist &&
+				>{psychologist &&
 				psychologist.map((psychologist, index) => (
 					<Marker
-						key={index}
-						coordinate={{
-							latitude: Number(psychologist.latitude),
-							longitude: Number(psychologist.longitude),
-						}}
+					key={index}
+					coordinate={{
+						latitude: Number(psychologist.latitude),
+						longitude: Number(psychologist.longitude),
+					}}
 					>
 						
 						<AntDesign name="enviroment" size={24} color="#054781" />
 					</Marker>
 				))}</MapView>
+				<Filters/>
 			
 			<StatusBar style="auto" />
 		</View>

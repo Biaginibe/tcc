@@ -9,7 +9,19 @@ const css = StyleSheet.create({
         fontWeight: 'bold'
     },
 	valor:{
-
+        color: 'green',
+        fontSize: 22,
+        position: 'absolute',
+        left: '85%',
+        top: '10%'
+    },
+	tempoSessao:{
+        color: 'gray',
+        fontSize: 16,
+        position: 'absolute',
+        left: '82%',
+        bottom: '2%',
+        textAlign: 'center'
     },
 
 });

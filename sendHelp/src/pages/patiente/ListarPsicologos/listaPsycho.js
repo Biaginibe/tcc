@@ -12,7 +12,7 @@ import { instance } from '../../../config/axios';
 export default function ListPsychologist() {
 	const [profiles, setProfiles] = useState(null);
 	useEffect(() => {
-		async function fetch() {
+		async function getProfiles() {
 			try {
 				const { data } = await instance.get('/listar');
 				setProfiles(data);
@@ -20,7 +20,7 @@ export default function ListPsychologist() {
 				console.error(err);
 			}
 		}
-		fetch();
+		getProfiles();
 	}, []);
 
 	return (
@@ -33,10 +33,11 @@ export default function ListPsychologist() {
 							<ListItem bottomDivider style={css.container}>
 								<ListItem.Content>
 									<ListItem.Title style={css.nome}>{item.nome}</ListItem.Title>
+									<ListItem.Subtitle>{item.tipo}</ListItem.Subtitle>
 									<ListItem.Title>{'Abordagem: '+item.metodologia}</ListItem.Title>
 									<ListItem.Title>{'Faixa etaria: '+item.faixaEtaria}</ListItem.Title>
-									
-
+									<ListItem.Title style={css.valor}>{item.valor}</ListItem.Title>
+									<ListItem.Title style={css.tempoSessao}>{'Duração:\n' +item.tempoSessao}</ListItem.Title>
 								</ListItem.Content>
 								<ListItem.Chevron />
 							</ListItem>

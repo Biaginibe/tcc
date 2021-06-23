@@ -1,10 +1,9 @@
 import React from 'react';
-import { Button } from 'react-native';
 import MapPatiente from './pages/patiente/map';
 import ProfileUser from './pages/patiente/perfilUser';
 import ListPsychologist from './pages/patiente/ListarPsicologos/listaPsycho';
+import PsychologistSchedulle from './pages/psychologist/agenda/agenda'
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -12,11 +11,12 @@ const Tabs = createBottomTabNavigator();
 const MapStack = createStackNavigator();
 const ProfilelUserStack = createStackNavigator();
 const ListPsychologistStack = createStackNavigator();
+const PsychologistSchedulleStack = createStackNavigator();
 
 const MapStackScreen = () => (
 	<MapStack.Navigator>
 		<MapStack.Screen
-			name="Map"
+			name="Mapa"
 			component={MapPatiente}
 			options={{
 				title: 'SendHelp',
@@ -67,6 +67,24 @@ const ListPsychologistStackScreen = () => (
 		/>
 	</ListPsychologistStack.Navigator>
 );
+const PsychologistSchedulleStackScreen = () => (
+	<PsychologistSchedulleStack.Navigator>
+		<PsychologistSchedulleStack.Screen
+			name="Agenda"
+			component={PsychologistSchedulle}
+			options={{
+				title: 'SendHelp',
+				headerStyle: {
+					backgroundColor: '#053165',
+				},
+				headerTintColor: '#fff',
+				headerTitleStyle: {
+					fontWeight: 'bold',
+				},
+			}}
+		/>
+	</PsychologistSchedulleStack.Navigator>
+);
 
 export default function Routes() {
 	return (
@@ -99,6 +117,7 @@ export default function Routes() {
 			<Tabs.Screen name="Mapa" component={MapStackScreen} />
 			<Tabs.Screen name="Lista" component={ListPsychologistStackScreen} />
 			<Tabs.Screen name="Perfil" component={ProfilelUserStackScreen} />
+			<Tabs.Screen name="Agenda" component={PsychologistSchedulleStackScreen} />
 		</Tabs.Navigator>
 	);
 }
