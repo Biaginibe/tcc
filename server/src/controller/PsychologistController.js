@@ -1,27 +1,29 @@
 const User = require('../model/User');
+const Client = require('../model/Client');
 const Psychologist = require('../model/Psychologist');
 const { QueryTypes } = require('sequelize');
 
 module.exports = {
 	async createPerfilPsychologist(req, res) {
 		const { id_cliente } = req.params;
-		const { metodologia, numeroContato,	prefFaixaEtaria, valorConsulta,	tempoSessao, descricao, crp } = req.body;
+		const { metodologia, numeroContato,	prefFaixaEtaria, valorConsulta,	tempoSessao, tipoAtendimento, descricao, crp } = req.body;
 
-		const client = await User.findByPk(id_cliente);
+		const client = await Client.findByPk(id_cliente);
 
 		if (!client) {
 			return res.status(400).json({ error: 'Client not found.' });
 		}
 
 		const psychologist = await Psychologist.create({
-			metodologia,
-			numeroContato,
-			prefFaixaEtaria,
-			valorConsulta,
-			tempoSessao,
-			descricao,
-			crp,
-			id_cliente,
+			metodologia, 
+            numeroContato, 
+            prefFaixaEtaria,
+            valorConsulta,
+            tempoSessao,
+            descricao,
+            tipoAtendimento,
+            crp,
+			id_cliente
 		});
 
 		return res.json(psychologist);
@@ -87,7 +89,7 @@ module.exports = {
 		return res.json(success);
 	},
 	async findPsychologistProfileWithUserName(req, res){
-		const profiles = await Psychologist.sequelize.query("SELECT p.id as id, u.nome as nome, p.metodologia as metodologia , p.prefFaixaEtaria as FaixaEtaria, p.valorConsulta as valor, p.tempoSessao as tempoSessao FROM psychologists p INNER JOIN clients c ON (c.id = p.id_cliente) INNER JOIN users u ON (u.id = c.id_user) WHERE u.perfil= 2;", { type: QueryTypes.SELECT });
+		const profiles = await Psychologist.sequelize.query("SELECT p.id as id, p.tipoAtendimento as tipo , u.nome as nome, p.metodologia as metodologia , p.prefFaixaEtaria as faixaEtaria, p.valorConsulta as valor, p.tempoSessao as tempoSessao FROM psychologists p INNER JOIN clients c ON (c.id = p.id_cliente) INNER JOIN users u ON (u.id = c.id_user) WHERE u.perfil= 2;", { type: QueryTypes.SELECT });
 		return res.send(profiles)
 	},
 };

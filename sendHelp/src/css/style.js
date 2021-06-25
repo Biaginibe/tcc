@@ -15,11 +15,12 @@ const css = StyleSheet.create({
 	},
 	filterItem: {
 		backgroundColor: '#B0B6D1',
-		padding: '3px',
-		margin: '3px',
+		padding: 3,
+		margin: 3,
 		borderRadius: 10,
-		overflow: 'hidden',
+		zIndex: 1
 	},
+
 });
 
 export { css };

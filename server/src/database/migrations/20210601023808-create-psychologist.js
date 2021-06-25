@@ -33,6 +33,10 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
+			tipoAtendimento: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
 			crp: {
 				type: Sequelize.STRING,
 				allowNull: false,
@@ -41,9 +45,9 @@ module.exports = {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: { model: 'clients', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-			},  
+				onUpdate: 'CASCADE',
+				onDelete: 'CASCADE',
+			},
 			createdAt: {
 				type: Sequelize.DATE,
 				allowNull: false,
