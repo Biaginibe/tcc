@@ -88,8 +88,4 @@ module.exports = {
 		success = `Psychologist whith id ${id_user} has been successfully deleted`;
 		return res.json(success);
 	},
-	async findPsychologistProfileWithUserName(req, res){
-		const profiles = await Psychologist.sequelize.query("SELECT p.id as id, p.tipoAtendimento as tipo , u.nome as nome, p.metodologia as metodologia , p.prefFaixaEtaria as faixaEtaria, p.valorConsulta as valor, p.tempoSessao as tempoSessao FROM psychologists p INNER JOIN clients c ON (c.id = p.id_cliente) INNER JOIN users u ON (u.id = c.id_user) WHERE u.perfil= 2;", { type: QueryTypes.SELECT });
-		return res.send(profiles)
-	},
 };
