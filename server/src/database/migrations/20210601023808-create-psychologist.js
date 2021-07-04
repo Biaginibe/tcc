@@ -40,6 +40,7 @@ module.exports = {
 			crp: {
 				type: Sequelize.STRING,
 				allowNull: false,
+				unique: true,
 			},
 			id_cliente: {
 				type: Sequelize.INTEGER,

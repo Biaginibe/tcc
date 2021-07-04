@@ -4,7 +4,7 @@ const PatienteController = require('./controller/PatienteController');
 const PsychologistController = require('./controller/PsychologistController');
 const ScheduleController = require('./controller/ScheduleController');
 const ClientController = require('./controller/ClientController');
-const Client = require('./model/Client');
+
 
 const routes = express.Router();
 
@@ -62,12 +62,16 @@ routes.delete(
 //AGENDA!!
 routes.post(
 	'/psychologist/:id_psicologo/createSchedule',
-	ScheduleController.createScheduler
+	ScheduleController.createSchedule
 );
 
 routes.get(
 	'/psychologist/:id_psicologo/findSchedule',
 	ScheduleController.findScheduleByPsychologist
+);
+routes.get(
+	'/psychologist/:id_psicologo/findOneSchedule',
+	ScheduleController.findDataOfOneSchedule
 );
 
 routes.get(
@@ -82,7 +86,7 @@ routes.put(
 
 routes.put(
 	'/psychologist/:id_psicologo/:id_schedule/updateSchedule',
-	ScheduleController.updatingSchedule
+	ScheduleController.updateSchedule
 );
 
 routes.delete(
@@ -93,8 +97,10 @@ routes.delete(
 //LOCALIZAÇÃO!!
 routes.get('/', ClientController.findAllPsychologistClients);
 
+routes.get('/filter', ClientController.findAllPsychologistClientsFilter);
+
 //LISTAR!!
-routes.get('/listar', PsychologistController.findPsychologistProfileWithUserName)
+routes.get('/listar', ClientController.findPsychologistProfileWithUserName)
 
 //================================ E X T R A ===============================================
 

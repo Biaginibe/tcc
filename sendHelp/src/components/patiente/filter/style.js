@@ -2,20 +2,25 @@ import { StyleSheet } from 'react-native';
 
 const css = StyleSheet.create({
 	container: {
-		backgroundColor: '#fff',
-		justifyContent: 'center',
-		height: '10%'
+		flex:1,
+		position:'absolute'
 	},
 	botao: {
-		backgroundColor: '#053165',
+		position:'absolute',
+		backgroundColor: '#054070',
 		borderRadius: 50,
 		padding: 10,
+		margin: 10,
+		top: 270,
+		left: 320
 	},
-	position: {
-		flex: 1,
-		position: 'absolute',
-		bottom: '5%',
-		right: '5%',
+	botaoAplica: {
+		width: 	'55%',
+		backgroundColor: '#054070',
+		borderRadius: 15,
+		padding: 5,
+		margin: 10,
+		
 	},
 	picker:{
 		width: '100%',
@@ -26,15 +31,33 @@ const css = StyleSheet.create({
 		borderStyle: 'solid' 
 	},
 	modal: {
-		padding: 5,
+		padding: 10,
 		backgroundColor:'white',
-		height: '50%'
+		// height: '87%'
 	},
 	textModal: {
 		color:'white',
 		padding: 5,
-		textAlign: 'center'
-	}
+		textAlign: 'center',
+		fontWeight: 'bold',
+		fontSize: 20
+	},
+	label: {
+		fontSize: 18,
+		fontWeight: 'bold',
+	},
+	botaoCancelar: {
+		width: 	'32%',
+		backgroundColor:'#970000',
+		borderRadius: 15,
+		padding: 5,
+		margin: 10
+	},
+	inline: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center'
+	},
 });
 
 export { css };
