@@ -4,7 +4,6 @@ import { View, TouchableOpacity, Button } from 'react-native';
 import { css } from '../../css/style';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { instance } from '../../config/axios';
 import Filters from '../../components/patiente/filter/Filter';
@@ -14,12 +13,14 @@ export default function MapPatiente() {
 	const [origin, setOrigin] = useState(null);
 	const [psychologist, setPsychologist] = useState(null);
 	const { filters } = useFilter();
+
 	useEffect(() => {
 		(async function getLocationAsync() {
 			const { status } = await Location.requestPermissionsAsync();
 			if (status === 'granted') {
 				let location = await Location.getCurrentPositionAsync({
 					enableHighAccuracy: true,
+					psychologist
 				});
 				setOrigin({
 					latitude: location.coords.latitude,
@@ -94,7 +95,7 @@ export default function MapPatiente() {
 						</Marker>
 					))}
 			</MapView>
-			<Filters />
+			<Filters cssName = { "mapa" }/>
 
 			<StatusBar style="auto" />
 		</View>

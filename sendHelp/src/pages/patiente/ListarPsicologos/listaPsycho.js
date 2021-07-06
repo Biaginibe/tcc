@@ -1,27 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import {
-	Text,
-	View,
 	TouchableOpacity,
 	FlatList,
 } from 'react-native';
 import { css } from './style';
-import  ListItem  from 'react-native-elements/dist/list/ListItem';
+import ListItem from 'react-native-elements/dist/list/ListItem';
 import { instance } from '../../../config/axios';
+import Filters from '../../../components/patiente/filter/Filter';
+import { useFilter } from '../../../context/Filter';
+
 
 export default function ListPsychologist() {
 	const [profiles, setProfiles] = useState(null);
+	const { filters } = useFilter();
+
 	useEffect(() => {
 		async function getProfiles() {
 			try {
-				const { data } = await instance.get('/listar');
+				if (filters.abordagem == null) {
+					filters.abordagem = ''
+				}
+				if (filters.tipoAtendimento == null) {
+					filters.tipoAtendimento = ''
+				}
+				if (filters.valor == null) {
+					filters.valor = ''
+				}
+				if (filters.genero == null) {
+					filters.genero = ''
+				}
+				if (filters.faixaEtaria == null) {
+					filters.faixaEtaria = ''
+				}
+				if (filters.tempoSessao == null) {
+					filters.tempoSessao = ''
+				}
+				const { data } = await instance.get(`/listar?abordagem=${filters.abordagem}&
+															tipoAtendimento=${filters.tipoAtendimento}&
+															valor=${filters.valor}&
+															genero=${filters.genero}&
+															faixaEtaria=${filters.faixaEtaria}&
+															tempoSessao=${filters.tempoSessao}`);
 				setProfiles(data);
 			} catch (err) {
 				console.error(err);
 			}
 		}
 		getProfiles();
-	}, []);
+	}, [filters]);
 
 	return (
 		<>
@@ -30,20 +56,21 @@ export default function ListPsychologist() {
 				keyExtractor={(item => String(item.id))}
 				renderItem={({ item }) => (
 					<TouchableOpacity >
-							<ListItem bottomDivider style={css.container}>
-								<ListItem.Content>
-									<ListItem.Title style={css.nome}>{item.nome}</ListItem.Title>
-									<ListItem.Subtitle>{item.tipo}</ListItem.Subtitle>
-									<ListItem.Title>{'Abordagem: '+item.metodologia}</ListItem.Title>
-									<ListItem.Title>{'Faixa etaria: '+item.faixaEtaria}</ListItem.Title>
-									<ListItem.Title style={css.valor}>{item.valor}</ListItem.Title>
-									<ListItem.Title style={css.tempoSessao}>{'Duração:\n' +item.tempoSessao}</ListItem.Title>
-								</ListItem.Content>
-								<ListItem.Chevron />
-							</ListItem>
+						<ListItem bottomDivider style={css.container}>
+							<ListItem.Content>
+								<ListItem.Title style={css.nome}>{item.nome}</ListItem.Title>
+								<ListItem.Subtitle>{item.tipo}</ListItem.Subtitle>
+								<ListItem.Title>{'Abordagem: ' + item.metodologia}</ListItem.Title>
+								<ListItem.Title>{'Faixa etaria: ' + item.faixaEtaria}</ListItem.Title>
+								<ListItem.Title style={css.valor}>{item.valor}</ListItem.Title>
+								<ListItem.Title style={css.tempoSessao}>{'Duração:\n' + item.tempoSessao}</ListItem.Title>
+							</ListItem.Content>
+							<ListItem.Chevron />
+						</ListItem>
 					</TouchableOpacity>
 				)}
 			/>
+			<Filters />
 		</>
 	);
 

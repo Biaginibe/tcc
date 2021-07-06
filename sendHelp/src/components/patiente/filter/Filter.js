@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { css } from './style';
 import {
 	View,
@@ -11,17 +11,18 @@ import Modal from 'react-native-modal';
 import { Picker } from '@react-native-picker/picker';
 import { useFilter } from '../../../context/Filter';
 
-export default function Filters() {
+export default function Filters(props) {
+	const { filters, setFilters } = useFilter();
 	const [modalVisible, setModalVisible] = useState(false);
-	const [abordagem, setAbordagem] = useState(null);
-	const [tipoAtendimento, setTipoAtendimento] = useState(null);
-	const [genero, setGenero] = useState(null);
-	const [faixaEtaria, setFaixaEtaria] = useState(null);
-	const [tempoSessao, setTempoSessao] = useState(null);
-	const [valor, setValor] = useState(null);
+	const [abordagem, setAbordagem] = useState(filters.abordagem);
+	const [tipoAtendimento, setTipoAtendimento] = useState(filters.tipoAtendimento);
+	const [genero, setGenero] = useState(filters.genero);
+	const [faixaEtaria, setFaixaEtaria] = useState(filters.faixaEtaria);
+	const [tempoSessao, setTempoSessao] = useState(filters.tempoSessao);
+	const [valor, setValor] = useState(filters.valor);
 	const [aplicar, setAplicar] = useState(null);
 
-	const { filters, setFilters } = useFilter();
+
 
 	useEffect(() => {
 		if (aplicar != null) {
@@ -41,7 +42,7 @@ export default function Filters() {
 	const toggleModal = () => {
 		setModalVisible(!modalVisible);
 	};
-	
+
 	const aplicarFiltro = () => {
 		setModalVisible(false);
 		setAplicar(true);
@@ -73,14 +74,20 @@ export default function Filters() {
 							onValueChange={(itemValue, itemIndex) => setAbordagem(itemValue)}
 						>
 							<Picker.Item label="Selecione" value={''} />
-							<Picker.Item label="Psicanalise" value="psicanalise" />
 							<Picker.Item
-								label="Terapia cognitiva"
-								value="terapia cognitiva"
+								label="Psicanalise"
+								value="psicanalise" />
+							<Picker.Item
+								label="Terapia Cognitivo-Comportamental"
+								value="terapia cognitivo-comportamental"
 							/>
 							<Picker.Item
-								label="Terapia comportamental"
+								label="Terapia Comportamental"
 								value="terapia comportamental"
+							/>
+							<Picker.Item
+								label="Terapia Interpessoal"
+								value="terapia interpessoal"
 							/>
 						</Picker>
 
@@ -117,7 +124,7 @@ export default function Filters() {
 							}
 						>
 							<Picker.Item label="Selecione" value={''} />
-							<Picker.Item label="crianças (6 a 12 anos)" value="crianca" />
+							<Picker.Item label="crianças (6 a 12 anos)" value="criança" />
 							<Picker.Item
 								label="adolescente (13 a 17 anos)"
 								value="adolescente"
@@ -149,10 +156,10 @@ export default function Filters() {
 							onValueChange={(itemValue, itemIndex) => setValor(itemValue)}
 						>
 							<Picker.Item label="Selecione" value={''} />
-							 <Picker.Item label="Gratuito" value="gratuito" /> 
-							<Picker.Item label="$" value="$" /> {/* <=R$25,00 */}
-							<Picker.Item label="$$" value="$$" /> {/* R$25,00<>R$50,00*/}
-							<Picker.Item label="$$$" value="$$$" /> {/* R$50,00<>R$80,00*/}
+							<Picker.Item label="Gratuito" value="gratuito" />
+							<Picker.Item label="$" value="$" />
+							<Picker.Item label="$$" value="$$" />
+							<Picker.Item label="$$$" value="$$$" />
 						</Picker>
 
 						<View style={css.inline}>
@@ -167,7 +174,7 @@ export default function Filters() {
 				</SafeAreaView>
 			</Modal>
 
-			<TouchableOpacity style={css.botao} onPress={toggleModal}>
+			<TouchableOpacity style={props.cssName ? css.botao : css.botao2} onPress={toggleModal}>
 				<Feather name="filter" size={35} color="white" />
 			</TouchableOpacity>
 		</View>

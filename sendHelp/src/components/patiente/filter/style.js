@@ -14,6 +14,15 @@ const css = StyleSheet.create({
 		top: 270,
 		left: 320
 	},
+	botao2: {
+		position:'absolute',
+		backgroundColor: '#054070',
+		borderRadius: 50,
+		padding: 10,
+		margin: 10,
+		top: 627,
+		left: 320
+	},
 	botaoAplica: {
 		width: 	'55%',
 		backgroundColor: '#054070',
