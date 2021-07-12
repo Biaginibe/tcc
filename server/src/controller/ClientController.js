@@ -1,53 +1,53 @@
-const Client = require('../model/Client');
-const User = require('../model/User');
-const Psychologist = require('../model/Psychologist');
-const { QueryTypes } = require('sequelize');
+const Client = require("../model/Client");
+const User = require("../model/User");
+const Psychologist = require("../model/Psychologist");
+const { QueryTypes } = require("sequelize");
 
 module.exports = {
-	async createClient(req, res) {
-		const { id_user } = req.params;
-		const { endereco, flagLat, latitude, flagLong, longitude } = req.body;
+  async createClient(req, res) {
+    const { id_user } = req.params;
+    const { endereco, flagLat, latitude, flagLong, longitude } = req.body;
 
-		const user = await User.findByPk(id_user);
+    const user = await User.findByPk(id_user);
 
-		if (!user) {
-			return res.status(400).json({ error: 'User not found.' });
-		}
+    if (!user) {
+      return res.status(400).json({ error: "User not found." });
+    }
 
-		const client = await Client.create({
-			endereco,
-			latitude,
-			longitude,
-			id_user,
-		});
-		return res.send(client);
-	},
-	
-	//não estamos mais usando essa, depois da banca limpar o código...
-	async findAllPsychologistClients(req, res) {
-		const perfil = 2
-		const clients = await Client.sequelize.query(
-			`SELECT c.* 
+    const client = await Client.create({
+      endereco,
+      latitude,
+      longitude,
+      id_user,
+    });
+    return res.send(client);
+  },
+
+  //não estamos mais usando essa, depois da banca limpar o código...
+  async findAllPsychologistClients(req, res) {
+    const perfil = 2;
+    const clients = await Client.sequelize.query(
+      `SELECT c.* 
 			FROM clients c 
 			INNER JOIN users u ON (u.id = c.id_user) 
 			WHERE u.perfil= ${perfil};`,
-			{ type: QueryTypes.SELECT }
-		);
-		return res.send(clients);
-	},
-	
-	async findPsychologistProfileWithUserName(req, res) {
-		const {
-			abordagem,
-			tipoAtendimento,
-			valor,
-			genero,
-			faixaEtaria,
-			tempoSessao,
-		} = req.query;
+      { type: QueryTypes.SELECT }
+    );
+    return res.send(clients);
+  },
 
-		const profiles = await Psychologist.sequelize.query(
-			`SELECT p.id as id, 
+  async findPsychologistProfileWithUserName(req, res) {
+    const {
+      abordagem,
+      tipoAtendimento,
+      valor,
+      genero,
+      faixaEtaria,
+      tempoSessao,
+    } = req.query;
+
+    const profiles = await Psychologist.sequelize.query(
+      `SELECT p.id as id, 
 					p.tipoAtendimento as tipo, 
 					u.nome as nome, 
 					u.genero as genero, 
@@ -65,23 +65,23 @@ module.exports = {
 			AND IF('${genero}' != '', u.genero = '${genero}', u.genero IS NOT NULL)
 			AND IF('${faixaEtaria}' != '', p.prefFaixaEtaria = '${faixaEtaria}', p.prefFaixaEtaria IS NOT NULL)
 			AND IF('${tempoSessao}' != '', p.tempoSessao = '${tempoSessao}', p.tempoSessao IS NOT NULL);`,
-			{ type: QueryTypes.SELECT }
-		);
-		return res.send(profiles);
-	},
-	
-	async findAllPsychologistClientsFilter(req, res) {
-		const {
-			abordagem,
-			tipoAtendimento,
-			valor,
-			genero,
-			faixaEtaria,
-			tempoSessao,
-		} = req.query;
+      { type: QueryTypes.SELECT }
+    );
+    return res.send(profiles);
+  },
 
-		const profiles = await Psychologist.sequelize.query(
-			`SELECT c.* 
+  async findAllPsychologistClientsFilter(req, res) {
+    const {
+      abordagem,
+      tipoAtendimento,
+      valor,
+      genero,
+      faixaEtaria,
+      tempoSessao,
+    } = req.query;
+
+    const profiles = await Psychologist.sequelize.query(
+      		`SELECT c.* 
 			FROM clients c 
 			INNER JOIN users u ON (u.id = c.id_user) 
 			INNER JOIN psychologists p ON (p.id_cliente = c.id)
@@ -92,8 +92,8 @@ module.exports = {
 			AND IF('${genero}' != '', u.genero = '${genero}', u.genero IS NOT NULL)
 			AND IF('${faixaEtaria}' != '', p.prefFaixaEtaria = '${faixaEtaria}', p.prefFaixaEtaria IS NOT NULL)
 			AND IF('${tempoSessao}' != '', p.tempoSessao = '${tempoSessao}', p.tempoSessao IS NOT NULL);`,
-			{ type: QueryTypes.SELECT }
-		);
-		return res.send(profiles);
-	},
+      { type: QueryTypes.SELECT }
+    );
+    return res.send(profiles);
+  },
 };
