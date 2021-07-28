@@ -1,5 +1,5 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const instance = axios.create({
-  baseURL: "http://6bfd5bd045dc.ngrok.io",
+  baseURL: 'http://69dcc072804d.ngrok.io',
 });

@@ -1,13 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Button } from "react-native";
-import { css } from "../../css/style";
-import MapView, { Marker } from "react-native-maps";
-import * as Location from "expo-location";
-import { AntDesign, Entypo } from "@expo/vector-icons";
-import { instance } from "../../config/axios";
-import Filters from "../../components/patiente/filter/Filter";
-import { useFilter } from "../../context/Filter";
+import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Button } from 'react-native';
+import { css } from '../../css/style';
+import MapView, { Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
+import { AntDesign, Entypo } from '@expo/vector-icons';
+import { instance } from '../../config/axios';
+import Filters from '../../components/patiente/filter/Filter';
+import { useFilter } from '../../context/Filter';
 
 export default function MapPatiente() {
   const [origin, setOrigin] = useState(null);
@@ -17,7 +17,7 @@ export default function MapPatiente() {
   useEffect(() => {
     (async function getLocationAsync() {
       const { status } = await Location.requestPermissionsAsync();
-      if (status === "granted") {
+      if (status === 'granted') {
         let location = await Location.getCurrentPositionAsync({
           enableHighAccuracy: true,
           psychologist,
@@ -29,7 +29,7 @@ export default function MapPatiente() {
           longitudeDelta: 0.1421,
         });
       } else {
-        throw new Error("Localização não autorizada");
+        throw new Error('Localização não autorizada');
       }
     })();
   }, []);
@@ -38,22 +38,22 @@ export default function MapPatiente() {
     async function fetch() {
       try {
         if (filters.abordagem == null) {
-          filters.abordagem = "";
+          filters.abordagem = '';
         }
         if (filters.tipoAtendimento == null) {
-          filters.tipoAtendimento = "";
+          filters.tipoAtendimento = '';
         }
         if (filters.valor == null) {
-          filters.valor = "";
+          filters.valor = '';
         }
         if (filters.genero == null) {
-          filters.genero = "";
+          filters.genero = '';
         }
         if (filters.faixaEtaria == null) {
-          filters.faixaEtaria = "";
+          filters.faixaEtaria = '';
         }
         if (filters.tempoSessao == null) {
-          filters.tempoSessao = "";
+          filters.tempoSessao = '';
         }
 
         const { data } =
@@ -91,13 +91,13 @@ export default function MapPatiente() {
                 longitude: Number(psychologist.longitude),
               }}
             >
-              <AntDesign name="enviroment" size={24} color="#054781" />
+              <AntDesign name='enviroment' size={24} color='#054781' />
             </Marker>
           ))}
       </MapView>
-      <Filters cssName={"mapa"} />
+      <Filters cssName={'mapa'} />
 
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
     </View>
   );
 }

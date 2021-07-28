@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import Routes from './src/routes';
 import { NavigationContainer } from '@react-navigation/native';
-import { css } from './src/css/style';
 import FilterProvider from './src/context/Filter';
+import Login from './src/pages/patiente/Login/login';
+import RegisterUser from './src/pages/patiente/Registro/RegisterUser';
 
 export default function app() {
-	return (
-		<FilterProvider>
-
-		<NavigationContainer>
-			<Routes/>
-		</NavigationContainer>
-		</FilterProvider>
-	);
+  return (
+	// <Login/>
+    <FilterProvider>
+      <NavigationContainer>
+        <Routes />
+      </NavigationContainer>
+    </FilterProvider>
+  );
 }

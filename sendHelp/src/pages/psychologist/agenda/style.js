@@ -32,7 +32,6 @@ const css = StyleSheet.create({
 	modal: {
 		padding: 10,
 		backgroundColor:'white',
-		height: '70%'
 	},
 	botao: {
 		width: 	'57%',
