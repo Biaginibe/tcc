@@ -8,10 +8,11 @@ import RegisterUser from './src/pages/patiente/Registro/RegisterUser';
 export default function app() {
   return (
 	// <Login/>
-    <FilterProvider>
-      <NavigationContainer>
-        <Routes />
-      </NavigationContainer>
-    </FilterProvider>
-  );
+	<RegisterUser/>
+	);
+	// <FilterProvider>
+	//   <NavigationContainer>
+	//     <Routes />
+	//   </NavigationContainer>
+	// </FilterProvider>
 }
