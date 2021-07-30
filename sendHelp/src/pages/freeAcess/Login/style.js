@@ -15,10 +15,11 @@ const css = StyleSheet.create({
 	},
 	btn: {
 		width: '100%',
-		backgroundColor: 'rgba(5,49,101,81)',
+		backgroundColor: '#0E3E77',
 		borderRadius: 5,
 		marginTop: 35,
-        padding: '2%'
+        padding: '2%',
+		marginBottom: 5
 	},
 	btnTxt: {
 		color: 'white',
@@ -34,6 +35,15 @@ const css = StyleSheet.create({
 		borderStyle: 'solid',
 		borderRadius: 5,
 		marginBottom: 25,
+	},
+	cadastro: {
+        color:'#0E3E77',
+		fontSize: 14
+    },
+	inline: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center'
 	},
 });
 

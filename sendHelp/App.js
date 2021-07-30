@@ -1,14 +1,14 @@
 import React from 'react';
-import Routes from './src/routes';
+//import Routes from './src/routes'; preciso terminar o index do routes
 import { NavigationContainer } from '@react-navigation/native';
 import FilterProvider from './src/context/Filter';
-import Login from './src/pages/patiente/Login/login';
-import RegisterUser from './src/pages/patiente/Registro/RegisterUser';
+import Login from './src/pages/freeAcess/Login/login';
+import RegisterUser from './src/pages/freeAcess/Registro/RegisterUser';
 
 export default function app() {
-  return (
-	// <Login/>
-	<RegisterUser/>
+	return (
+		<Login />
+		// <RegisterUser/>
 	);
 	// <FilterProvider>
 	//   <NavigationContainer>
