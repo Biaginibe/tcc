@@ -4,9 +4,13 @@ const PatienteController = require('./controller/PatienteController');
 const PsychologistController = require('./controller/PsychologistController');
 const ScheduleController = require('./controller/ScheduleController');
 const ClientController = require('./controller/ClientController');
+const AuthController = require('./controller/AuthController');
 
 
 const routes = express.Router();
+
+//AUTENTICAÇÃO
+routes.post('/login', AuthController.signIn);
 
 //==================================== S P R I N T  1 ===================================
 
