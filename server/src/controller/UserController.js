@@ -1,22 +1,7 @@
 const User = require('../model/User');
 
 module.exports = {
-	async createUser(req, res) {
-		const { cpf, nome, ativo, senha, perfil, idade, email, genero } = req.body;
-
-		const user = await User.create({
-			cpf,
-			nome,
-			ativo,
-			senha,
-			perfil,
-			idade,
-			email,
-			genero,
-		});
-
-		return res.json(user);
-	},
+	
 	async findAllUsers(req, res) {
 		const users = await User.findAll();
 		return res.json(users);

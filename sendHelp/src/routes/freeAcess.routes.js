@@ -7,9 +7,11 @@ import RegisterUser from '../pages/freeAcess/Registro/RegisterUser';
 const Free = createStackNavigator();
 
 export const FreeRoutes = () => {
+	return(
 	<Free.Navigator initialRouteName='Login'>
 		<Free.Screen name='Login' component={Login} />
 
         <Free.Screen name="RegisterUser" component={RegisterUser}/>
-	</Free.Navigator>;
+	</Free.Navigator>
+	)
 };

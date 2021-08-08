@@ -1,4 +1,5 @@
 const express = require('express');
+const authMiddleware = require('./middlewares/auth');
 const UserController = require('./controller/UserController');
 const PatienteController = require('./controller/PatienteController');
 const PsychologistController = require('./controller/PsychologistController');
@@ -6,64 +7,66 @@ const ScheduleController = require('./controller/ScheduleController');
 const ClientController = require('./controller/ClientController');
 const AuthController = require('./controller/AuthController');
 
-
+const authRoute = express.Router();
 const routes = express.Router();
+routes.use(authMiddleware);
 
 //AUTENTICAÇÃO
-routes.post('/login', AuthController.signIn);
+authRoute.post('/login', AuthController.signIn);
 
-//==================================== S P R I N T  1 ===================================
+authRoute.post('/valid', AuthController.validateToken);
 
-//insere usuario
-routes.post('/admin/createUser', UserController.createUser);
+//Registro
+authRoute.post('/admin/createUser', AuthController.registerUser);
 
-//ativa e desativa o usuario (precisa passar o id)
+authRoute.post('/Psychologist/:id_user/client', ClientController.createClient);
+
+authRoute.post(
+	'/Psychologist/:id_cliente/incrementPerfilPsychologist',
+	PsychologistController.createPerfilPsychologist
+);
+
+//TELA ADMIN
 routes.put(
 	'/admin/:id_user/disable_enableUser',
 	UserController.disable_enableUser
 );
 
-//deleta o usuario (precisa passar o id)
 routes.delete('/admin/:id_user/deleteUser', UserController.deleteUser);
 
-//lista todos os usuarios
 routes.get('/admin/findUsers', UserController.findAllUsers);
 
-//lista todos os pacientes
+//pag pacientes
 routes.get('/admin/findPatientes', PatienteController.findAllPatientes);
 
-//ativa e desativa o paciente (precisa passar o id)
 routes.put(
 	'/admin/:id_user/disable_enablePatiente',
 	PatienteController.disable_enableUser
 );
 
-//deleta o paciente (precisa passar o id)
 routes.delete(
 	'/admin/:id_user/deletePatiente',
 	PatienteController.deletePatiente
 );
 
-//lista todos os psicologos
+//pag psicologos
 routes.get(
 	'/admin/findPsychologist',
 	PsychologistController.findAllPsycologists
 );
 
-//ativa e psicologo o paciente (precisa passar o id)
 routes.put(
 	'/admin/:id_user/disable_enablePsychologist',
 	PsychologistController.disable_enablePsychologist
 );
 
-//deleta o psicologo (precisa passar o id)
 routes.delete(
 	'/admin/:id_user/deletePsychologist',
 	PsychologistController.deletePsychologist
 );
 
-//================================== S P R I N T 2 ===========================================
-//AGENDA!!
+//TELAS PSICOLOGO
+//AGENDA
 routes.post(
 	'/psychologist/:id_psicologo/createSchedule',
 	ScheduleController.createSchedule
@@ -98,27 +101,17 @@ routes.delete(
 	ScheduleController.deleteSchedule
 );
 
-//LOCALIZAÇÃO!!
-routes.get('/', ClientController.findAllPsychologistClients);
-
+//TELAS USUARIO
+//Exibir no mapa
 routes.get('/filter', ClientController.findAllPsychologistClientsFilter);
 
-//LISTAR!!
-routes.get('/listar', ClientController.findPsychologistProfileWithUserName)
+//Exibir na lista
+routes.get('/listar', ClientController.findPsychologistProfileWithUserName);
 
-//================================ E X T R A ===============================================
-
-routes.post('/Psychologist/:id_user/client', ClientController.createClient);
-
-routes.post(
-	'/Psychologist/:id_cliente/incrementPerfilPsychologist',
-	PsychologistController.createPerfilPsychologist
-);
-
+//Exibir perfil do psicologo
 routes.get(
 	'/Psychologist/findAllPerfilPsychologist',
 	PsychologistController.findAllPerfil
 );
 
-routes.post('');
-module.exports = routes;
+module.exports = {routes, authRoute};

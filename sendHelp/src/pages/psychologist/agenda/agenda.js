@@ -77,7 +77,12 @@ export default function Psychologistschedule() {
 				if (check != null) {
 					try {
 						await instance.put(
-							`/psychologist/1/${check}/disable_enableSchedule`
+							`/psychologist/1/${check}/disable_enableSchedule`,
+							{
+								headers: {
+									Authorization: 'Bearer ' + token,
+								},
+							}
 						);
 						setCheck(null);
 					} catch {
@@ -88,7 +93,12 @@ export default function Psychologistschedule() {
 				if (add != null) {
 					try {
 						await instance.post(
-							`/psychologist/1/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`
+							`/psychologist/1/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
+							{
+								headers: {
+									Authorization: 'Bearer ' + token,
+								},
+							}
 						);
 						setAdd(null);
 						setHorario(null);
@@ -100,7 +110,12 @@ export default function Psychologistschedule() {
 				if (update != null) {
 					try {
 						await instance.put(
-							`/psychologist/1/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`
+							`/psychologist/1/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`,
+							{
+								headers: {
+									Authorization: 'Bearer ' + token,
+								},
+							}
 						);
 						setUpdate(null);
 						setHorario(null);
@@ -114,7 +129,12 @@ export default function Psychologistschedule() {
 				if (delet != null) {
 					try {
 						await instance.delete(
-							`/psychologist/1/${delet}/deleteSchedule`
+							`/psychologist/1/${delet}/deleteSchedule`,
+							{
+								headers: {
+									Authorization: 'Bearer ' + token,
+								},
+							}
 						);
 						setDelete(null);
 					} catch {
@@ -123,7 +143,12 @@ export default function Psychologistschedule() {
 				}
 
 				const { data } = await instance.get(
-					'/psychologist/1/findSchedule'
+					'/psychologist/1/findSchedule',
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
 				); //aqui quando o login estiver feito precisamos trocar o id do psico que ta chumbado
 				setSchedule(data);
 			} catch (err) {
@@ -137,14 +162,18 @@ export default function Psychologistschedule() {
 		async function getOneSchedule() {
 			try {
 				if (findOne != null) {
-					console.log('PASSEI DO IF ONE SCHEDULE');
 					const { data } = await instance.get(
-						`/psychologist/1/findOneSchedule?id=${findOne}`
+						`/psychologist/1/findOneSchedule?id=${findOne}`,
+						{
+							headers: {
+								Authorization: 'Bearer ' + token,
+							},
+						}
 					);
 					setOneSchedule(data);
 					console.log(oneSchedule);
 					console.log('\n\n');
-					//const { diaDisponivel, horarioDisponivel } = oneSchedule;
+
 					oneSchedule.map(
 						(item, id) => (
 							setDia(item.diaDisponivel),
