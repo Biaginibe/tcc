@@ -14,6 +14,7 @@ import { instance } from '../../../config/axios';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
 import { RadioButton } from 'react-native-paper';
+import { useAuth } from '../../../context/Auth';
 
 export default function Psychologistschedule() {
 	const [modalVisibleAdd, setmodalVisibleAdd] = useState(false);
@@ -23,6 +24,8 @@ export default function Psychologistschedule() {
 	const [add, setAdd] = useState(null);
 	const [update, setUpdate] = useState(null);
 	const [delet, setDelete] = useState(null); //não usei delete por ser palavra reservada
+
+	const {token} = useAuth();
 
 	const [findOne, setFindOne] = useState(null);
 	const [oneSchedule, setOneSchedule] = useState([

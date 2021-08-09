@@ -24,13 +24,14 @@ export default function Login() {
 		await instance.post('/login', {
 			cpf: cpf,
 			pass: pass
-		}).then((response) => console.log(response.data)) 
+		})
 		.then((response) => signIn(response.data))
 		.catch((err)=>{
-			//setPass('');
+			setPass('');
 			Alert.alert('Aviso!', 'CPF ou senha incorreto.');
 			console.log(err)
 		})
+
 	}
 
 	return (

@@ -4,43 +4,50 @@ const authConfig = require('../config/auth.json');
 
 module.exports = {
 	async signIn(req, res) {
-		const { cpf, pass } = req.body; //no front vou passar as variaveis assim: axios.post('rota', {cpf, pass})
+		try{
+			
+			const { cpf, pass } = req.body; //no front vou passar as variaveis assim: axios.post('rota', {cpf, pass})
+	
+			const user = await User.findOne({ where: { cpf: cpf } });
 
-		console.log(cpf + '  hehe  ' + pass)
+			if (!user) {
+				console.log('user error')
+				return res.status(400).send({ error: 'Usuario não encontrado!' });
+			}
+	
+			if (pass != user.senha) {
+				console.log('pass error')
+				return res.status(400).send({ error: 'Senha incorreta.' });
+			}
+			
 
-		const user = await User.findOne({ where: { cpf: cpf } });
+			let type;
+			if (user.perfil == 1) {
+				type = 'admin';
+			} else if ((user.perfil == 2)) {
+				type = 'psicologo';
+			} else {
+				type = 'paciente';
+			}
 
-		if (!user) {
-			return res.status(400).send({ error: 'Usuario não encontrado!' });
+			const token = jwt.sign({ id: user.id }, authConfig.secret, {
+				expiresIn: 1209600, //14 dias
+			});
+
+			return res.send({
+				user,
+				type,
+				token,
+			});
+		}catch(err){
+			console.log(err)
 		}
-
-		if (pass != user.pass) {
-			return res.status(400).send({ error: 'Senha incorreta.' });
-		}
-
-		let type;
-		if (user.perfil == 1) {
-			type = 'admin';
-		} else if ((user.perfil = 2)) {
-			type = 'psicologo';
-		} else {
-			type = 'paciente';
-		}
-		const token = jwt.sign({ id: user.id }, authConfig.secret, {
-			expiresIn: 1209600, //14 dias
-		});
-		
-		return res.send({
-			user,
-			type,
-			token,
-		});
 	},
 
 	async registerUser(req, res) {
-		const { cpf, nome, ativo, pass, perfil, idade, email, genero } =
+		const { cpf, nome, ativo, senha, perfil, idade, email, genero } =
 			req.body;
-
+			
 		if (await User.findOne({ where: { cpf: cpf } })) {
 			return res
 				.status(400)
@@ -65,7 +72,7 @@ module.exports = {
 			let type;
 			if (user.perfil == 1) {
 				type = 'admin';
-			} else if ((user.perfil = 2)) {
+			} else if ((user.perfil == 2)) {
 				type = 'psicologo';
 			} else {
 				type = 'paciente';

@@ -4,11 +4,13 @@ import Psychologistschedule from '../pages/psychologist/agenda/agenda'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Octicons } from '@expo/vector-icons';
+import { useAuth } from '../context/Auth';
 
 
 const Tabs = createBottomTabNavigator();
 const ProfilelUserStack = createStackNavigator();
-const ListPsychologistStack = createStackNavigator();
 const PsychologistscheduleStack = createStackNavigator();
 
 
@@ -28,8 +30,16 @@ const ProfilelUserStackScreen = () => (
 					fontSize: 28,
 					fontFamily:'sans-serif'
 				},
-			}}
-		/>
+				headerRight: () => (
+					<TouchableOpacity onPress={()=>{
+						const {signOut} = useAuth();
+						signOut;
+					}}>
+						<Octicons name="sign-out" size={24} color="black" />
+					</TouchableOpacity>
+				  ),
+				}}
+				/>
 	</ProfilelUserStack.Navigator>
 );
 
@@ -50,11 +60,12 @@ const PsychologistScheduleStackScreen = () => (
 					fontFamily:'sans-serif'
 				},
 			}}
-		/>
+			/>
 	</PsychologistscheduleStack.Navigator>
 );
 
 export default function PsychologistRoutes() {
+	
 	return (
 		<Tabs.Navigator
 			initialRouteName="Agenda"

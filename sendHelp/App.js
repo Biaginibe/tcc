@@ -6,12 +6,12 @@ import { Routes } from './src/routes';
 
 export default function app() {
 	return (
-		<NavigationContainer>
-			<AuthProvider>
-				<FilterProvider>
-					<Routes/>
-				</FilterProvider>
-			</AuthProvider>
-		</NavigationContainer>
+		<AuthProvider>
+			<FilterProvider>
+				<NavigationContainer>
+					<Routes />
+				</NavigationContainer>
+			</FilterProvider>
+		</AuthProvider>
 	);
 }
