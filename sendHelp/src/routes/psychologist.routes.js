@@ -1,12 +1,10 @@
 import React from 'react';
-import ProfileUser from '../pages/patiente/perfilUser';
+import PsychologistProfile from '../pages/psychologist/perfil/perfilPsychologist';
 import Psychologistschedule from '../pages/psychologist/agenda/agenda'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Octicons } from '@expo/vector-icons';
-import { useAuth } from '../context/Auth';
+
 
 
 const Tabs = createBottomTabNavigator();
@@ -18,7 +16,7 @@ const ProfilelUserStackScreen = () => (
 	<ProfilelUserStack.Navigator>
 		<ProfilelUserStack.Screen
 			name="Perfil"
-			component={ProfileUser}
+			component={PsychologistProfile}
 			options={{
 				title: 'SendHelp',
 				headerStyle: {
@@ -30,14 +28,6 @@ const ProfilelUserStackScreen = () => (
 					fontSize: 28,
 					fontFamily:'sans-serif'
 				},
-				headerRight: () => (
-					<TouchableOpacity onPress={()=>{
-						const {signOut} = useAuth();
-						signOut;
-					}}>
-						<Octicons name="sign-out" size={24} color="black" />
-					</TouchableOpacity>
-				  ),
 				}}
 				/>
 	</ProfilelUserStack.Navigator>
