@@ -116,5 +116,10 @@ routes.get(
 	PsychologistController.findAllPerfil
 );
 
+routes.get(
+	'/Psychologist/:id_user/findPsychologistsjoinUsers',
+	PsychologistController.findPsychologistsjoinUsers
+)
+
 routes.post('');
 module.exports = routes;
