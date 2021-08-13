@@ -3,9 +3,12 @@ import MapPatiente from './pages/patiente/map';
 import ProfileUser from './pages/patiente/perfilUser';
 import ListPsychologist from './pages/patiente/ListarPsicologos/listaPsycho';
 import Psychologistschedule from './pages/psychologist/agenda/agenda'
+import ProfilePsycho from './pages/patiente/perfilPsycho';
+import { MarkRoutes } from './map-routes';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
 
 
 const Tabs = createBottomTabNavigator();
@@ -13,6 +16,7 @@ const MapStack = createStackNavigator();
 const ProfilelUserStack = createStackNavigator();
 const ListPsychologistStack = createStackNavigator();
 const PsychologistscheduleStack = createStackNavigator();
+const MarkMapStack = createStackNavigator();
 
 const MapStackScreen = () => (
 	<MapStack.Navigator>
@@ -95,11 +99,18 @@ const PsychologistscheduleStackScreen = () => (
 	</PsychologistscheduleStack.Navigator>
 );
 
+
 export default function Routes() {
 	return (
+		<>
+	
 		<Tabs.Navigator
 			initialRouteName="Mapa"
+
 			screenOptions={({ route }) => ({
+				tabBarButton:[
+					"ProfilePsycho"
+				].includes(route.name)?()=>{return null;}: undefined,
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
 
@@ -125,10 +136,17 @@ export default function Routes() {
 				inactiveTintColor: 'gray',
 			}}
 		>
+			
 			<Tabs.Screen name="Mapa" component={MapStackScreen} />
 			<Tabs.Screen name="Lista" component={ListPsychologistStackScreen} />
 			<Tabs.Screen name="Perfil" component={ProfilelUserStackScreen} />
 			<Tabs.Screen name="Agenda" component={PsychologistscheduleStackScreen} />
+			<MarkMapStack.Screen tabBarShowLabel="false" name='ProfilePsycho' component={ProfilePsycho} />
+			
+			
 		</Tabs.Navigator>
+		</>
+		
+		
 	);
 }

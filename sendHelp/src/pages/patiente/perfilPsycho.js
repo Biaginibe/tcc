@@ -3,15 +3,18 @@ import { Text, View, TouchableOpacity, SafeAreaView, FlatList, SectionList, Scro
 import { ListItem } from 'react-native-elements';
 import { css } from '../../css/style';
 
-
-
-
-export default function ProfilePsycho() {
+export default function ProfilePsycho(route, navigation) {
 	const [perfil, setPerfil] = useState(null);
-	const {data} = await instance.get 
+	const {valorid}=route.route.params;
+	console.log(route.route.params);
+	
+	
+	
 	return (
 		<SafeAreaView style={css.container}>
-			<Text>PERFIL DO PSICOLOGO</Text>
+
+			<Text>{"PERFIL DO PSICOLOGO"+valorid} </Text>
+
 			<View>
 				{/* <FlatList data={perfil}
 				keyExtractor={(item => String(item.id))}
