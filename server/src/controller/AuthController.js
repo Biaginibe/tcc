@@ -94,6 +94,7 @@ module.exports = {
         const token = req.body.token || ''
     
         jwt.verify(token, authConfig.secret, function(err, decoded) {
+			console.log(!err)
     
             return res.status(200).send({valid: !err})
     

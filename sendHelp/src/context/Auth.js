@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { instance } from '../config/axios';
 
 const AuthContext = createContext();
@@ -24,11 +24,15 @@ export default function AuthProvider({ children }) {
 						token: JSON.parse(storagedToken[1]),
 					})
 					.then((response) => {
+						console.log(response.data.valid)
 						if (response.data.valid) {
+							console.log('to aqui no if')
 							instance.defaults.headers.Authorization = `Bearer ${storagedToken[1]}`;
+							setToken(JSON.parse(storagedToken[1]));
 							setUser(JSON.parse(storagedUser[1]));
 							setType(JSON.parse(storagedType[1]));
-							setToken(JSON.parse(storagedToken[1]));
+							console.log(token)
+							console.log(instance.defaults.headers.Authorization)
 						} else {
 							setUser(null);
 							setType(null);

@@ -14,7 +14,7 @@ export default function MapPatiente() {
 	const [origin, setOrigin] = useState(null);
 	const [psychologist, setPsychologist] = useState(null);
 	const { filters } = useFilter();
-	const { token } = useAuth();
+	const { token, user } = useAuth();
 
 	useEffect(() => {
 		(async function getLocationAsync() {
@@ -57,7 +57,7 @@ export default function MapPatiente() {
 				if (filters.tempoSessao == null) {
 					filters.tempoSessao = '';
 				}
-
+				console.log(token + user.id);
 				const { data } = await instance.get(
 					`/filter?abordagem=${filters.abordagem}&
 												tipoAtendimento=${filters.tipoAtendimento}&

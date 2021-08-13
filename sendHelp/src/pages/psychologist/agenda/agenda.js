@@ -25,7 +25,7 @@ export default function Psychologistschedule() {
 	const [update, setUpdate] = useState(null);
 	const [delet, setDelete] = useState(null); //não usei delete por ser palavra reservada
 
-	const {token} = useAuth();
+	const {token, user} = useAuth();
 
 	const [findOne, setFindOne] = useState(null);
 	const [oneSchedule, setOneSchedule] = useState([
@@ -80,10 +80,10 @@ export default function Psychologistschedule() {
 				if (check != null) {
 					try {
 						await instance.put(
-							`/psychologist/1/${check}/disable_enableSchedule`,
+							`/psychologist/${user.id}/${check}/disable_enableSchedule`,
 							{
 								headers: {
-									Authorization: 'Bearer ' + token,
+									Authorization: token,
 								},
 							}
 						);
@@ -96,7 +96,7 @@ export default function Psychologistschedule() {
 				if (add != null) {
 					try {
 						await instance.post(
-							`/psychologist/1/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
+							`/psychologist/${user.id}/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -113,7 +113,7 @@ export default function Psychologistschedule() {
 				if (update != null) {
 					try {
 						await instance.put(
-							`/psychologist/1/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`,
+							`/psychologist/${user.id}/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -132,7 +132,7 @@ export default function Psychologistschedule() {
 				if (delet != null) {
 					try {
 						await instance.delete(
-							`/psychologist/1/${delet}/deleteSchedule`,
+							`/psychologist/${user.id}/${delet}/deleteSchedule`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -144,9 +144,8 @@ export default function Psychologistschedule() {
 						console.error(err);
 					}
 				}
-
 				const { data } = await instance.get(
-					'/psychologist/1/findSchedule',
+					`/psychologist/${user.id}/findSchedule`,
 					{
 						headers: {
 							Authorization: 'Bearer ' + token,

@@ -5,6 +5,7 @@ module.exports = (req, res, next) => {
 	const authHeader = req.headers.authorization;
 
 	if (!authHeader) {
+		console.log(authHeader + ' Não possui token, logue novamente.')
 		return res
 			.status(401)
 			.send({ error: 'Não possui token, logue novamente.' });
@@ -12,6 +13,8 @@ module.exports = (req, res, next) => {
 
 	const parts = authHeader.split(' ');
 	if (!parts.length === 2) {
+		console.log(authHeader + ' Erro no token, logue novamente.')
+
 		return res
 			.status(401)
 			.send({ error: 'Erro no token, logue novamente.' });
@@ -20,6 +23,8 @@ module.exports = (req, res, next) => {
 	const [scheme, token] = parts;
 
 	if (!/^Bearer$/i.test(scheme)) {
+		console.log(authHeader + ' Token mal formatado, logue novamente.')
+
 		return res
 			.status(401)
 			.send({ error: 'Token mal formatado, logue novamente.' });
@@ -27,6 +32,8 @@ module.exports = (req, res, next) => {
 
 	jwt.verify(token, authConfig.secret, (err, decoded) => {
 		if (err) {
+		console.log(authHeader + ' Token invalido, logue novamente.')
+
 			return res
 				.status(401)
 				.send({ error: 'Token invalido, logue novamente.' });
