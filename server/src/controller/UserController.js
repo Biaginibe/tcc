@@ -6,6 +6,7 @@ module.exports = {
 		const users = await User.findAll();
 		return res.json(users);
 	},
+	
 	async disable_enableUser(req, res) {
 		const { id_user } = req.params;
 		const user = await User.findByPk(id_user);
@@ -34,6 +35,7 @@ module.exports = {
 			return res.json(change);
 		}
 	},
+	
 	async deleteUser(req, res) {
 		const { id_user } = req.params;
 		await User.destroy({

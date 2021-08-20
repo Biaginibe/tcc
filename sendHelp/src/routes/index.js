@@ -6,14 +6,13 @@ import  PatienteRoutes  from './patiente.routes';
 import  PsychologistRoutes  from './psychologist.routes';
 
 export const Routes = () => {
-	const { user, type } = useAuth();
+	const { user, type, token } = useAuth();
 
 	function err(){
 		console.log(user)
 		console.log(type)
 	}
-	
-	if (!user) {
+	if (!user || !token) {
 		return <FreeRoutes />;
 	} else {
 		if (type == 'paciente') {

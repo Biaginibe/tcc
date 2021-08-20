@@ -9,29 +9,27 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { css } from './style';
-import { useAuth } from '../../../context/Auth' 
+import { useAuth } from '../../../context/Auth';
 import { instance } from '../../../config/axios';
 
 export default function Login() {
 	const [cpf, setCpf] = useState(null);
 	const [pass, setPass] = useState(null);
 	const { signIn } = useAuth();
-	const {navigate} = useNavigation(); 
+	const { navigate } = useNavigation();
 
-	async function login(){
-		console.log(cpf)
-		console.log(pass)		
-		await instance.post('/login', {
-			cpf: cpf,
-			pass: pass
-		})
-		.then((response) => signIn(response.data))
-		.catch((err)=>{
-			setPass('');
-			Alert.alert('Aviso!', 'CPF ou senha incorreto.');
-			console.log(err)
-		})
-
+	async function login() {
+		await instance
+			.post('/login', {
+				cpf: cpf,
+				pass: pass,
+			})
+			.then((response) => signIn(response.data))
+			.catch((err) => {
+				setPass('');
+				Alert.alert('Aviso!', 'CPF ou senha incorreto.');
+				console.log(err);
+			});
 	}
 
 	return (
@@ -52,6 +50,8 @@ export default function Login() {
 						onChangeText={setPass}
 						value={pass}
 						placeholder='Senha'
+						secureTextEntry={true}
+						
 					/>
 				</View>
 				<TouchableOpacity style={css.btn} onPress={login}>
@@ -59,7 +59,12 @@ export default function Login() {
 				</TouchableOpacity>
 				<TouchableOpacity style={css.inline}>
 					<Text>Não tem cadastro ainda? </Text>
-					<Text  style={css.cadastro} onPress={()=>navigate('RegisterUser')}>Clique aqui.</Text>
+					<Text
+						style={css.cadastro}
+						onPress={() => navigate('RegisterUser')}
+					>
+						Clique aqui.
+					</Text>
 				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>

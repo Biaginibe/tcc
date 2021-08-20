@@ -6,6 +6,11 @@ const css = StyleSheet.create({
 		marginLeft: '15%',
 		marginRight: '15%',
 	},
+	radio: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems:'baseline',
+	},
 	title: {
 		fontSize: 40,
 		fontWeight: 'bold',

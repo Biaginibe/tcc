@@ -31,8 +31,7 @@ export default function AuthProvider({ children }) {
 							setToken(JSON.parse(storagedToken[1]));
 							setUser(JSON.parse(storagedUser[1]));
 							setType(JSON.parse(storagedType[1]));
-							console.log(token)
-							console.log(instance.defaults.headers.Authorization)
+							console.log('\n\nCONTEXT\n' + user, token, type);
 						} else {
 							setUser(null);
 							setType(null);
@@ -71,7 +70,7 @@ export default function AuthProvider({ children }) {
       }, []);
 
 	return (
-		<AuthContext.Provider value={{ signIn, signOut, user, type, setToken, setUser, token }}>
+		<AuthContext.Provider value={{ signIn, signOut, user, type, setToken, setType, setUser, token }}>
 			{children}
 		</AuthContext.Provider>
 	);
@@ -79,6 +78,6 @@ export default function AuthProvider({ children }) {
 
 export function useAuth() {
 	const context = useContext(AuthContext);
-	const { signIn, signOut, user, type, setToken, setUser, token } = context;
-	return { signIn, signOut, user, type, setToken, setUser, token };
+	const { signIn, signOut, user, type, setType, setToken, setUser, token } = context;
+	return { signIn, signOut, user, type, setType, setToken, setUser, token };
 }
