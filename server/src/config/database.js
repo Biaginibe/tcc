@@ -2,7 +2,7 @@ module.exports = {
 	dialect: 'mysql',
     host: 'localhost',
     username: 'root',
-    password: '123',
+    password: '',
     database: 'tcc2',
     define:{
         timestamps: true,

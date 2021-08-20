@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, FlatList, SectionList, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { css } from '../../css/style';
+import { instance } from '../../config/axios';
 
 export default function ProfilePsycho(route, navigation) {
 	const [perfil, setPerfil] = useState(null);
 	const {valorid}=route.route.params;
 	console.log(route.route.params);
+	useEffect(() => {
+	async function getData(){
+		const perfildata = await instance.get(`/Psychologist/${valorid}}/findPsychologistsjoinUsers`); 
+		setPerfil(perfildata);
+		console.log("perfil " + perfil);
+	}
+	getData()
+	},[]);
+
+	
 	
 	
 	
@@ -16,9 +27,11 @@ export default function ProfilePsycho(route, navigation) {
 			<Text>{"PERFIL DO PSICOLOGO"+valorid} </Text>
 
 			<View>
-				{/* <FlatList data={perfil}
+				
+				<FlatList data={perfil}
 				keyExtractor={(item => String(item.id))}
 				renderItem={({item})=>(
+					
 					<ListItem bottomDivider style={css.container}>
 							<ListItem.Content>
 								<ListItem.Title style={css.nome}>{item.nome}</ListItem.Title>
@@ -37,10 +50,10 @@ export default function ProfilePsycho(route, navigation) {
 				)}
 				>
 					
-				</FlatList> */}
+				</FlatList>
 
 				<ScrollView>
-					
+				
 				</ScrollView>
 			</View>
 		</SafeAreaView>
