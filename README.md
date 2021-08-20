@@ -1,5 +1,3 @@
-# tcc
-
 ## Trabalho de conclusão de curso, feito em dupla com o Gabriel Augusto Franco Zara.
 
 *Proposta do sistema*: um software que facilite o acesso a psicologos gratuitos ou com valores sociais.
