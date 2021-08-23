@@ -92,7 +92,7 @@ module.exports = {
 		const {id_user} = req.params;
 		const psycologist = await Psychologist.findAll({
 			where: {
-				id: 1,
+				id: id_user,
 			},
 			include: [{
 				model: Client,
