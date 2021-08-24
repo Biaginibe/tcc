@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
+  Pressable,
   TouchableOpacity,
   SafeAreaView,
   FlatList,
   SectionList,
   ScrollView,
+  StyleSheet
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { css } from "../../css/style";
@@ -54,8 +56,6 @@ export default function ProfilePsycho(route, navigation) {
       <Text>{"PERFIL DO PSICOLOGO" + valorid}</Text>
 
       <View>
-        {console.log(perfil)}
-
         <FlatList
           data={perfil}
           renderItem={({ item }) => (
@@ -77,7 +77,7 @@ export default function ProfilePsycho(route, navigation) {
                   {"Tempo de Sessão: " + item.tempoSessao}
                 </ListItem.Title>
                 <ListItem.Title>
-                  <TouchableOpacity style={css.contactbutton}>
+                  <TouchableOpacity >
                     <Text>Entrar em Contato</Text>
                   </TouchableOpacity>
                 </ListItem.Title>
@@ -88,19 +88,47 @@ export default function ProfilePsycho(route, navigation) {
         />
         <FlatList
           data={schedule}
-          horizontal={true}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <ListItem bottomDivider>
-              <ListItem.Content>
-                <ListItem.Title>{item.diaDisponivel}</ListItem.Title>
-                <ListItem.Title>{item.horarioDisponivel}</ListItem.Title>
-                <ListItem.Title>{item.id}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
-          )}
+          
+          numColumns={"1"}
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true  ?  (
+              <View>
+                <ListItem bottomDivider topDivider>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      {item.diaDisponivel}
+                    </ListItem.Title>
+                    <ListItem.Title>
+                        <TouchableOpacity style={styles.button}><Text>{item.horarioDisponivel}</Text></TouchableOpacity>
+                    </ListItem.Title>
+                        
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : null
+          }
         />
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    elevation: 2,
+    backgroundColor: 'lightgray',
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+});
