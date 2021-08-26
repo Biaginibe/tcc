@@ -8,7 +8,7 @@ import {
   FlatList,
   SectionList,
   ScrollView,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { css } from "../../css/style";
@@ -77,7 +77,7 @@ export default function ProfilePsycho(route, navigation) {
                   {"Tempo de Sessão: " + item.tempoSessao}
                 </ListItem.Title>
                 <ListItem.Title>
-                  <TouchableOpacity >
+                  <TouchableOpacity>
                     <Text>Entrar em Contato</Text>
                   </TouchableOpacity>
                 </ListItem.Title>
@@ -86,27 +86,82 @@ export default function ProfilePsycho(route, navigation) {
             </ListItem>
           )}
         />
+        <Text style={styles.text}>Segunda</Text>
         <FlatList
           data={schedule}
-          
-          numColumns={"1"}
+          horizontal
           keyExtractor={(item) => Number(item.id)}
           renderItem={({ item }) =>
-            item.disponivel == true  ?  (
+            item.disponivel == true && item.diaDisponivel == "Segunda" ? (
               <View>
-                <ListItem bottomDivider topDivider>
+                <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
-                      {item.diaDisponivel}
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
                     </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : item.lenght <= 0 && item.diaDisponivel == "Segunda" ? (<ListItem>
+                <ListItem.Content>
+                <TouchableOpacity style={styles.button}>
+                        <Text>Entrar na Fila</Text>
+                      </TouchableOpacity>
+                </ListItem.Content>
+            </ListItem>)
+            : null
+          }
+        />
+        <Text style={styles.text}>Terça</Text>
+        <FlatList
+          data={schedule}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Terça" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
                     <ListItem.Title>
-                        <TouchableOpacity style={styles.button}><Text>{item.horarioDisponivel}</Text></TouchableOpacity>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
                     </ListItem.Title>
-                        
                   </ListItem.Content>
                 </ListItem>
               </View>
             ) : null
+          }
+        />
+        <Text style={styles.text}>Quarta</Text>
+        <FlatList
+          data={schedule}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Quarta" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                        
+                      </TouchableOpacity>
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : item.lenght == 0  ? (<ListItem>
+                <ListItem.Content>
+                <TouchableOpacity style={styles.button}>
+                        <Text>Entrar na Fila</Text>
+                </TouchableOpacity>
+                </ListItem.Content>
+            </ListItem>)
+            : null
           }
         />
       </View>
@@ -116,19 +171,20 @@ export default function ProfilePsycho(route, navigation) {
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 5,
-    paddingHorizontal: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 2,
+    paddingHorizontal: 6,
     borderRadius: 12,
     elevation: 2,
-    backgroundColor: 'lightgray',
+    backgroundColor: "lightgray",
   },
   text: {
     fontSize: 16,
+    marginLeft: 12,
     lineHeight: 21,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     letterSpacing: 0.25,
-    color: 'white',
+    color: "black",
   },
 });

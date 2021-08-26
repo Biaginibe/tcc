@@ -94,6 +94,11 @@ routes.delete(
 	ScheduleController.deleteSchedule
 );
 
+routes.get(
+	'/psychologist/findAllbyWeekSchedules',
+	ScheduleController.findAllbyWeekSchedules
+)
+
 //LOCALIZAÇÃO!!
 routes.get('/', ClientController.findAllPsychologistClients);
 

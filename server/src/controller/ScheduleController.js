@@ -138,6 +138,43 @@ module.exports = {
 		return res.json(success);
 	},
 
+	async findAllbyWeekSchedules(req, res) {
+		const schedule = await Schedule.findAll();
+		const scheduleSeg = await Schedule.findAll({
+			where:{
+				diaDisponivel: "Segunda"
+			}
+		});
+		const scheduleTer = await Schedule.findAll({
+			where:{
+				diaDisponivel: "Terça"
+			}
+		});
+		const scheduleQua = await Schedule.findAll({
+			where:{
+				diaDisponivel: "Quarta"
+			}
+		});
+		const scheduleQui = await Schedule.findAll({
+			where:{
+				diaDisponivel: "Quinta"
+			}
+		});
+		const scheduleSex = await Schedule.findAll({
+			where:{
+				diaDisponivel: "Sexta"
+			}
+		});
+
+
+		if (!schedule) {
+			return res.status(400).json({ error: 'Schedule not found' });
+		}
+
+		return res.send({
+			scheduleSeg, scheduleTer, scheduleQua, scheduleQui, scheduleSex});
+	},
+
 	//método para dev
 	async findAllSchedules(req, res) {
 		const schedule = await Schedule.findAll();
