@@ -49,8 +49,6 @@ export default function AuthProvider({ children }) {
 	}, []);
 
     function signIn(response){
-		console.log('estou no metodo');
-		// console.log(response)
         setUser(response.user);
         setToken(response.token);
         setType(response.type);

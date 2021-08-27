@@ -151,7 +151,7 @@ export default function Psychologistschedule() {
 							Authorization: 'Bearer ' + token,
 						},
 					}
-				); //aqui quando o login estiver feito precisamos trocar o id do psico que ta chumbado
+				); 
 				setSchedule(data);
 			} catch (err) {
 				console.error(err);
