@@ -15,8 +15,12 @@ import { css } from "../../css/style";
 import { instance } from "../../config/axios";
 
 export default function ProfilePsycho(route, navigation) {
-  const [perfil, setPerfil] = useState();
   const [schedule, setSchedule] = useState();
+  const [perfil, setPerfil] = useState(null);
+  const [segunda, setSegunda] = useState();
+  const [terca, setTerca] = useState();
+  
+  
   const { valorid } = route.route.params;
 
   useEffect(() => {
@@ -28,28 +32,48 @@ export default function ProfilePsycho(route, navigation) {
         const perfildata = await instance.get(
           `/Psychologist/${valorrequest}}/findPsychologistsjoinUsers`
         );
+        
         setPerfil(perfildata.data);
+        
+        
       } catch (err) {
+        console.log(err);
+      }
+      try{
+        
+        const scheduledata = await instance.get(
+          `/psychologist/1/findAllbyWeekSchedules`
+        );
+        
+        setSchedule(scheduledata.data);
+        console.log(schedule);
+      }
+      catch(err){
         console.log(err);
       }
     }
     getData();
   }, [route.route.params]);
 
-  useEffect(() => {
-    async function getScheduleData() {
-      try {
-        const valorrequest = valorid;
+  // useEffect(() => {
+  //   async function getScheduleData() {
+  //     try {
+  //       const valorrequest = valorid;
 
-        const scheduledata = await instance.get(`/psychologist/1/findSchedule`);
-        console.log(scheduledata.data);
-        setSchedule(scheduledata.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    getScheduleData();
-  }, [route.route.params]);
+  //       const scheduledata = await instance.get(
+  //         `/psychologist/1/findAllbyWeekSchedules`
+  //       );
+  //       //console.log(scheduledata.data);
+  //       console.log(scheduledata.data.scheduleSeg);
+  //       setSegunda((scheduledata.data.scheduleSeg));
+
+  //       console.log(segunda);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   getScheduleData();
+  // }, [route.route.params]);
 
   return (
     <SafeAreaView style={css.container}>
@@ -83,37 +107,42 @@ export default function ProfilePsycho(route, navigation) {
                 </ListItem.Title>
                 <ListItem.Title>{item.descricao}</ListItem.Title>
               </ListItem.Content>
+              
             </ListItem>
           )}
         />
+       
         <Text style={styles.text}>Segunda</Text>
+        {schedule.scheduleSeg &&(
         <FlatList
-          data={schedule}
-          horizontal
-          keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Segunda" ? (
-              <View>
-                <ListItem>
-                  <ListItem.Content>
-                    <ListItem.Title>
-                      <TouchableOpacity style={styles.button}>
-                        <Text>{item.horarioDisponivel}</Text>
-                      </TouchableOpacity>
-                    </ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              </View>
-            ) : item.lenght <= 0 && item.diaDisponivel == "Segunda" ? (<ListItem>
+        data={schedule.scheduleSeg}
+        horizontal
+        keyExtractor={(item) => Number(item.id)}
+        renderItem={({ item }) =>
+          item.disponivel == true && item.diaDisponivel == "Segunda" ? (
+            <View>
+              <ListItem>
                 <ListItem.Content>
-                <TouchableOpacity style={styles.button}>
-                        <Text>Entrar na Fila</Text>
-                      </TouchableOpacity>
+                  <ListItem.Title>
+                    <TouchableOpacity style={styles.button}>
+                      <Text>{item.horarioDisponivel}</Text>
+                    </TouchableOpacity>
+                  </ListItem.Title>
                 </ListItem.Content>
-            </ListItem>)
-            : null
-          }
-        />
+              </ListItem>
+            </View>
+          ) : item.lenght <= 0 && item.diaDisponivel == "Segunda" ? (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.button}>
+                  <Text>Entrar na Fila</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          ) : null
+        }
+      /> )}
+        
         <Text style={styles.text}>Terça</Text>
         <FlatList
           data={schedule}
@@ -135,35 +164,7 @@ export default function ProfilePsycho(route, navigation) {
             ) : null
           }
         />
-        <Text style={styles.text}>Quarta</Text>
-        <FlatList
-          data={schedule}
-          horizontal
-          keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Quarta" ? (
-              <View>
-                <ListItem>
-                  <ListItem.Content>
-                    <ListItem.Title>
-                      <TouchableOpacity style={styles.button}>
-                        <Text>{item.horarioDisponivel}</Text>
-                        
-                      </TouchableOpacity>
-                    </ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              </View>
-            ) : item.lenght == 0  ? (<ListItem>
-                <ListItem.Content>
-                <TouchableOpacity style={styles.button}>
-                        <Text>Entrar na Fila</Text>
-                </TouchableOpacity>
-                </ListItem.Content>
-            </ListItem>)
-            : null
-          }
-        />
+       
       </View>
     </SafeAreaView>
   );

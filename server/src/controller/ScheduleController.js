@@ -139,30 +139,36 @@ module.exports = {
 	},
 
 	async findAllbyWeekSchedules(req, res) {
+		const { id_psicologo } = req.params;
 		const schedule = await Schedule.findAll();
 		const scheduleSeg = await Schedule.findAll({
 			where:{
-				diaDisponivel: "Segunda"
+				diaDisponivel: "Segunda",
+				id_psicologo: id_psicologo
 			}
 		});
 		const scheduleTer = await Schedule.findAll({
 			where:{
-				diaDisponivel: "Terça"
+				diaDisponivel: "Terça",
+				id_psicologo: id_psicologo
 			}
 		});
 		const scheduleQua = await Schedule.findAll({
 			where:{
-				diaDisponivel: "Quarta"
+				diaDisponivel: "Quarta",
+				id_psicologo: id_psicologo
 			}
 		});
 		const scheduleQui = await Schedule.findAll({
 			where:{
-				diaDisponivel: "Quinta"
+				diaDisponivel: "Quinta",
+				id_psicologo: id_psicologo
 			}
 		});
 		const scheduleSex = await Schedule.findAll({
 			where:{
-				diaDisponivel: "Sexta"
+				diaDisponivel: "Sexta",
+				id_psicologo: id_psicologo
 			}
 		});
 

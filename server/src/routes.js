@@ -95,7 +95,7 @@ routes.delete(
 );
 
 routes.get(
-	'/psychologist/findAllbyWeekSchedules',
+	'/psychologist/:id_psicologo/findAllbyWeekSchedules',
 	ScheduleController.findAllbyWeekSchedules
 )
 
