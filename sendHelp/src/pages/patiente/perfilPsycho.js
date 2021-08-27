@@ -15,9 +15,9 @@ import { css } from "../../css/style";
 import { instance } from "../../config/axios";
 
 export default function ProfilePsycho(route, navigation) {
-  const [schedule, setSchedule] = useState();
+  
   const [perfil, setPerfil] = useState(null);
-  const [segunda, setSegunda] = useState();
+  const [segunda, setSegunda] = useState(null);
   const [terca, setTerca] = useState();
   
   
@@ -41,13 +41,13 @@ export default function ProfilePsycho(route, navigation) {
       }
       try{
         
-        console.log(schedule);
+        
         const scheduledata = await instance.get(
           `/psychologist/1/findAllbyWeekSchedules`
         );
-        
-        setSchedule(scheduledata.data);
-        console.log(schedule);
+        console.log(scheduledata.data.scheduleSeg);
+        setSegunda(scheduledata.data.scheduleSeg);
+        console.log(segunda);
       }
       catch(err){
         console.log(err);
@@ -114,9 +114,9 @@ export default function ProfilePsycho(route, navigation) {
         />
        
         <Text style={styles.text}>Segunda</Text>
-        {schedule.scheduleSeg &&(
+        
         <FlatList
-        data={schedule.scheduleSeg}
+        data={segunda}
         horizontal
         keyExtractor={(item) => Number(item.id)}
         renderItem={({ item }) =>
@@ -142,11 +142,11 @@ export default function ProfilePsycho(route, navigation) {
             </ListItem>
           ) : null
         }
-      /> )}
+      /> 
         
         <Text style={styles.text}>Terça</Text>
         <FlatList
-          data={schedule}
+          data={segunda}
           horizontal
           keyExtractor={(item) => Number(item.id)}
           renderItem={({ item }) =>
