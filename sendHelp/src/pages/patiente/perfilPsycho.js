@@ -35,23 +35,23 @@ export default function ProfilePsycho(route, navigation) {
         
         setPerfil(perfildata.data);
         
+        console.log('\n\n\n aaaaaaaaaaaaaaaaaaaaaaaaaa')
+        console.log(schedule);
+        const {scheduleSeg, scheduleTer, scheduleQua} = await instance.get(
+          `/psychologist/1/findAllbyWeekSchedules`
+        );
+        
+        setSegunda(scheduleSeg);
+        console.log(segunda);
         
       } catch (err) {
         console.log(err);
       }
-      try{
-        
-        console.log(schedule);
-        const scheduledata = await instance.get(
-          `/psychologist/1/findAllbyWeekSchedules`
-        );
-        
-        setSchedule(scheduledata.data);
-        console.log(schedule);
-      }
-      catch(err){
-        console.log(err);
-      }
+      // try{
+      // }
+      // catch(err){
+      //   console.log(err);
+      // }
     }
     getData();
   }, [route.route.params]);
@@ -114,7 +114,7 @@ export default function ProfilePsycho(route, navigation) {
         />
        
         <Text style={styles.text}>Segunda</Text>
-        {schedule.scheduleSeg &&(
+        {schedule.scheduleSeg &&
         <FlatList
         data={schedule.scheduleSeg}
         horizontal
@@ -142,9 +142,9 @@ export default function ProfilePsycho(route, navigation) {
             </ListItem>
           ) : null
         }
-      /> )}
+      /> }
         
-        <Text style={styles.text}>Terça</Text>
+        {/* <Text style={styles.text}>Terça</Text>
         <FlatList
           data={schedule}
           horizontal
@@ -164,7 +164,7 @@ export default function ProfilePsycho(route, navigation) {
               </View>
             ) : null
           }
-        />
+        /> */}
        
       </View>
     </SafeAreaView>
