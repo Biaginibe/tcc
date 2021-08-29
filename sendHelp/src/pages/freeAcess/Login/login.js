@@ -61,7 +61,7 @@ export default function Login() {
 					<Text>Não tem cadastro ainda? </Text>
 					<Text
 						style={css.cadastro}
-						onPress={() => navigate('RegisterClient')}
+						onPress={() => navigate('RegisterUser')}
 					>
 						Clique aqui.
 					</Text>
