@@ -23,19 +23,6 @@ module.exports = {
     return res.send(client);
   },
 
-  //não estamos mais usando essa, depois da banca limpar o código...
-  async findAllPsychologistClients(req, res) {
-    const perfil = 2;
-    const clients = await Client.sequelize.query(
-      `SELECT c.* 
-			FROM clients c 
-			INNER JOIN users u ON (u.id = c.id_user) 
-			WHERE u.perfil= ${perfil};`,
-      { type: QueryTypes.SELECT }
-    );
-    return res.send(clients);
-  },
-
   async findPsychologistProfileWithUserName(req, res) {
     const {
       abordagem,

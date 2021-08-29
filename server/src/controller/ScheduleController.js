@@ -179,41 +179,6 @@ module.exports = {
 				scheduleDom.push(schedule);
 			}
 		});
-		// if(schedule.dataValues)
-		// const scheduleSeg = await Schedule.findAll({
-		// 	where:{
-		// 		diaDisponivel: "Segunda",
-		// 		id_psicologo: id_psicologo
-		// 	}
-		// });
-		// const scheduleTer = await Schedule.findAll({
-		// 	where:{
-		// 		diaDisponivel: "Terça",
-		// 		id_psicologo: id_psicologo
-		// 	}
-		// });
-		// const scheduleQua = await Schedule.findAll({
-		// 	where:{
-		// 		diaDisponivel: "Quarta",
-		// 		id_psicologo: id_psicologo
-		// 	}
-		// });
-		// const scheduleQui = await Schedule.findAll({
-		// 	where:{
-		// 		diaDisponivel: "Quinta",
-		// 		id_psicologo: id_psicologo
-		// 	}
-		// });
-		// const scheduleSex = await Schedule.findAll({
-		// 	where:{
-		// 		diaDisponivel: "Sexta",
-		// 		id_psicologo: id_psicologo
-		// 	}
-		// });
-
-		// if (!schedule) {
-		// 	return res.status(400).json({ error: 'Schedule not found' });
-		// }
 
 		return res.send({
 			scheduleSeg,

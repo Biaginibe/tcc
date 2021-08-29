@@ -15,12 +15,15 @@ import { css } from "../../css/style";
 import { instance } from "../../config/axios";
 
 export default function ProfilePsycho(route, navigation) {
-  const [schedule, setSchedule] = useState();
   const [perfil, setPerfil] = useState(null);
-  const [segunda, setSegunda] = useState();
-  const [terca, setTerca] = useState();
-  
-  
+  const [segunda, setSegunda] = useState(null);
+  const [terca, setTerca] = useState(null);
+  const [quarta, setQuarta] = useState(null);
+  const [quinta, setQuinta] = useState(null);
+  const [sexta, setSexta] = useState(null);
+  const [sabado, setSabado] = useState(null);
+  const [domingo, setDomingo] = useState(null);
+
   const { valorid } = route.route.params;
 
   useEffect(() => {
@@ -32,53 +35,34 @@ export default function ProfilePsycho(route, navigation) {
         const perfildata = await instance.get(
           `/Psychologist/${valorrequest}}/findPsychologistsjoinUsers`
         );
-        
+
         setPerfil(perfildata.data);
-        
-        console.log('\n\n\n aaaaaaaaaaaaaaaaaaaaaaaaaa')
-        console.log(schedule);
-        const {scheduleSeg, scheduleTer, scheduleQua} = await instance.get(
-          `/psychologist/1/findAllbyWeekSchedules`
-        );
-        
-        setSegunda(scheduleSeg);
-        console.log(segunda);
-        
       } catch (err) {
         console.log(err);
       }
-      // try{
-      // }
-      // catch(err){
-      //   console.log(err);
-      // }
+      try {
+        const scheduledata = await instance.get(
+          `/psychologist/1/findAllbyWeekSchedules`
+        );
+        console.log(scheduledata.data);
+        setSegunda(scheduledata.data.scheduleSeg);
+        setTerca(scheduledata.data.scheduleTer);
+        setQuarta(scheduledata.data.scheduleQua);
+        setQuinta(scheduledata.data.scheduleQui);
+        setSexta(scheduledata.data.scheduleSex);
+        setSabado(scheduledata.data.scheduleSab);
+        setDomingo(scheduledata.data.scheduleDom);
+        console.log(segunda);
+      } catch (err) {
+        console.log(err);
+      }
     }
     getData();
   }, [route.route.params]);
 
-  // useEffect(() => {
-  //   async function getScheduleData() {
-  //     try {
-  //       const valorrequest = valorid;
-
-  //       const scheduledata = await instance.get(
-  //         `/psychologist/1/findAllbyWeekSchedules`
-  //       );
-  //       //console.log(scheduledata.data);
-  //       console.log(scheduledata.data.scheduleSeg);
-  //       setSegunda((scheduledata.data.scheduleSeg));
-
-  //       console.log(segunda);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   getScheduleData();
-  // }, [route.route.params]);
-
   return (
     <SafeAreaView style={css.container}>
-      <Text>{"PERFIL DO PSICOLOGO" + valorid}</Text>
+      {/* <Text>{"PERFIL DO PSICOLOGO" + valorid}</Text> */}
 
       <View>
         <FlatList
@@ -108,45 +92,52 @@ export default function ProfilePsycho(route, navigation) {
                 </ListItem.Title>
                 <ListItem.Title>{item.descricao}</ListItem.Title>
               </ListItem.Content>
-              
             </ListItem>
           )}
         />
-       
-        <Text style={styles.text}>Segunda</Text>
-        {schedule.scheduleSeg &&
+        <Text style={styles.text}>Horarios Disponiveis</Text>
+        {segunda != undefined && !segunda.lenght === true ? (
+          <View>
+            <Text style={styles.text}>Segunda</Text>
+          </View>
+        ) : null}
+
         <FlatList
-        data={schedule.scheduleSeg}
-        horizontal
-        keyExtractor={(item) => Number(item.id)}
-        renderItem={({ item }) =>
-          item.disponivel == true && item.diaDisponivel == "Segunda" ? (
-            <View>
+          data={segunda}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Segunda" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : item.lenght <= 0 && item.diaDisponivel == "Segunda" ? (
               <ListItem>
                 <ListItem.Content>
-                  <ListItem.Title>
-                    <TouchableOpacity style={styles.button}>
-                      <Text>{item.horarioDisponivel}</Text>
-                    </TouchableOpacity>
-                  </ListItem.Title>
+                  <TouchableOpacity style={styles.button}>
+                    <Text>Entrar na Fila</Text>
+                  </TouchableOpacity>
                 </ListItem.Content>
               </ListItem>
-            </View>
-          ) : item.lenght <= 0 && item.diaDisponivel == "Segunda" ? (
-            <ListItem>
-              <ListItem.Content>
-                <TouchableOpacity style={styles.button}>
-                  <Text>Entrar na Fila</Text>
-                </TouchableOpacity>
-              </ListItem.Content>
-            </ListItem>
-          ) : null
-        }
-      /> }
-        
-        {/* <Text style={styles.text}>Terça</Text>
+            ) : null
+          }
+        />
+
+        {terca != undefined && !terca.lenght === true ? (
+          <View>
+            <Text style={styles.text}>Terça</Text>
+          </View>
+        ) : null}
         <FlatList
-          data={schedule}
+          data={terca}
           horizontal
           keyExtractor={(item) => Number(item.id)}
           renderItem={({ item }) =>
@@ -164,8 +155,133 @@ export default function ProfilePsycho(route, navigation) {
               </View>
             ) : null
           }
-        /> */}
-       
+        />
+
+        {quarta != undefined && quarta.lenght === true ? (
+          <View>
+            <Text style={styles.text}>Quarta</Text>
+          </View>
+        ) : null}
+        <FlatList
+          data={quarta}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Quinta" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : null
+          }
+        />
+        {quinta != undefined && quinta.lenght === true ? (
+          <View>
+            <Text style={styles.text}>Quinta</Text>
+          </View>
+        ) : null}
+        <FlatList
+          data={quinta}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Quinta" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : null
+          }
+        />
+        {sexta != undefined && sexta.lenght === true ? (
+          <View>
+            <Text style={styles.text}>Sexta</Text>
+          </View>
+        ) : null}
+        <FlatList
+          data={sexta}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Sexta" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : null
+          }
+        />
+        {sabado != undefined && sabado.lenght === true ? (
+          <View>
+            <Text style={styles.text}>Sabádo</Text>
+          </View>
+        ) : null}
+        <FlatList
+          data={sabado}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Sabádo" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : null
+          }
+        />
+        {domingo != undefined && domingo.lenght === true ? (
+          <View>
+            <Text style={styles.text}>Domingo</Text>
+          </View>
+        ) : null}
+        <FlatList
+          data={domingo}
+          horizontal
+          keyExtractor={(item) => Number(item.id)}
+          renderItem={({ item }) =>
+            item.disponivel == true && item.diaDisponivel == "Domingo" ? (
+              <View>
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      <TouchableOpacity style={styles.button}>
+                        <Text>{item.horarioDisponivel}</Text>
+                      </TouchableOpacity>
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+            ) : null
+          }
+        />
       </View>
     </SafeAreaView>
   );
