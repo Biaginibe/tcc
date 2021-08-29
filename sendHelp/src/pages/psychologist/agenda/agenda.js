@@ -14,6 +14,7 @@ import { instance } from '../../../config/axios';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
 import { RadioButton } from 'react-native-paper';
+import { useAuth } from '../../../context/Auth';
 
 export default function Psychologistschedule() {
 	const [modalVisibleAdd, setmodalVisibleAdd] = useState(false);
@@ -23,6 +24,8 @@ export default function Psychologistschedule() {
 	const [add, setAdd] = useState(null);
 	const [update, setUpdate] = useState(null);
 	const [delet, setDelete] = useState(null); //não usei delete por ser palavra reservada
+
+	const {token, user} = useAuth();
 
 	const [findOne, setFindOne] = useState(null);
 	const [oneSchedule, setOneSchedule] = useState([
@@ -77,7 +80,12 @@ export default function Psychologistschedule() {
 				if (check != null) {
 					try {
 						await instance.put(
-							`/psychologist/1/${check}/disable_enableSchedule`
+							`/psychologist/${user.id}/${check}/disable_enableSchedule`,
+							{
+								headers: {
+									Authorization: token,
+								},
+							}
 						);
 						setCheck(null);
 					} catch {
@@ -88,7 +96,12 @@ export default function Psychologistschedule() {
 				if (add != null) {
 					try {
 						await instance.post(
-							`/psychologist/1/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`
+							`/psychologist/${user.id}/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
+							{
+								headers: {
+									Authorization: 'Bearer ' + token,
+								},
+							}
 						);
 						setAdd(null);
 						setHorario(null);
@@ -100,7 +113,12 @@ export default function Psychologistschedule() {
 				if (update != null) {
 					try {
 						await instance.put(
-							`/psychologist/1/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`
+							`/psychologist/${user.id}/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`,
+							{
+								headers: {
+									Authorization: 'Bearer ' + token,
+								},
+							}
 						);
 						setUpdate(null);
 						setHorario(null);
@@ -114,17 +132,26 @@ export default function Psychologistschedule() {
 				if (delet != null) {
 					try {
 						await instance.delete(
-							`/psychologist/1/${delet}/deleteSchedule`
+							`/psychologist/${user.id}/${delet}/deleteSchedule`,
+							{
+								headers: {
+									Authorization: 'Bearer ' + token,
+								},
+							}
 						);
 						setDelete(null);
 					} catch {
 						console.error(err);
 					}
 				}
-
 				const { data } = await instance.get(
-					'/psychologist/1/findSchedule'
-				); //aqui quando o login estiver feito precisamos trocar o id do psico que ta chumbado
+					`/psychologist/${user.id}/findSchedule`,
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
+				); 
 				setSchedule(data);
 			} catch (err) {
 				console.error(err);
@@ -137,14 +164,18 @@ export default function Psychologistschedule() {
 		async function getOneSchedule() {
 			try {
 				if (findOne != null) {
-					console.log('PASSEI DO IF ONE SCHEDULE');
 					const { data } = await instance.get(
-						`/psychologist/1/findOneSchedule?id=${findOne}`
+						`/psychologist/1/findOneSchedule?id=${findOne}`,
+						{
+							headers: {
+								Authorization: 'Bearer ' + token,
+							},
+						}
 					);
 					setOneSchedule(data);
 					console.log(oneSchedule);
 					console.log('\n\n');
-					//const { diaDisponivel, horarioDisponivel } = oneSchedule;
+
 					oneSchedule.map(
 						(item, id) => (
 							setDia(item.diaDisponivel),

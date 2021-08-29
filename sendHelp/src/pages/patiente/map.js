@@ -8,68 +8,80 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import { instance } from '../../config/axios';
 import Filters from '../../components/patiente/filter/Filter';
 import { useFilter } from '../../context/Filter';
+import { useAuth } from '../../context/Auth';
 import { useNavigation } from '@react-navigation/native';
 
+
 export default function MapPatiente(navigation) {
-  const [origin, setOrigin] = useState(null);
-  const [psychologist, setPsychologist] = useState(null);
-  const { filters } = useFilter();
-  const {navigate} = useNavigation();
+	const [origin, setOrigin] = useState(null);
+	const [psychologist, setPsychologist] = useState(null);
+	const { filters } = useFilter();
+	const { token, user } = useAuth();
+	const {navigate} = useNavigation();
 
-  useEffect(() => {
-    (async function getLocationAsync() {
-      const { status } = await Location.requestPermissionsAsync();
-      if (status === 'granted') {
-        let location = await Location.getCurrentPositionAsync({
-          enableHighAccuracy: true,
-          psychologist,
-        });
-        setOrigin({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.1922,
-          longitudeDelta: 0.1421,
-        });
-      } else {
-        throw new Error('Localização não autorizada');
-      }
-    })();
-  }, []);
 
-  useEffect(() => {
-    async function fetch() {
-      try {
-        if (filters.abordagem == null) {
-          filters.abordagem = '';
-        }
-        if (filters.tipoAtendimento == null) {
-          filters.tipoAtendimento = '';
-        }
-        if (filters.valor == null) {
-          filters.valor = '';
-        }
-        if (filters.genero == null) {
-          filters.genero = '';
-        }
-        if (filters.faixaEtaria == null) {
-          filters.faixaEtaria = '';
-        }
-        if (filters.tempoSessao == null) {
-          filters.tempoSessao = '';
-        }
 
-        const { data } =
-          await instance.get(`/filter?abordagem=${filters.abordagem}&
+
+	useEffect(() => {
+		(async function getLocationAsync() {
+			const { status } = await Location.requestPermissionsAsync();
+			if (status === 'granted') {
+				let location = await Location.getCurrentPositionAsync({
+					enableHighAccuracy: true,
+					psychologist,
+				});
+				setOrigin({
+					latitude: location.coords.latitude,
+					longitude: location.coords.longitude,
+					latitudeDelta: 0.1922,
+					longitudeDelta: 0.1421,
+				});
+			} else {
+				throw new Error('Localização não autorizada');
+			}
+		})();
+	}, []);
+
+	useEffect(() => {
+		async function fetch() {
+			try {
+				if (filters.abordagem == null) {
+					filters.abordagem = '';
+				}
+				if (filters.tipoAtendimento == null) {
+					filters.tipoAtendimento = '';
+				}
+				if (filters.valor == null) {
+					filters.valor = '';
+				}
+				if (filters.genero == null) {
+					filters.genero = '';
+				}
+				if (filters.faixaEtaria == null) {
+					filters.faixaEtaria = '';
+				}
+				if (filters.tempoSessao == null) {
+					filters.tempoSessao = '';
+				}
+				console.log(token + user.id);
+				const { data } = await instance.get(
+					`/filter?abordagem=${filters.abordagem}&
 												tipoAtendimento=${filters.tipoAtendimento}&
 												valor=${filters.valor}&
 												genero=${filters.genero}&
 												faixaEtaria=${filters.faixaEtaria}&
-												tempoSessao=${filters.tempoSessao}`);
-        setPsychologist(data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
+												tempoSessao=${filters.tempoSessao}`,
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
+				);
+				setPsychologist(data);
+			} catch (err) {
+				console.error(err);
+			}
+		}
 
     fetch();
   }, [filters]);
@@ -110,7 +122,7 @@ export default function MapPatiente(navigation) {
       </MapView>
       <Filters cssName={'mapa'} />
 
-      <StatusBar style='auto' />
-    </View>
-  );
+			<StatusBar style='auto' />
+		</View>
+	);
 }
