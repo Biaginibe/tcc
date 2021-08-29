@@ -10,6 +10,9 @@ module.exports = {
 	
 			const user = await User.findOne({ where: { cpf: cpf } });
 
+			console.log('PASS PORRA ' + pass)
+			console.log(user)
+
 			if (!user) {
 				console.log('user error')
 				return res.status(400).send({ error: 'Usuario não encontrado!' });

@@ -103,6 +103,14 @@ routes.delete(
 
 //TELAS USUARIO
 //Exibir no mapa
+routes.get(
+	'/psychologist/:id_psicologo/findAllbyWeekSchedules',
+	ScheduleController.findAllbyWeekSchedules
+);
+
+//LOCALIZAÇÃO!!
+routes.get('/', ClientController.findAllPsychologistClientsFilter);
+
 routes.get('/filter', ClientController.findAllPsychologistClientsFilter);
 
 //Exibir na lista
@@ -114,4 +122,9 @@ routes.get(
 	PsychologistController.findAllPerfil
 );
 
-module.exports = {routes, authRoute};
+routes.get(
+	'/Psychologist/:id_user/findPsychologistsjoinUsers',
+	PsychologistController.findPsychologistsjoinUsers
+);
+
+module.exports = { routes, authRoute };

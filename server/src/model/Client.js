@@ -9,7 +9,7 @@ class Client extends Model {
         }, {sequelize});
 	}
     static associate(models){
-        this.belongsTo(models.Client, {foreignKey: 'id_user', as: 'user'})
+        this.belongsTo(models.User, {foreignKey: 'id_user', as: 'user'})
     }
 }
 

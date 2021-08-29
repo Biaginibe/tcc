@@ -9,12 +9,18 @@ import { instance } from '../../config/axios';
 import Filters from '../../components/patiente/filter/Filter';
 import { useFilter } from '../../context/Filter';
 import { useAuth } from '../../context/Auth';
+import { useNavigation } from '@react-navigation/native';
 
-export default function MapPatiente() {
+
+export default function MapPatiente(navigation) {
 	const [origin, setOrigin] = useState(null);
 	const [psychologist, setPsychologist] = useState(null);
 	const { filters } = useFilter();
 	const { token, user } = useAuth();
+	const {navigate} = useNavigation();
+
+
+
 
 	useEffect(() => {
 		(async function getLocationAsync() {
@@ -77,37 +83,44 @@ export default function MapPatiente() {
 			}
 		}
 
-		fetch();
-	}, [filters]);
+    fetch();
+  }, [filters]);
+ 
+  const handleMapNavigation = (markerID) =>{
+    console.log(markerID);
+    
+    
+  }
+ 
 
-	return (
-		<View style={css.container}>
-			<MapView
-				style={css.map}
-				initialRegion={origin}
-				showsUserLocation={true}
-				loadingEnabled={false}
-				zoomEnabled={true}
-				showsMyLocationButton={true}
-			>
-				{psychologist &&
-					psychologist.map((psychologist, index) => (
-						<Marker
-							key={index}
-							coordinate={{
-								latitude: Number(psychologist.latitude),
-								longitude: Number(psychologist.longitude),
-							}}
-						>
-							<AntDesign
-								name='enviroment'
-								size={24}
-								color='#054781'
-							/>
-						</Marker>
-					))}
-			</MapView>
-			<Filters cssName={'mapa'} />
+  return (
+    <View style={css.container}>
+      <MapView
+        style={css.map}
+        initialRegion={origin}
+        showsUserLocation={true}
+        loadingEnabled={false}
+        zoomEnabled={true}
+        showsMyLocationButton={true}
+      >
+        {psychologist &&
+          psychologist.map((psychologist, index) => (
+            
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: Number(psychologist.latitude),
+                longitude: Number(psychologist.longitude),
+              }}
+             onPress={(e)=>{navigate('ProfilePsycho', {valorid: psychologist.id} )}}
+            >
+              
+              <AntDesign name='enviroment' size={24} color='#054781'  />
+            </Marker>
+         
+          ))}
+      </MapView>
+      <Filters cssName={'mapa'} />
 
 			<StatusBar style='auto' />
 		</View>

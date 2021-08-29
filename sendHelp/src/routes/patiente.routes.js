@@ -5,6 +5,7 @@ import ListPsychologist from '../pages/patiente/ListarPsicologos/listaPsycho';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
 
 
 const Tabs = createBottomTabNavigator();
@@ -77,9 +78,15 @@ const ListPsychologistStackScreen = () => (
 
 export default function PatienteRoutes() {
 	return (
+		<>
+	
 		<Tabs.Navigator
 			initialRouteName="Mapa"
+
 			screenOptions={({ route }) => ({
+				tabBarButton:[
+					"ProfilePsycho"
+				].includes(route.name)?()=>{return null;}: undefined,
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
 
@@ -101,9 +108,13 @@ export default function PatienteRoutes() {
 				inactiveTintColor: 'gray',
 			}}
 		>
+			
 			<Tabs.Screen name="Mapa" component={MapStackScreen} />
 			<Tabs.Screen name="Lista" component={ListPsychologistStackScreen} />
 			<Tabs.Screen name="Perfil" component={ProfilelUserStackScreen} />
 		</Tabs.Navigator>
+		</>
+		
+		
 	);
 }
