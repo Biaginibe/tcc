@@ -71,7 +71,9 @@ export default function ProfilePsycho(route, navigation) {
     }
     getData();
   }, [route.route.params]);
-
+  
+   
+ 
   return (
     <SafeAreaView style={css.container}>
       
