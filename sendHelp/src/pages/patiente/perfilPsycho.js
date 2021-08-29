@@ -75,7 +75,7 @@ export default function ProfilePsycho(route, navigation) {
         setDomingo(scheduledata.data.scheduleDom);
         console.log(segunda);
         // console.log(quarta);
-        vaitomanocu();
+        ;
         // console.log(tam);
         // console.log(segundaTam);
       } catch (err) {
@@ -84,7 +84,9 @@ export default function ProfilePsycho(route, navigation) {
     }
     getData();
   }, [route.route.params]);
-
+  
+   
+ 
   return (
     <SafeAreaView style={css.container}>
       
@@ -121,7 +123,7 @@ export default function ProfilePsycho(route, navigation) {
           )}
         />
         <Text style={styles.text}>Horarios Disponiveis</Text>
-        {segunda !== [] && segundaTam != 0  ? (
+        {segunda.length > 0 && segunda != []  ? (
           <View>
             <Text style={styles.text}>Segunda</Text>
           </View>
