@@ -13,10 +13,13 @@ import {
 import { ListItem } from "react-native-elements";
 import { css } from "../../css/style";
 import { instance } from "../../config/axios";
+import { useAuth } from '../../context/Auth';
 
 export default function ProfilePsycho(route, navigation) {
+  const { token, user } = useAuth();
   const [perfil, setPerfil] = useState(null);
-  const [segunda, setSegunda] = useState(null);
+  const [segunda, setSegunda] = useState([]);
+  const [segundaTam, setSegundaTam] = useState(null);
   const [terca, setTerca] = useState(null);
   const [quarta, setQuarta] = useState(null);
   const [quinta, setQuinta] = useState(null);
@@ -26,6 +29,13 @@ export default function ProfilePsycho(route, navigation) {
 
   const { valorid } = route.route.params;
 
+  function vaitomanocu (){
+    console.log(segunda);
+    const tam = segunda.length //scheduledata.data.scheduleSeg.length
+        setSegundaTam(tam);
+        console.log(segundaTam);
+  }
+
   useEffect(() => {
     async function getData() {
       try {
@@ -33,7 +43,12 @@ export default function ProfilePsycho(route, navigation) {
         console.log("VALOR DA PAGINA" + valorid);
         console.log("VALOR DE REQUEST" + valorrequest);
         const perfildata = await instance.get(
-          `/Psychologist/${valorrequest}}/findPsychologistsjoinUsers`
+          `/Psychologist/${valorrequest}}/findPsychologistsjoinUsers`,
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
         );
 
         setPerfil(perfildata.data);
@@ -41,10 +56,16 @@ export default function ProfilePsycho(route, navigation) {
         console.log(err);
       }
       try {
+        const valorrequest = valorid;
         const scheduledata = await instance.get(
-          `/psychologist/1/findAllbyWeekSchedules`
+          `/psychologist/${valorrequest}}/findAllbyWeekSchedules`,
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
         );
-        console.log(scheduledata.data);
+        // console.log(scheduledata.data);
         setSegunda(scheduledata.data.scheduleSeg);
         setTerca(scheduledata.data.scheduleTer);
         setQuarta(scheduledata.data.scheduleQua);
@@ -53,6 +74,10 @@ export default function ProfilePsycho(route, navigation) {
         setSabado(scheduledata.data.scheduleSab);
         setDomingo(scheduledata.data.scheduleDom);
         console.log(segunda);
+        // console.log(quarta);
+        vaitomanocu();
+        // console.log(tam);
+        // console.log(segundaTam);
       } catch (err) {
         console.log(err);
       }
@@ -62,7 +87,7 @@ export default function ProfilePsycho(route, navigation) {
 
   return (
     <SafeAreaView style={css.container}>
-      {/* <Text>{"PERFIL DO PSICOLOGO" + valorid}</Text> */}
+      
 
       <View>
         <FlatList
@@ -96,7 +121,7 @@ export default function ProfilePsycho(route, navigation) {
           )}
         />
         <Text style={styles.text}>Horarios Disponiveis</Text>
-        {segunda != undefined && !segunda.lenght === true ? (
+        {segunda !== [] && segundaTam != 0  ? (
           <View>
             <Text style={styles.text}>Segunda</Text>
           </View>
@@ -131,7 +156,7 @@ export default function ProfilePsycho(route, navigation) {
           }
         />
 
-        {terca != undefined && !terca.lenght === true ? (
+        {terca != []  ? (
           <View>
             <Text style={styles.text}>Terça</Text>
           </View>
@@ -156,8 +181,8 @@ export default function ProfilePsycho(route, navigation) {
             ) : null
           }
         />
-
-        {quarta != undefined && quarta.lenght === true ? (
+  
+        {quarta != []  ? (
           <View>
             <Text style={styles.text}>Quarta</Text>
           </View>
@@ -167,7 +192,7 @@ export default function ProfilePsycho(route, navigation) {
           horizontal
           keyExtractor={(item) => Number(item.id)}
           renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Quinta" ? (
+            item.disponivel == true && item.diaDisponivel == "Quarta" ? (
               <View>
                 <ListItem>
                   <ListItem.Content>
@@ -182,7 +207,7 @@ export default function ProfilePsycho(route, navigation) {
             ) : null
           }
         />
-        {quinta != undefined && quinta.lenght === true ? (
+        {quinta != [] ? (
           <View>
             <Text style={styles.text}>Quinta</Text>
           </View>
@@ -204,10 +229,19 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : null
+            ) : <View>
+              <ListItem>
+                <ListItem.Content>
+                  <ListItem.Title>
+                    <Text>Horário Indisponível</Text>
+                  </ListItem.Title>
+                </ListItem.Content>
+              </ListItem>
+
+            </View>
           }
         />
-        {sexta != undefined && sexta.lenght === true ? (
+        {sexta != [] ? (
           <View>
             <Text style={styles.text}>Sexta</Text>
           </View>

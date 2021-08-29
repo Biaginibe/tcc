@@ -6,12 +6,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
+import ProfilePsycho from '../pages/patiente/perfilPsycho';
+import { MarkRoutes } from '../map-routes';
 
 
 const Tabs = createBottomTabNavigator();
 const MapStack = createStackNavigator();
 const ProfilelUserStack = createStackNavigator();
 const ListPsychologistStack = createStackNavigator();
+const MarkMapStack = createStackNavigator();
 
 const MapStackScreen = () => (
 	<MapStack.Navigator>
@@ -112,6 +115,7 @@ export default function PatienteRoutes() {
 			<Tabs.Screen name="Mapa" component={MapStackScreen} />
 			<Tabs.Screen name="Lista" component={ListPsychologistStackScreen} />
 			<Tabs.Screen name="Perfil" component={ProfilelUserStackScreen} />
+			<MarkMapStack.Screen tabBarShowLabel="false" name='ProfilePsycho' component={ProfilePsycho} />
 		</Tabs.Navigator>
 		</>
 		
