@@ -70,7 +70,10 @@ module.exports = {
 				{ disponivel: false },
 				{
 					where: {
-						[Op.and]: [{ id: id_schedule }, { id_psicologo: id_psicologo }],
+						[Op.and]: [
+							{ id: id_schedule },
+							{ id_psicologo: id_psicologo },
+						],
 					},
 				}
 			);
@@ -81,7 +84,10 @@ module.exports = {
 				{ disponivel: true },
 				{
 					where: {
-						[Op.and]: [{ id: id_schedule }, { id_psicologo: id_psicologo }],
+						[Op.and]: [
+							{ id: id_schedule },
+							{ id_psicologo: id_psicologo },
+						],
 					},
 				}
 			);
@@ -109,7 +115,10 @@ module.exports = {
 			},
 			{
 				where: {
-					[Op.and]: [{ id: id_schedule }, { id_psicologo: id_psicologo }],
+					[Op.and]: [
+						{ id: id_schedule },
+						{ id_psicologo: id_psicologo },
+					],
 				},
 			}
 		);
@@ -136,6 +145,85 @@ module.exports = {
 		});
 		success = `Schedule with id ${id_schedule} successfully deleted`;
 		return res.json(success);
+	},
+
+	async findAllbyWeekSchedules(req, res) {
+		const { id_psicologo } = req.params;
+		const scheduleSeg = [];
+		const scheduleTer = [];
+		const scheduleQua = [];
+		const scheduleQui = [];
+		const scheduleSex = [];
+		const scheduleSab = [];
+		const scheduleDom = [];
+
+		const schedules = await Schedule.findAll({
+			where: {
+				id_psicologo: id_psicologo,
+			},
+		});
+		schedules.map((schedule) => {
+			if (schedule.dataValues.diaDisponivel === 'Segunda') {
+				scheduleSeg.push(schedule);
+			} else if (schedule.dataValues.diaDisponivel === 'Terça') {
+				scheduleTer.push(schedule);
+			} else if (schedule.dataValues.diaDisponivel === 'Quarta') {
+				scheduleQua.push(schedule);
+			} else if (schedule.dataValues.diaDisponivel === 'Quinta') {
+				scheduleQui.push(schedule);
+			} else if (schedule.dataValues.diaDisponivel === 'Sexta') {
+				scheduleSex.push(schedule);
+			} else if (schedule.dataValues.diaDisponivel === 'Sabado') {
+				scheduleSab.push(schedule);
+			} else {
+				scheduleDom.push(schedule);
+			}
+		});
+		// if(schedule.dataValues)
+		// const scheduleSeg = await Schedule.findAll({
+		// 	where:{
+		// 		diaDisponivel: "Segunda",
+		// 		id_psicologo: id_psicologo
+		// 	}
+		// });
+		// const scheduleTer = await Schedule.findAll({
+		// 	where:{
+		// 		diaDisponivel: "Terça",
+		// 		id_psicologo: id_psicologo
+		// 	}
+		// });
+		// const scheduleQua = await Schedule.findAll({
+		// 	where:{
+		// 		diaDisponivel: "Quarta",
+		// 		id_psicologo: id_psicologo
+		// 	}
+		// });
+		// const scheduleQui = await Schedule.findAll({
+		// 	where:{
+		// 		diaDisponivel: "Quinta",
+		// 		id_psicologo: id_psicologo
+		// 	}
+		// });
+		// const scheduleSex = await Schedule.findAll({
+		// 	where:{
+		// 		diaDisponivel: "Sexta",
+		// 		id_psicologo: id_psicologo
+		// 	}
+		// });
+
+		// if (!schedule) {
+		// 	return res.status(400).json({ error: 'Schedule not found' });
+		// }
+
+		return res.send({
+			scheduleSeg,
+			scheduleTer,
+			scheduleQua,
+			scheduleQui,
+			scheduleSex,
+			scheduleSab,
+			scheduleDom
+		});
 	},
 
 	//método para dev

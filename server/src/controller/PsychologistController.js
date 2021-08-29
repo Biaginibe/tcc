@@ -88,4 +88,23 @@ module.exports = {
 		success = `Psychologist whith id ${id_user} has been successfully deleted`;
 		return res.json(success);
 	},
+	async findPsychologistsjoinUsers(req, res) {
+		const {id_user} = req.params;
+		const psycologist = await Psychologist.findAll({
+			where: {
+				id: id_user,
+			},
+			include: [{
+				model: Client,
+				as: 'client',
+				include:{
+					model: User,
+					as: 'user'
+				}
+			}]
+		});
+		success = `Sucesso`;
+		return res.json(psycologist);
+	},
+	
 };
