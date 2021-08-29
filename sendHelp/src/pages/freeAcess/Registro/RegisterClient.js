@@ -52,23 +52,26 @@ export default function RegisterClient() {
 	// }
 
 	return (
-		<View style={css.container}>
+		
+
+		<SafeAreaView style={css.container}>
 			<Text style={css.title}>SendHelp</Text>
 			<Text style={css.subTitle}>Registro Cliente</Text>
-			<View style={{width: '100%', alignSelf: 'center', flex: 1, marginTop: 10}}>
+			<View style={{width: '100%', alignSelf: 'center', flex: 1, position: 'absolute', top: '100%'}}>
 				<GooglePlacesAutocomplete
 					placeholder='Seu endereço ou consultorio'
-					onPress={(data, details) => {
+					onPress={(data, details = null) => {
 						// 'details' is provided when fetchDetails = true
 						console.log('CLIQUEI');
 						console.log(data, details);
 					}}
 					query={{
-						key: 'AIzaSyCIpl95k29LzkMdt2wgb8eWSPLsQbkiBfg',
+						key: 'AIzaSyCyuj4Bef9O_70JnvIhj92A-cOEBvQXRoE',
 						language: 'pt-br',
 					}}
+					onFail={error => console.error(error)}
 				/>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 }

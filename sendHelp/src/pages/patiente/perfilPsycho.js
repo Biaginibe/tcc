@@ -19,22 +19,14 @@ export default function ProfilePsycho(route, navigation) {
   const { token, user } = useAuth();
   const [perfil, setPerfil] = useState(null);
   const [segunda, setSegunda] = useState([]);
-  const [segundaTam, setSegundaTam] = useState(null);
-  const [terca, setTerca] = useState(null);
-  const [quarta, setQuarta] = useState(null);
-  const [quinta, setQuinta] = useState(null);
-  const [sexta, setSexta] = useState(null);
-  const [sabado, setSabado] = useState(null);
-  const [domingo, setDomingo] = useState(null);
+  const [terca, setTerca] = useState([]);
+  const [quarta, setQuarta] = useState([]);
+  const [quinta, setQuinta] = useState([]);
+  const [sexta, setSexta] = useState([]);
+  const [sabado, setSabado] = useState([]);
+  const [domingo, setDomingo] = useState([]);
 
   const { valorid } = route.route.params;
-
-  function vaitomanocu (){
-    console.log(segunda);
-    const tam = segunda.length //scheduledata.data.scheduleSeg.length
-        setSegundaTam(tam);
-        console.log(segundaTam);
-  }
 
   useEffect(() => {
     async function getData() {
@@ -73,11 +65,6 @@ export default function ProfilePsycho(route, navigation) {
         setSexta(scheduledata.data.scheduleSex);
         setSabado(scheduledata.data.scheduleSab);
         setDomingo(scheduledata.data.scheduleDom);
-        console.log(segunda);
-        // console.log(quarta);
-        vaitomanocu();
-        // console.log(tam);
-        // console.log(segundaTam);
       } catch (err) {
         console.log(err);
       }
@@ -121,7 +108,7 @@ export default function ProfilePsycho(route, navigation) {
           )}
         />
         <Text style={styles.text}>Horarios Disponiveis</Text>
-        {segunda !== [] && segundaTam != 0  ? (
+        {segunda.length != 0 && segunda !== [] ? (
           <View>
             <Text style={styles.text}>Segunda</Text>
           </View>
@@ -156,7 +143,7 @@ export default function ProfilePsycho(route, navigation) {
           }
         />
 
-        {terca != []  ? (
+        {terca.length != 0 && terca !== []  ? (
           <View>
             <Text style={styles.text}>Terça</Text>
           </View>
@@ -182,7 +169,7 @@ export default function ProfilePsycho(route, navigation) {
           }
         />
   
-        {quarta != []  ? (
+        {quarta.length != 0 && quarta !== []  ? (
           <View>
             <Text style={styles.text}>Quarta</Text>
           </View>
@@ -207,7 +194,7 @@ export default function ProfilePsycho(route, navigation) {
             ) : null
           }
         />
-        {quinta != [] ? (
+        {quinta.length != 0 && quinta.segunda !== [] ? (
           <View>
             <Text style={styles.text}>Quinta</Text>
           </View>
@@ -241,7 +228,7 @@ export default function ProfilePsycho(route, navigation) {
             </View>
           }
         />
-        {sexta != [] ? (
+        {sexta.length != 0 && sexta !== [] ? (
           <View>
             <Text style={styles.text}>Sexta</Text>
           </View>
@@ -266,7 +253,7 @@ export default function ProfilePsycho(route, navigation) {
             ) : null
           }
         />
-        {sabado != undefined && sabado.lenght === true ? (
+        {sabado.length != 0 && sabado !== [] ? (
           <View>
             <Text style={styles.text}>Sabádo</Text>
           </View>
@@ -291,7 +278,7 @@ export default function ProfilePsycho(route, navigation) {
             ) : null
           }
         />
-        {domingo != undefined && domingo.lenght === true ? (
+        {domingo.length != 0 && domingo !== [] ? (
           <View>
             <Text style={styles.text}>Domingo</Text>
           </View>
