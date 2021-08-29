@@ -19,7 +19,7 @@ authRoute.post('/valid', AuthController.validateToken);
 //Registro
 authRoute.post('/admin/createUser', AuthController.registerUser);
 
-authRoute.post('/Psychologist/:id_user/client', ClientController.createClient);
+authRoute.post('/freeAccess/:id_user/client', AuthController.createClient);
 
 authRoute.post(
 	'/Psychologist/:id_cliente/incrementPerfilPsychologist',

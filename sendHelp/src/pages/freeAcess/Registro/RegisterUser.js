@@ -45,7 +45,7 @@ export default function RegisterUser() {
 
 			console.log(data);
 			setUser(data.user);
-			setType(data.type);
+			setType(data.user.perfil);
 			Alert.alert('Dados registrados com sucesso! Vamos prosseguir.');
 			navigate('RegisterClient');
 		}
@@ -73,6 +73,7 @@ export default function RegisterUser() {
 						onChangeText={setName}
 						value={name}
 						placeholder='Nome completo'
+						
 					/>
 					<TextInput
 						style={css.input}
@@ -105,6 +106,8 @@ export default function RegisterUser() {
 						onChangeText={setIdade}
 						value={idade}
 						placeholder='Idade'
+						keyboardType='numeric'
+
 					/>
 					<View style={css.radio}>
 						<RadioButton

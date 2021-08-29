@@ -13,62 +13,75 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 
 // import { Picker } from '@react-native-picker/picker';
 // import { RadioButton } from 'react-native-paper';
-// import { useNavigation } from '@react-navigation/native';
-// import { useAuth } from '../../../context/Auth';
-// import { instance } from '../../../config/axios';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../../context/Auth';
+import { instance } from '../../../config/axios';
 
 import { css } from './style';
 
 export default function RegisterClient() {
-	// const [name, setName] = useState('');
-	// const [perfil, setPerfil] = useState('');
-	// const [cpf, setCpf] = useState('');
-	// const [pass, setPass] = useState('');
-	// const [pass2, setPass2] = useState('');
-	// const [email, setEmail] = useState('');
-	// const [idade, setIdade] = useState('');
-	// const [genero, setGenero] = useState('');
-	// const { navigate } = useNavigation();
-	// const {setUser, setToken, setType} = useAuth();
+	const [long, setLong] = useState(null);
+	const [lat, setLat] = useState(null);
+	const [endereco, setEndereco] = useState(null);
+	const { navigate } = useNavigation();
+	const { user, setToken, type } = useAuth();
 
-	// async function registrarUsuario() {
-	// 	const { data } = await instance.post(`/admin/createUser`, {
-	// 		cpf: cpf,
-	// 		nome: name,
-	// 		ativo: true,
-	// 		senha: pass,
-	// 		perfil: perfil,
-	// 		idade: idade,
-	// 		email: email,
-	// 		genero: genero,
-	// 	});
+	async function registrarCliente() {
+		if (lat != null && long != null && lat != '' && long != '') {
+			const { data } = await instance.post(
+				`/freeAccess/${user.id}/client`,
+				{
+					endereco: endereco,
+					latitude: lat,
+					longitude: long,
+				}
+			);
 
-	// 	console.log(data);
-	// 	setUser(data.user);
-	// 	setType(data.type);
-	// 	setToken(data.type);
-	// 	Alert.alert('Dados registrados com sucesso! Vamos prosseguir.')
-	// 	// navigate('Register')
-	// }
+			setToken(data.token);
+			console.log(data.token);
+		}
+
+		console.log(type)
+
+		if (!data.token) {
+			Alert.alert('Registro finalizado! Seja bem vinde.');
+			type === 'paciente' ? navigate('Mapa') : navigate('Agenda');
+		}else{
+			Alert.alert('Algo deu errado, por favor tente novamente.')
+		}
+	}
 
 	return (
-		<View style={css.container}>
+		<SafeAreaView style={css.container}>
 			<Text style={css.title}>SendHelp</Text>
 			<Text style={css.subTitle}>Registro Cliente</Text>
-			<View style={{width: '100%', alignSelf: 'center', flex: 1, marginTop: 10}}>
+			<View
+				style={{
+					width: '100%',
+					alignSelf: 'center',
+					position: 'absolute',
+					top: '100%',
+				}}
+			>
 				<GooglePlacesAutocomplete
 					placeholder='Seu endereço ou consultorio'
 					onPress={(data, details) => {
-						// 'details' is provided when fetchDetails = true
-						console.log('CLIQUEI');
-						console.log(data, details);
+						setLat(details.geometry.location.lat);
+						setLong(details.geometry.location.lng);
+						setEndereco(details.formatted_address);
 					}}
 					query={{
-						key: 'AIzaSyCIpl95k29LzkMdt2wgb8eWSPLsQbkiBfg',
+						key: 'AIzaSyCyuj4Bef9O_70JnvIhj92A-cOEBvQXRoE',
 						language: 'pt-br',
 					}}
+					fetchDetails={true}
+					onFail={(error) => console.error(error)}
 				/>
 			</View>
-		</View>
+
+			<TouchableOpacity style={css.btn} onPress={registrarCliente}>
+				<Text style={css.btnTxt}>Prosseguir</Text>
+			</TouchableOpacity>
+		</SafeAreaView>
 	);
 }
