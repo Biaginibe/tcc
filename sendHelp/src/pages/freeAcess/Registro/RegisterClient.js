@@ -59,7 +59,6 @@ export default function RegisterClient() {
 				style={{
 					width: '100%',
 					alignSelf: 'center',
-					flex: 1,
 					position: 'absolute',
 					top: '100%',
 				}}
