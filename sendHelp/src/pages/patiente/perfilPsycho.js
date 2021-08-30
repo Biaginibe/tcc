@@ -16,7 +16,6 @@ import { instance } from "../../config/axios";
 import { useAuth } from "../../context/Auth";
 
 export default function ProfilePsycho(route, navigation) {
-  const { token, user } = useAuth();
   const [perfil, setPerfil] = useState(null);
   const [segunda, setSegunda] = useState([]);
   const [terca, setTerca] = useState([]);
@@ -48,7 +47,6 @@ export default function ProfilePsycho(route, navigation) {
         console.log(err);
       }
       try {
-        const valorrequest = valorid;
         const scheduledata = await instance.get(
           `/psychologist/${valorrequest}}/findAllbyWeekSchedules`,
           {
@@ -57,7 +55,7 @@ export default function ProfilePsycho(route, navigation) {
             },
           }
         );
-        // console.log(scheduledata.data);
+        console.log(scheduledata.data);
         setSegunda(scheduledata.data.scheduleSeg);
         setTerca(scheduledata.data.scheduleTer);
         setQuarta(scheduledata.data.scheduleQua);
