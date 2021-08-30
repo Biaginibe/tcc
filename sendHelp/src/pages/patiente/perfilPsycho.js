@@ -13,7 +13,7 @@ import {
 import { ListItem } from "react-native-elements";
 import { css } from "../../css/style";
 import { instance } from "../../config/axios";
-import { useAuth } from '../../context/Auth';
+import { useAuth } from "../../context/Auth";
 
 export default function ProfilePsycho(route, navigation) {
   const { token, user } = useAuth();
@@ -36,11 +36,11 @@ export default function ProfilePsycho(route, navigation) {
         console.log("VALOR DE REQUEST" + valorrequest);
         const perfildata = await instance.get(
           `/Psychologist/${valorrequest}}/findPsychologistsjoinUsers`,
-					{
-						headers: {
-							Authorization: 'Bearer ' + token,
-						},
-					}
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
         );
 
         setPerfil(perfildata.data);
@@ -51,11 +51,11 @@ export default function ProfilePsycho(route, navigation) {
         const valorrequest = valorid;
         const scheduledata = await instance.get(
           `/psychologist/${valorrequest}}/findAllbyWeekSchedules`,
-					{
-						headers: {
-							Authorization: 'Bearer ' + token,
-						},
-					}
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
         );
         // console.log(scheduledata.data);
         setSegunda(scheduledata.data.scheduleSeg);
@@ -71,13 +71,9 @@ export default function ProfilePsycho(route, navigation) {
     }
     getData();
   }, [route.route.params]);
-  
-   
- 
+
   return (
     <SafeAreaView style={css.container}>
-      
-
       <View>
         <FlatList
           data={perfil}
@@ -120,9 +116,11 @@ export default function ProfilePsycho(route, navigation) {
           data={segunda}
           horizontal
           keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Segunda" ? (
-              <View>
+          renderItem={({ item }) => {
+            var varcount = 0;
+            if(item.disponivel == true && item.diaDisponivel == "Segunda"){
+              return(
+                <View>
                 <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
@@ -133,19 +131,28 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : item.lenght <= 0 && item.diaDisponivel == "Segunda" ? (
-              <ListItem>
-                <ListItem.Content>
-                  <TouchableOpacity style={styles.button}>
-                    <Text>Entrar na Fila</Text>
-                  </TouchableOpacity>
-                </ListItem.Content>
-              </ListItem>
-            ) : null
-          }
+              )
+            }else{
+              varcount == segunda.length ? (
+                <View>
+                  <ListItem>
+                    <ListItem.Content>
+                      <ListItem.Title>
+                        <Text>Horário Indisponível</Text>
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>
+              ) : (
+                (varcount = varcount + 1)
+              );
+            }
+          
+      
+          }}
         />
 
-        {terca.length != 0 && terca !== []  ? (
+        {terca.length != 0 && terca !== [] ? (
           <View>
             <Text style={styles.text}>Terça</Text>
           </View>
@@ -154,9 +161,11 @@ export default function ProfilePsycho(route, navigation) {
           data={terca}
           horizontal
           keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Terça" ? (
-              <View>
+          renderItem={({ item }) =>{
+            let varcountterca = 0;
+            if(item.disponivel == true ){
+              return(
+                <View>
                 <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
@@ -167,11 +176,30 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : null
+              )
+            }else {
+              varcountterca = varcountterca + 1;
+              if(varcountterca == terca.length){
+                return(<View>
+                 
+                  <ListItem>
+                    <ListItem.Content>
+                      <ListItem.Title>
+                        <Text>Horário Indisponível</Text>
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>)
+              
+              }else{(null)
           }
+              
+          }
+        }
+      }
         />
-  
-        {quarta.length != 0 && quarta !== []  ? (
+
+        {quarta.length != 0 && quarta !== [] ? (
           <View>
             <Text style={styles.text}>Quarta</Text>
           </View>
@@ -180,9 +208,11 @@ export default function ProfilePsycho(route, navigation) {
           data={quarta}
           horizontal
           keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Quarta" ? (
-              <View>
+          renderItem={({ item }) =>{
+            let varcountquarta = 0;
+            if(item.disponivel == true ){
+              return(
+                <View>
                 <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
@@ -193,8 +223,27 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : null
+              )
+            }else {
+              varcountquarta = varcountquarta + 1;
+              if(varcountquarta == quarta.length){
+                return(<View>
+                 
+                  <ListItem>
+                    <ListItem.Content>
+                      <ListItem.Title>
+                        <Text>Horário Indisponível</Text>
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>)
+              
+              }else{(null)
           }
+              
+          }
+        }
+      }
         />
         {quinta.length != 0 && quinta.segunda !== [] ? (
           <View>
@@ -205,9 +254,11 @@ export default function ProfilePsycho(route, navigation) {
           data={quinta}
           horizontal
           keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Quinta" ? (
-              <View>
+          renderItem={({ item }) =>{
+            let varcountquinta = 0;
+            if(item.disponivel == true ){
+              return(
+                <View>
                 <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
@@ -218,17 +269,27 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : <View>
-              <ListItem>
-                <ListItem.Content>
-                  <ListItem.Title>
-                    <Text>Horário Indisponível</Text>
-                  </ListItem.Title>
-                </ListItem.Content>
-              </ListItem>
-
-            </View>
+              )
+            }else {
+              varcountquinta = varcountquinta + 1;
+              if(varcountquinta == quinta.length){
+                return(<View>
+                 
+                  <ListItem>
+                    <ListItem.Content>
+                      <ListItem.Title>
+                        <Text>Horário Indisponível</Text>
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>)
+              
+              }else{(null)
           }
+              
+          }
+        }
+      }
         />
         {sexta.length != 0 && sexta !== [] ? (
           <View>
@@ -239,9 +300,11 @@ export default function ProfilePsycho(route, navigation) {
           data={sexta}
           horizontal
           keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Sexta" ? (
-              <View>
+          renderItem={({ item }) =>{
+            let varcountsexta = 0;
+            if(item.disponivel == true ){
+              return(
+                <View>
                 <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
@@ -252,8 +315,27 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : null
+              )
+            }else {
+              varcountsexta = varcountsexta + 1;
+              if(varcountsexta == sexta.length){
+                return(<View>
+                 
+                  <ListItem>
+                    <ListItem.Content>
+                      <ListItem.Title>
+                        <Text>Horário Indisponível</Text>
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>)
+              
+              }else{(null)
           }
+              
+          }
+        }
+      }
         />
         {sabado.length != 0 && sabado !== [] ? (
           <View>
@@ -264,9 +346,11 @@ export default function ProfilePsycho(route, navigation) {
           data={sabado}
           horizontal
           keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Sabádo" ? (
-              <View>
+          renderItem={({ item }) =>{
+            let varcountsabado = 0;
+            if(item.disponivel == true ){
+              return(
+                <View>
                 <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
@@ -277,10 +361,29 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : null
+              )
+            }else {
+              varcountsabado = varcountsabado + 1;
+              if(varcountsabado == sabado.length){
+                return(<View>
+                 
+                  <ListItem>
+                    <ListItem.Content>
+                      <ListItem.Title>
+                        <Text>Horário Indisponível</Text>
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>)
+              
+              }else{(null)
           }
-        />
-        {domingo.length != 0 && domingo !== [] ? (
+              
+          }
+        }
+      }
+      />
+      {domingo.length != 0 && domingo !== [] ? (
           <View>
             <Text style={styles.text}>Domingo</Text>
           </View>
@@ -289,9 +392,11 @@ export default function ProfilePsycho(route, navigation) {
           data={domingo}
           horizontal
           keyExtractor={(item) => Number(item.id)}
-          renderItem={({ item }) =>
-            item.disponivel == true && item.diaDisponivel == "Domingo" ? (
-              <View>
+          renderItem={({ item }) =>{
+            let varcountdomingo = 0;
+            if(item.disponivel == true ){
+              return(
+                <View>
                 <ListItem>
                   <ListItem.Content>
                     <ListItem.Title>
@@ -302,8 +407,27 @@ export default function ProfilePsycho(route, navigation) {
                   </ListItem.Content>
                 </ListItem>
               </View>
-            ) : null
+              )
+            }else {
+              varcountdomingo = varcountdomingo + 1;
+              if(varcountdomingo == domingo.length){
+                return(<View>
+                 
+                  <ListItem>
+                    <ListItem.Content>
+                      <ListItem.Title>
+                        <Text>Horário Indisponível</Text>
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>)
+              
+              }else{(null)
           }
+              
+          }
+        }
+      }
         />
       </View>
     </SafeAreaView>
