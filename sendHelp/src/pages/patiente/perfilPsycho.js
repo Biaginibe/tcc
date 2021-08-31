@@ -10,7 +10,8 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem, Icon } from "react-native-elements";
+import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import { css } from "../../css/style";
 import { instance } from "../../config/axios";
 import { useAuth } from "../../context/Auth";
@@ -26,7 +27,7 @@ export default function ProfilePsycho(route, navigation) {
   const [domingo, setDomingo] = useState([]);
 
   const { valorid } = route.route.params;
-
+  const { token, user } = useAuth();
   useEffect(() => {
     async function getData() {
       try {
@@ -47,6 +48,7 @@ export default function ProfilePsycho(route, navigation) {
         console.log(err);
       }
       try {
+        const valorrequest = valorid;
         const scheduledata = await instance.get(
           `/psychologist/${valorrequest}}/findAllbyWeekSchedules`,
           {
@@ -72,13 +74,19 @@ export default function ProfilePsycho(route, navigation) {
 
   return (
     <SafeAreaView style={css.container}>
-      <View>
+      <View style={{borderStyle:"solid", marginTop:26, paddingTop: 28}}>
+        
         <FlatList
           data={perfil}
+          
           renderItem={({ item }) => (
-            <ListItem bottomDivider>
+            <View style={styles.container}>
+            <ListItem style={{flex:1, flexDirection:"column"}}>
               <ListItem.Content>
-                <ListItem.Title>{item.client.user.nome}</ListItem.Title>
+                <View style={styles.viewtitle}>
+                <ListItem.Title style={styles.Title}>{item.client.user.nome}</ListItem.Title>
+                <ListItem.Title style={styles.valorConsulta}>{item.valorConsulta}</ListItem.Title>
+                </View>
                 <ListItem.Subtitle>{item.tipo}</ListItem.Subtitle>
                 <ListItem.Title>
                   {"Idade:  " + item.client.user.idade}
@@ -89,21 +97,48 @@ export default function ProfilePsycho(route, navigation) {
                 <ListItem.Title>
                   {"Faixa etária: " + item.prefFaixaEtaria}
                 </ListItem.Title>
-                <ListItem.Title>{item.valorConsulta}</ListItem.Title>
+                
                 <ListItem.Title>
                   {"Tempo de Sessão: " + item.tempoSessao}
                 </ListItem.Title>
-                <ListItem.Title>
-                  <TouchableOpacity>
-                    <Text>Entrar em Contato</Text>
-                  </TouchableOpacity>
-                </ListItem.Title>
+                <Text style={{fontSize:18, fontWeight: "bold"}}>Descrição:    </Text>
                 <ListItem.Title>{item.descricao}</ListItem.Title>
+                
+                
+               
+              </ListItem.Content>
+              
+            </ListItem>
+            
+               
+            <View style={{flex:1,
+    alignContent:"center",
+    justifyContent: "center",
+    
+    }}>
+            <ListItem style={{ alignContent:"center",
+    justifyContent: "center" }}>
+            <ListItem.Content >
+              <ListItem.Title >
+                
+                <TouchableOpacity  >
+                <Text><Ionicons name="logo-whatsapp" size={24} color="green" ><Text>AAAAAAAAA</Text></Ionicons></Text>
+                
+                
+                </TouchableOpacity>
+               
+              </ListItem.Title>
               </ListItem.Content>
             </ListItem>
+            </View>
+            </View>
           )}
         />
-        <Text style={styles.text}>Horarios Disponiveis</Text>
+       
+        <View style={{alignContent:"center", justifyContent:"center", flexDirection:"row"}}><Text style={styles.texttitle}>Horarios Disponiveis</Text></View>
+        
+        <View style={styles.listsview}>
+        
         {segunda.length != 0 && segunda !== [] ? (
           <View>
             <Text style={styles.text}>Segunda</Text>
@@ -428,6 +463,7 @@ export default function ProfilePsycho(route, navigation) {
       }
         />
       </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -442,6 +478,16 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: "lightgray",
   },
+  buttoncontato: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    
+    borderRadius: 12,
+    elevation: 5,
+    backgroundColor: "lightgray",
+  },
   text: {
     fontSize: 16,
     marginLeft: 12,
@@ -450,4 +496,33 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "black",
   },
+  container:{
+    flex:1,
+    margin: 12
+  },
+  Title:{
+    
+    fontSize: 24,
+    fontWeight: "bold"
+  },
+  texttitle:{
+    fontSize: 18,
+    fontWeight: "bold"
+  },
+  viewtitle:{
+    flex:2,
+    alignContent:"center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width:"100%",
+    
+  },
+  valorConsulta:{
+    color: "#2CAF29",
+    fontSize:20,
+    fontWeight: "900"
+  },
+  listsview:{
+    margin:20,
+  }
 });
