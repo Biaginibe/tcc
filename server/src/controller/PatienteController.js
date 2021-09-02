@@ -52,4 +52,22 @@ module.exports = {
 		success = `Patiente whith id ${id_user} has been successfully deleted`;
 		return res.json(success);
 	},
+	async findPacientejoinUsers(req, res) {
+		const {id_user} = req.params;
+		const patiente = await User.findAll({
+			where: {
+				id: id_user,
+			},
+			include: [{
+				model: Client,
+				as: 'client',
+				include:{
+					model: User,
+					as: 'user'
+				}
+			}]
+		});
+		success = `Sucesso`;
+		return res.json(patiente);
+	},
 };

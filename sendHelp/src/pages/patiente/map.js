@@ -86,11 +86,6 @@ export default function MapPatiente(navigation) {
     fetch();
   }, [filters]);
  
-  const handleMapNavigation = (markerID) =>{
-    console.log(markerID);
-    
-    
-  }
  
 
   return (
@@ -112,7 +107,7 @@ export default function MapPatiente(navigation) {
                 latitude: Number(psychologist.latitude),
                 longitude: Number(psychologist.longitude),
               }}
-             onPress={(e)=>{navigate('ProfilePsycho', {valorid: psychologist.id} )}}
+             onPress={(e)=>{navigate('ProfileMarker', {valorid: psychologist.id} )}}
             >
               
               <AntDesign name='enviroment' size={24} color='#054781'  />
