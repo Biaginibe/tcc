@@ -16,7 +16,7 @@ import { css } from "../../css/style";
 import { instance } from "../../config/axios";
 import { useAuth } from "../../context/Auth";
 
-export default function ProfilePsycho(route, navigation) {
+export default function ProfileMarker(route, navigation) {
   const [perfil, setPerfil] = useState(null);
   const [segunda, setSegunda] = useState([]);
   const [terca, setTerca] = useState([]);
@@ -159,7 +159,6 @@ export default function ProfilePsycho(route, navigation) {
             alignContent: "center",
             justifyContent: "center",
             flexDirection: "row",
-            
           }}
         >
           <Text style={styles.texttitle}>Horarios Disponiveis</Text>
@@ -503,7 +502,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 8,
     paddingHorizontal: 20,
-
     borderRadius: 12,
     elevation: 5,
     backgroundColor: "lightgray",

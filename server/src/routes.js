@@ -22,8 +22,8 @@ authRoute.post('/admin/createUser', AuthController.registerUser);
 authRoute.post('/freeAccess/:id_user/client', AuthController.createClient);
 
 authRoute.post(
-	'/Psychologist/:id_cliente/incrementPerfilPsychologist',
-	PsychologistController.createPerfilPsychologist
+	'/Psychologist/:id_cliente/incrementPsychologist',
+	PsychologistController.createpsychologist
 );
 
 //TELA ADMIN
@@ -47,6 +47,10 @@ routes.put(
 routes.delete(
 	'/admin/:id_user/deletePatiente',
 	PatienteController.deletePatiente
+);
+routes.get(
+	'/patientes/:id_user/findPacientejoinUsers',
+	PatienteController.findPacientejoinUsers
 );
 
 //pag psicologos
@@ -118,7 +122,7 @@ routes.get('/listar', ClientController.findPsychologistProfileWithUserName);
 
 //Exibir perfil do psicologo
 routes.get(
-	'/Psychologist/findAllPerfilPsychologist',
+	'/Psychologist/findAllPsychologist',
 	PsychologistController.findAllPerfil
 );
 

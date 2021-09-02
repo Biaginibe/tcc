@@ -4,7 +4,7 @@ const Psychologist = require('../model/Psychologist');
 const { QueryTypes } = require('sequelize');
 
 module.exports = {
-	async createPerfilPsychologist(req, res) {
+	async createpsychologist(req, res) {
 		const { id_cliente } = req.params;
 		const { metodologia, numeroContato,	prefFaixaEtaria, valorConsulta,	tempoSessao, tipoAtendimento, descricao, crp } = req.body;
 
@@ -29,13 +29,13 @@ module.exports = {
 		return res.json(psychologist);
 	},
 	async findAllPerfil(req, res){
-			const perfilPsychologist = await Psychologist.findAll();
+			const psychologist = await Psychologist.findAll();
 	
-			if (!perfilPsychologist) {
+			if (!psychologist) {
 				return res.status(400).json({ error: 'Not found' });
 			}
 	
-			return res.json(perfilPsychologist);
+			return res.json(psychologist);
 		
 	},
 	async findAllPsycologists(req, res) {

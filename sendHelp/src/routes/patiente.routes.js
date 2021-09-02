@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
-import ProfilePsycho from '../pages/patiente/perfilPsycho';
+import ProfileMarker from '../pages/patiente/perfilMarker';
 import { MarkRoutes } from '../map-routes';
 
 
@@ -88,7 +88,7 @@ export default function PatienteRoutes() {
 
 			screenOptions={({ route }) => ({
 				tabBarButton:[
-					"ProfilePsycho"
+					"ProfileMarker"
 				].includes(route.name)?()=>{return null;}: undefined,
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
@@ -115,7 +115,7 @@ export default function PatienteRoutes() {
 			<Tabs.Screen name="Mapa" component={MapStackScreen} />
 			<Tabs.Screen name="Lista" component={ListPsychologistStackScreen} />
 			<Tabs.Screen name="Perfil" component={ProfilelUserStackScreen} />
-			<MarkMapStack.Screen tabBarShowLabel="false" name='ProfilePsycho' component={ProfilePsycho} />
+			<MarkMapStack.Screen tabBarShowLabel="false" name='ProfileMarker' component={ProfileMarker} />
 		</Tabs.Navigator>
 		</>
 		
