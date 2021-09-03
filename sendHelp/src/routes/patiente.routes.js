@@ -5,9 +5,7 @@ import ListPsychologist from '../pages/patiente/ListarPsicologos/listaPsycho';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { StackActions } from '@react-navigation/native';
-import ProfileMarker from '../pages/patiente/perfilMarker';
-import { MarkRoutes } from '../map-routes';
+import ProfileMarker from '../pages/patiente/PerfilMarcador/perfilMarker';
 
 
 const Tabs = createBottomTabNavigator();
