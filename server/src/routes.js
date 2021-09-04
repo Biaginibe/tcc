@@ -6,6 +6,7 @@ const PsychologistController = require('./controller/PsychologistController');
 const ScheduleController = require('./controller/ScheduleController');
 const ClientController = require('./controller/ClientController');
 const AuthController = require('./controller/AuthController');
+const QueueController = require('./controller/QueueController')
 
 const authRoute = express.Router();
 const routes = express.Router();
@@ -25,6 +26,8 @@ authRoute.post(
 	'/Psychologist/:id_cliente/incrementPsychologist',
 	PsychologistController.createpsychologist
 );
+
+authRoute.post('/patiente/insertQueue', QueueController.insertInQueue)
 
 //TELA ADMIN
 routes.put(
