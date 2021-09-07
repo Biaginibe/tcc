@@ -44,6 +44,31 @@ const css = StyleSheet.create({
         borderRadius: 10,
         padding: 7,
     },
+    btnInsertQueue: {
+        marginTop: '10%',
+        marginBottom: '10%',
+        width: '65%',
+        marginHorizontal: '18%',
+        backgroundColor: '#053165', //#EDEDED
+        borderRadius: 10,
+        padding: 7,
+    },
+    btnQuitQueue: {
+        marginTop: '10%',
+        marginBottom: '10%',
+        width: '65%',
+        marginHorizontal: '18%',
+        backgroundColor: '#B22235', //#EDEDED
+        borderRadius: 10,
+        padding: 7,
+    },
+
+    btnTxtQueue: {
+        fontSize: 18,
+        textAlign:'center',
+        fontWeight: 'bold',
+        color: 'white'
+    }, 
     btnTxt: {
         fontSize: 16,
         paddingLeft: '10%',

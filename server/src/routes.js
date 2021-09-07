@@ -27,7 +27,14 @@ authRoute.post(
 	PsychologistController.createpsychologist
 );
 
-authRoute.post('/patiente/insertQueue', QueueController.insertInQueue)
+//TESTES ---DEPOIS TIRAR DO AUTHROUTE
+routes.post('/patiente/quitQueue', QueueController.quitQueue)
+
+routes.post('/patiente/insertQueue', QueueController.insertInQueue)
+
+routes.post('/patiente/hasQueue', QueueController.hasQueue)
+
+routes.post('/patiente/itsThatQueue', QueueController.itsThatQueue)
 
 //TELA ADMIN
 routes.put(
