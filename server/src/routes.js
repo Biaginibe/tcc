@@ -6,6 +6,7 @@ const PsychologistController = require('./controller/PsychologistController');
 const ScheduleController = require('./controller/ScheduleController');
 const ClientController = require('./controller/ClientController');
 const AuthController = require('./controller/AuthController');
+const QueueController = require('./controller/QueueController')
 
 const authRoute = express.Router();
 const routes = express.Router();
@@ -25,6 +26,15 @@ authRoute.post(
 	'/Psychologist/:id_cliente/incrementPsychologist',
 	PsychologistController.createpsychologist
 );
+
+//TESTES ---DEPOIS TIRAR DO AUTHROUTE
+routes.post('/patiente/quitQueue', QueueController.quitQueue)
+
+routes.post('/patiente/insertQueue', QueueController.insertInQueue)
+
+routes.post('/patiente/hasQueue', QueueController.hasQueue)
+
+routes.post('/patiente/itsThatQueue', QueueController.itsThatQueue)
 
 //TELA ADMIN
 routes.put(
