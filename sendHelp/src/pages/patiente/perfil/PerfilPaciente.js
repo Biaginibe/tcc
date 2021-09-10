@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {  ScrollView, View, TouchableOpacity, SafeAreaView } from 'react-native';
-import { instance } from '../../config/axios';
-import { css } from '../../css/style';
+import React from 'react';
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { css } from '../../../css/style'; 
 import { Octicons } from '@expo/vector-icons';
-import { useAuth } from '../../context/Auth'; 
-import {Text} from 'react-native-elements'
+import { useAuth } from '../../../context/Auth'; 
+import { useNavigation } from '@react-navigation/native';
+import PatienteRoutes from '../../../routes/patiente.routes';
 
-export default function ProfileUser() {
-	
+export default function PacienteProfile() {
 	const { token, user, signOut } = useAuth();
+	const {navigate} = useNavigation();
     console.log(user);
 
 	return (
@@ -23,7 +23,9 @@ export default function ProfileUser() {
 				<Text>Senha: {user.senha}</Text>
 				
 			</ScrollView>
-			
+			<TouchableOpacity onPress={(e)=>{navigate('editaPacientePerfil')}}>
+				<Octicons name='sign-out' size={24} color='black' />
+			</TouchableOpacity>
 			<TouchableOpacity onPress={signOut}>
 				<Octicons name='sign-out' size={24} color='black' />
 			</TouchableOpacity>
