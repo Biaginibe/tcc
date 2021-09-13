@@ -7,6 +7,8 @@ import {
 	TextInput,
 	SafeAreaView,
 	KeyboardAvoidingView,
+	Alert,
+	ScrollView,
 } from 'react-native';
 import { css } from './style';
 import { ListItem, CheckBox } from 'react-native-elements';
@@ -25,7 +27,7 @@ export default function Psychologistschedule() {
 	const [update, setUpdate] = useState(null);
 	const [delet, setDelete] = useState(null); //não usei delete por ser palavra reservada
 
-	const {token, user} = useAuth();
+	const { token, user } = useAuth();
 
 	const [findOne, setFindOne] = useState(null);
 	const [oneSchedule, setOneSchedule] = useState([
@@ -64,6 +66,29 @@ export default function Psychologistschedule() {
 		setmodalVisibleAdd(true);
 	}
 
+	async function callTheNext() {
+		await instance
+			.post(
+				`/psychologist/callNext`,
+				{
+					id_user: user.id,
+				},
+				{
+					headers: {
+						Authorization: 'Bearer ' + token,
+					},
+				}
+			)
+			.then(() =>
+				Alert.alert('Paciente notificado, aguarde contato dele')
+			)
+			.catch(() =>
+				Alert.alert(
+					'Erro no servidor, tente novamente em alguns instantes'
+				)
+			);
+	}
+
 	function pressUpdate() {
 		setUpdate(true);
 		setmodalVisibleUpdate(false);
@@ -83,12 +108,12 @@ export default function Psychologistschedule() {
 							`/psychologist/${user.id}/${check}/disable_enableSchedule`,
 							{
 								headers: {
-									Authorization: token,
+									Authorization: 'Bearer ' + token,
 								},
 							}
 						);
 						setCheck(null);
-					} catch {
+					} catch (err) {
 						console.error(err);
 					}
 				}
@@ -96,7 +121,9 @@ export default function Psychologistschedule() {
 				if (add != null) {
 					try {
 						await instance.post(
-							`/psychologist/${user.id}/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
+							`/psychologist/${
+								user.id
+							}/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -106,7 +133,7 @@ export default function Psychologistschedule() {
 						setAdd(null);
 						setHorario(null);
 						setDia(null);
-					} catch {
+					} catch (err) {
 						console.error(err);
 					}
 				}
@@ -124,7 +151,7 @@ export default function Psychologistschedule() {
 						setHorario(null);
 						setDia(null);
 						setFindOne(null);
-					} catch {
+					} catch (err) {
 						console.error(err);
 					}
 				}
@@ -140,10 +167,11 @@ export default function Psychologistschedule() {
 							}
 						);
 						setDelete(null);
-					} catch {
+					} catch (err) {
 						console.error(err);
 					}
 				}
+				console.log(user.id)
 				const { data } = await instance.get(
 					`/psychologist/${user.id}/findSchedule`,
 					{
@@ -151,7 +179,7 @@ export default function Psychologistschedule() {
 							Authorization: 'Bearer ' + token,
 						},
 					}
-				); 
+				);
 				setSchedule(data);
 			} catch (err) {
 				console.error(err);
@@ -192,58 +220,69 @@ export default function Psychologistschedule() {
 
 	return (
 		<>
-			<View style={{ display: 'flex' }}>
-				<FlatList
-					data={schedule}
-					keyExtractor={(item) => String(item.id)}
-					renderItem={({ item }) => (
-						<TouchableOpacity
-							onPress={() => updateSchedule(item.id)}
-						>
-							<ListItem bottomDivider style={css.container}>
-								<ListItem.Content>
-									<View style={css.text}>
-										<ListItem.Title style={css.dia}>
-											{item.diaDisponivel}
-										</ListItem.Title>
+			<ScrollView>
+				<View style={{ display: 'flex' }}>
+					<FlatList
+						data={schedule}
+						keyExtractor={(item) => String(item.id)}
+						renderItem={({ item }) => (
+							<TouchableOpacity
+								onPress={() => updateSchedule(item.id)}
+							>
+								<ListItem bottomDivider style={css.container}>
+									<ListItem.Content>
+										<View style={css.text}>
+											<ListItem.Title style={css.dia}>
+												{item.diaDisponivel}
+											</ListItem.Title>
 
-										<ListItem.Title>
-											{'Horario: ' +
-												item.horarioDisponivel}
-										</ListItem.Title>
-									</View>
+											<ListItem.Title>
+												{'Horario: ' +
+													item.horarioDisponivel}
+											</ListItem.Title>
+										</View>
 
-									<View style={css.checkbox}>
-										<CheckBox
-											color='#053260'
-											center
-											title='Disponivel'
-											onPress={() => pressCheck(item.id)}
-											checked={item.disponivel}
-										/>
-									</View>
-									<TouchableOpacity
-										style={css.trash}
-										onPress={() => pressDelete(item.id)}
-									>
-										<Ionicons
-											name='md-trash-sharp'
-											size={24}
-											color='#970000'
-										/>
-									</TouchableOpacity>
-								</ListItem.Content>
-							</ListItem>
-						</TouchableOpacity>
-					)}
-				/>
-				<TouchableOpacity onPress={addSchedule}>
-					<View style={css.btnAdd}>
-						<Entypo name='plus' size={24} color='green' />
-						<Text style={css.textAdd}>Adicionar horario</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
+										<View style={css.checkbox}>
+											<CheckBox
+												color='#053260'
+												center
+												title='Disponivel'
+												onPress={() =>
+													pressCheck(item.id)
+												}
+												checked={item.disponivel}
+											/>
+										</View>
+										<TouchableOpacity
+											style={css.trash}
+											onPress={() => pressDelete(item.id)}
+										>
+											<Ionicons
+												name='md-trash-sharp'
+												size={24}
+												color='#970000'
+											/>
+										</TouchableOpacity>
+									</ListItem.Content>
+								</ListItem>
+							</TouchableOpacity>
+						)}
+					/>
+					<TouchableOpacity onPress={addSchedule}>
+						<View style={css.btnAdd}>
+							<Entypo name='plus' size={24} color='green' />
+							<Text style={css.textAdd}>Adicionar horario</Text>
+						</View>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={callTheNext}>
+						<View style={css.btnCallNext}>
+							<Text style={css.txtCallNext}>
+								Chamar proximo da fila
+							</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+			</ScrollView>
 
 			{/* MODAL ADD */}
 

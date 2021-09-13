@@ -1,46 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import {
-	TouchableOpacity,
-	FlatList,
-} from 'react-native';
+import { TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { css } from './style';
 import ListItem from 'react-native-elements/dist/list/ListItem';
 import { instance } from '../../../config/axios';
 import Filters from '../../../components/patiente/filter/Filter';
 import { useFilter } from '../../../context/Filter';
+import { useAuth } from '../../../context/Auth';
 
 
 export default function ListPsychologist() {
 	const [profiles, setProfiles] = useState(null);
 	const { filters } = useFilter();
+	const { token } = useAuth();
 
 	useEffect(() => {
 		async function getProfiles() {
 			try {
 				if (filters.abordagem == null) {
-					filters.abordagem = ''
+					filters.abordagem = '';
 				}
 				if (filters.tipoAtendimento == null) {
-					filters.tipoAtendimento = ''
+					filters.tipoAtendimento = '';
 				}
 				if (filters.valor == null) {
-					filters.valor = ''
+					filters.valor = '';
 				}
 				if (filters.genero == null) {
-					filters.genero = ''
+					filters.genero = '';
 				}
 				if (filters.faixaEtaria == null) {
-					filters.faixaEtaria = ''
+					filters.faixaEtaria = '';
 				}
 				if (filters.tempoSessao == null) {
-					filters.tempoSessao = ''
+					filters.tempoSessao = '';
 				}
-				const { data } = await instance.get(`/listar?abordagem=${filters.abordagem}&
+				const { data } = await instance.get(
+					`/listar?abordagem=${filters.abordagem}&
 															tipoAtendimento=${filters.tipoAtendimento}&
 															valor=${filters.valor}&
 															genero=${filters.genero}&
 															faixaEtaria=${filters.faixaEtaria}&
-															tempoSessao=${filters.tempoSessao}`);
+															tempoSessao=${filters.tempoSessao}`,
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
+				);
 				setProfiles(data);
 			} catch (err) {
 				console.error(err);
@@ -50,20 +56,32 @@ export default function ListPsychologist() {
 	}, [filters]);
 
 	return (
-		<>
+		<ScrollView>
 			<FlatList
 				data={profiles}
-				keyExtractor={(item => String(item.id))}
+				keyExtractor={(item) => String(item.id)}
 				renderItem={({ item }) => (
-					<TouchableOpacity >
+					<TouchableOpacity>
 						<ListItem bottomDivider style={css.container}>
 							<ListItem.Content>
-								<ListItem.Title style={css.nome}>{item.nome}</ListItem.Title>
-								<ListItem.Subtitle>{item.tipo}</ListItem.Subtitle>
-								<ListItem.Title>{'Abordagem: ' + item.metodologia}</ListItem.Title>
-								<ListItem.Title>{'Faixa etaria: ' + item.faixaEtaria}</ListItem.Title>
-								<ListItem.Title style={css.valor}>{item.valor}</ListItem.Title>
-								<ListItem.Title style={css.tempoSessao}>{'Duração:\n' + item.tempoSessao}</ListItem.Title>
+								<ListItem.Title style={css.nome}>
+									{item.nome}
+								</ListItem.Title>
+								<ListItem.Subtitle>
+									{item.tipo}
+								</ListItem.Subtitle>
+								<ListItem.Title>
+									{'Abordagem: ' + item.metodologia}
+								</ListItem.Title>
+								<ListItem.Title>
+									{'Faixa etaria: ' + item.faixaEtaria}
+								</ListItem.Title>
+								<ListItem.Title style={css.valor}>
+									{item.valor}
+								</ListItem.Title>
+								<ListItem.Title style={css.tempoSessao}>
+									{'Duração:\n' + item.tempoSessao}
+								</ListItem.Title>
 							</ListItem.Content>
 							<ListItem.Chevron />
 						</ListItem>
@@ -71,7 +89,6 @@ export default function ListPsychologist() {
 				)}
 			/>
 			<Filters />
-		</>
+		</ScrollView>
 	);
-
 }

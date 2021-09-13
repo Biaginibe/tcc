@@ -64,6 +64,7 @@ module.exports = {
 			AND IF('${tempoSessao}' != '', p.tempoSessao = '${tempoSessao}', p.tempoSessao IS NOT NULL);`,
       { type: QueryTypes.SELECT }
     );
+    
     return res.send(profiles);
   },
 };
