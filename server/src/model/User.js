@@ -11,6 +11,7 @@ class User extends Model {
             idade: DataTypes.INTEGER,
             email: DataTypes.STRING,
             genero: DataTypes.STRING,
+            notificationToken: DataTypes.STRING,
         }, {sequelize});
 	}
 }
