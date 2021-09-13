@@ -23,7 +23,7 @@ export default function PacienteProfile() {
 				<Text>Senha: {user.senha}</Text>
 				
 			</ScrollView>
-			<TouchableOpacity onPress={(e)=>{navigate('editaPacientePerfil')}}>
+			<TouchableOpacity onPress={(e)=>{navigate('EditarPaciente')}}>
 				<Octicons name='sign-out' size={24} color='black' />
 			</TouchableOpacity>
 			<TouchableOpacity onPress={signOut}>

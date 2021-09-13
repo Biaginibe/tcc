@@ -10,6 +10,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileMarker from "../pages/patiente/PerfilMarcador/perfilMarker";
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../context/Auth'
+
+
 
 const Tabs = createBottomTabNavigator();
 const MapStack = createStackNavigator();
@@ -19,7 +22,10 @@ const editaPacienteProfileStack = createStackNavigator();
 const ListPsychologistStack = createStackNavigator();
 const MarkMapStack = createStackNavigator();
 
-const MapStackScreen = () => (
+const MapStackScreen = () => {
+  const { navigate } = useNavigation();
+  const {signOut } = useAuth();
+  return (
   <MapStack.Navigator>
     <MapStack.Screen
       name="Mapa"
@@ -35,12 +41,26 @@ const MapStackScreen = () => (
           fontSize: 28,
           fontFamily: "sans-serif",
         },
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <MaterialCommunityIcons.Button
+              backgroundColor="#053165"
+              name="account-edit"
+              size={25}
+              color={"white"}
+              onPress={signOut}
+            />
+          </View>
+        ),
       }}
     />
   </MapStack.Navigator>
-);
+)};
 
-const ProfilelUserStackScreen = () => (
+const ProfilelUserStackScreen = () => {
+  const { navigate } = useNavigation();
+  const {signOut } = useAuth();
+  return (
   <ProfilelUserStack.Navigator>
     <ProfilelUserStack.Screen
       name="Perfil"
@@ -56,12 +76,24 @@ const ProfilelUserStackScreen = () => (
           fontSize: 28,
           fontFamily: "sans-serif",
         },
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <MaterialCommunityIcons.Button
+              backgroundColor="#053165"
+              name="account-edit"
+              size={25}
+              color={"white"}
+              onPress={signOut}
+            />
+          </View>
+        ),
       }}
     />
   </ProfilelUserStack.Navigator>
-);
+  )};
 const PacienteProfileStackScreen = ({navigation}) => {
   const { navigate } = useNavigation();
+  const {signOut } = useAuth();
   return (
 	<PacienteProfileStack.Navigator>
       <PacienteProfileStack.Screen
@@ -81,10 +113,11 @@ const PacienteProfileStackScreen = ({navigation}) => {
           headerRight: () => (
             <View style={{ marginRight: 10 }}>
               <MaterialCommunityIcons.Button
+                backgroundColor="#053165"
                 name="account-edit"
                 size={25}
                 color={"white"}
-                onPress={() => navigation.navigate('EditarPaciente')}
+                onPress={signOut}
               />
             </View>
           ),
@@ -105,6 +138,17 @@ const PacienteProfileStackScreen = ({navigation}) => {
 		   fontSize: 28,
 		   fontFamily: "sans-serif",
 		 },
+     headerRight: () => (
+      <View style={{ marginRight: 10 }}>
+        <MaterialCommunityIcons.Button
+          backgroundColor="#053165"
+          name="account-edit"
+          size={25}
+          color={"white"}
+          onPress={signOut}
+        />
+      </View>
+    ),
 	   }}>
 		  
 	  </PacienteProfileStack.Screen>
@@ -116,7 +160,10 @@ const PacienteProfileStackScreen = ({navigation}) => {
 };
 
 
-const ListPsychologistStackScreen = () => (
+const ListPsychologistStackScreen = () => {
+  const { navigate } = useNavigation();
+  const {signOut } = useAuth();
+  return (
   <ListPsychologistStack.Navigator>
     <ListPsychologistStack.Screen
       name="Lista"
@@ -132,10 +179,21 @@ const ListPsychologistStackScreen = () => (
           fontSize: 28,
           fontFamily: "sans-serif",
         },
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <MaterialCommunityIcons.Button
+              backgroundColor="#053165"
+              name="account-edit"
+              size={25}
+              color={"white"}
+              onPress={signOut}
+            />
+          </View>
+        ),
       }}
     />
   </ListPsychologistStack.Navigator>
-);
+)};
 
 export default function PatienteRoutes() {
   return (

@@ -62,6 +62,10 @@ routes.get(
 	'/patientes/:id_user/findPacientejoinUsers',
 	PatienteController.findPacientejoinUsers
 );
+routes.get(
+	'/patientes/:id_user/findOnebyIDPatientes',
+	PatienteController.findOnebyIDPatientes
+)
 
 //pag psicologos
 routes.get(
