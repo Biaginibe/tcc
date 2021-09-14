@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const { QueryTypes } = require("sequelize");
 
 module.exports = {
   async findAllPatientes(req, res) {
@@ -84,14 +85,17 @@ module.exports = {
   async updatePatientes(req, res) {
     const { id_user } = req.params;
     const { nome, cpf, idade, email, senha } = req.query;
-
+    console.log(nome);
     const updateUser = await User.findOne({
       where: {
         id: id_user,
       },
     });
-
-    await User.update(
+    // const updateUser = await User.sequelize.query(
+    //   `UPDATE users set nome=${nome} cpf=${cpf} idade=${idade} email=${email} senha=${senha} WHERE id=${id_user}`,
+    //   { type: QueryTypes.UPDATE }
+    // );
+     await User.update(
       {
         nome: nome,
         cpf: cpf,
@@ -106,6 +110,6 @@ module.exports = {
       }
     );
 
-    return res.json(sucess);
+    return res.json(updateUser);
   },
 };

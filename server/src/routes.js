@@ -66,6 +66,12 @@ routes.get(
 	'/patientes/:id_user/findOnebyIDPatientes',
 	PatienteController.findOnebyIDPatientes
 )
+routes.put(
+	'/patientes/:id_user/updatePatientes',
+	PatienteController.updatePatientes
+)
+
+
 
 //pag psicologos
 routes.get(
