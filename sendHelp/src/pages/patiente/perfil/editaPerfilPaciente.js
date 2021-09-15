@@ -5,34 +5,58 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Alert
+  Alert,
+  Button
 } from "react-native";
 import { css } from "../../../css/style";
-import { instance } from '../../../config/axios';
+import { instance } from "../../../config/axios";
 import { Octicons } from "@expo/vector-icons";
 import { useAuth } from "../../../context/Auth";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 
 export default function editaPacienteProfile(navigation) {
-  const { token, user, signOut } = useAuth();
+  const { token, user, signOut, setUser } = useAuth();
+  const {navigate} = useNavigation();
   const [perfil, setPerfil] = useState(user);
   const [nome, setNome] = useState(user.nome);
   const [cpf, setCpf] = useState(user.cpf);
   const [email, setEmail] = useState(user.email);
   const [idade, setIdade] = useState(user.idade);
   const [senha, setSenha] = useState(user.senha);
+  const [update, setUpdate] = useState(null);
 
-
-
-  function handleUpdate(){
+  
+  function handleUpdate() {
     
+    console.log("ISSO AQUI?")
+    setUser({...user, nome: nome, cpf: cpf, idade:idade, email: email, senha:senha})
+    console.log(user, token);
+    setUpdate(true);
+   
   }
 
   useEffect(() => {
     async function getData() {
       try {
         const valorrequest = user.id;
+        if (update != null) {
+          try {
+            console.log("Entrou no IF")
+            await instance.put(
+              `/patientes/${valorrequest}/updatePatientes?nome=${nome}&cpf=${cpf}&idade=${idade}&email=${email}&senha=${senha}`,
+              {
+                headers: {
+                  Authorization: "Bearer " + token,
+                },
+              }
+            );
+            
+            setUpdate(null);
+          } catch {
+            console.error(err);
+          }
+        }
         const perfildata = await instance.get(
           `/patientes/${valorrequest}}/findOnebyIDPatientes`,
           {
@@ -49,22 +73,16 @@ export default function editaPacienteProfile(navigation) {
       }
     }
     getData();
-  }, []);
+  }, [update]);
 
- 
   console.log(perfil.nome);
-  
 
   return (
     <View style={css.container}>
       <SafeAreaView style={css.container}>
         <Text>Edita DO USUARIO</Text>
         <ScrollView>
-          <TextInput
-            value={nome}
-            onChangeText={(e) => setNome(e)}
-            
-          ></TextInput>
+          <TextInput value={nome} onChangeText={(e) => setNome(e)}></TextInput>
           <TextInput
             value={cpf}
             onChangeText={(e) => setCpf(e)}
@@ -87,10 +105,12 @@ export default function editaPacienteProfile(navigation) {
           ></TextInput>
         </ScrollView>
 
-        <TouchableOpacity onPress={handleUpdate()}>
-         <Text>SALVAR</Text>
-        </TouchableOpacity>
-
+       
+          {/* <TouchableOpacity onPress={handleUpdate()}>
+            SALVAR
+          </TouchableOpacity> */}
+          <Button onPress={()=>{handleUpdate();navigate('EditarPaciente')}} title="Salvar"></Button>
+       
 
         <TouchableOpacity onPress={signOut}>
           <Octicons name="sign-out" size={24} color="black" />
