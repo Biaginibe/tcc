@@ -12,7 +12,7 @@ module.exports = {
 			`SELECT p.id from users u 
 		INNER JOIN clients c on c.id_user = u.id
 		INNER JOIN psychologists p on c.id = p.id_cliente 
-		where c.id=${id_user} `,
+		where u.id=${id_user} `,
 			{ type: QueryTypes.SELECT }
 		);
 
