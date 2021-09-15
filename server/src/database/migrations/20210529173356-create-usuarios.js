@@ -42,6 +42,9 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
+			notificationToken: {
+				type: Sequelize.STRING,
+			},
 			createdAt: {
 				type: Sequelize.DATE,
 				allowNull: false,

@@ -5,10 +5,18 @@ const { QueryTypes } = require('sequelize');
 
 module.exports = {
 	async createSchedule(req, res) {
-		const { id_psicologo } = req.params;
+		const { id_user } = req.params;
 		const { diaDisponivel, horarioDisponivel, disponivel } = req.query;
 
-		const psychologist = await User.findByPk(id_psicologo);
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id from users u 
+		INNER JOIN clients c on c.id_user = u.id
+		INNER JOIN psychologists p on c.id = p.id_cliente 
+		where u.id=${id_user} `,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
 
 		if (!psychologist) {
 			return res.status(400).json({ error: 'Psychologist not found.' });
@@ -24,7 +32,19 @@ module.exports = {
 	},
 
 	async findScheduleByPsychologist(req, res) {
-		const { id_psicologo } = req.params;
+		const { id_user } = req.params;
+
+		const psychologist = await User.sequelize
+			.query(
+				`SELECT p.id from users u 
+		INNER JOIN clients c on c.id_user = u.id
+		INNER JOIN psychologists p on c.id = p.id_cliente 
+		where u.id=${id_user} `,
+				{ type: QueryTypes.SELECT }
+			)
+			.catch((err) => console.log(err));
+
+		const id_psicologo = psychologist[0].id;
 
 		const schedule = await Schedule.findAll({
 			where: {
@@ -40,8 +60,18 @@ module.exports = {
 	},
 
 	async findDataOfOneSchedule(req, res) {
-		const { id_psicologo } = req.params;
 		const { id } = req.query;
+		const { id_user } = req.params;
+
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id from users u 
+		INNER JOIN clients c on c.id_user = u.id
+		INNER JOIN psychologists p on c.id = p.id_cliente 
+		where u.id=${id_user} `,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
 
 		const schedule = await Schedule.sequelize.query(
 			`SELECT id, diaDisponivel, horarioDisponivel
@@ -59,7 +89,18 @@ module.exports = {
 	},
 
 	async enable_disableSchedule(req, res) {
-		const { id_psicologo, id_schedule } = req.params;
+		const { id_user, id_schedule } = req.params;
+
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id from users u 
+		INNER JOIN clients c on c.id_user = u.id
+		INNER JOIN psychologists p on c.id = p.id_cliente 
+		where u.id=${id_user} `,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
+
 		const schedule = await Schedule.findOne({
 			where: {
 				[Op.and]: [{ id: id_schedule }, { id_psicologo: id_psicologo }],
@@ -97,8 +138,19 @@ module.exports = {
 	},
 
 	async updateSchedule(req, res) {
-		const { id_psicologo, id_schedule } = req.params;
+		const { id_user, id_schedule } = req.params;
 		const { diaDisponivel, horarioDisponivel } = req.query;
+
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id from users u 
+		INNER JOIN clients c on c.id_user = u.id
+		INNER JOIN psychologists p on c.id = p.id_cliente 
+		where u.id=${id_user} `,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
+
 		const schedule = await Schedule.findOne({
 			where: {
 				[Op.and]: [{ id: id_schedule }, { id_psicologo: id_psicologo }],
@@ -127,7 +179,18 @@ module.exports = {
 	},
 
 	async deleteSchedule(req, res) {
-		const { id_psicologo, id_schedule } = req.params;
+		const { id_user, id_schedule } = req.params;
+
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id from users u 
+		INNER JOIN clients c on c.id_user = u.id
+		INNER JOIN psychologists p on c.id = p.id_cliente 
+		where u.id=${id_user} `,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
+
 		const schedule = await Schedule.findOne({
 			where: {
 				[Op.and]: [{ id: id_schedule }, { id_psicologo: id_psicologo }],
@@ -148,7 +211,7 @@ module.exports = {
 	},
 
 	async findAllbyWeekSchedules(req, res) {
-		const { id_psicologo } = req.params;
+		const { id_user } = req.params;
 		const scheduleSeg = [];
 		const scheduleTer = [];
 		const scheduleQua = [];
@@ -156,6 +219,17 @@ module.exports = {
 		const scheduleSex = [];
 		const scheduleSab = [];
 		const scheduleDom = [];
+
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id 
+			FROM users u 
+		INNER JOIN clients c ON (c.id_user = u.id)
+		INNER JOIN psychologists p ON (p.id_cliente = c.id)
+		WHERE u.id=${id_user} `,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
 
 		const schedules = await Schedule.findAll({
 			where: {
@@ -187,7 +261,7 @@ module.exports = {
 			scheduleQui,
 			scheduleSex,
 			scheduleSab,
-			scheduleDom
+			scheduleDom,
 		});
 	},
 

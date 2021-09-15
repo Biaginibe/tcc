@@ -28,6 +28,7 @@ export default function ProfileMarker(route, navigation) {
 
 	const [hasQueue, setHasQueue] = useState(null);
 	const [hasSchedule, setHasSchedule] = useState(null);
+	const [position, setPosition] = useState(null);
 	const [thatQueue, setThatQueue] = useState(null);
 	const [runAgain, setRunAgain] = useState(true);
 
@@ -77,6 +78,19 @@ export default function ProfileMarker(route, navigation) {
 
 	useEffect(() => {
 		async function Details() {
+			const posFila = await instance.post(
+				`/psychologist/position`,
+				{ id_paciente: user.id },
+				{
+					headers: {
+						Authorization: 'Bearer ' + token,
+					},
+				}
+			);
+
+			setPosition(posFila.data);
+
+			console.log(position)
 			const sum =
 				segunda.length +
 				terca.length +
@@ -242,7 +256,7 @@ export default function ProfileMarker(route, navigation) {
 							</View>
 						)}
 					/>
-					{hasSchedule ? (
+					{hasSchedule || position == 0 ? (
 						<>
 							<View style={css.btn}>
 								<TouchableOpacity style={css.inline}>

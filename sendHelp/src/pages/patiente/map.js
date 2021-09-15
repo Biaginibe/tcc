@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Button } from 'react-native';
+import { View, TouchableOpacity, Button, Platform, Alert } from 'react-native';
 import { css } from '../../css/style';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -10,16 +10,81 @@ import Filters from '../../components/patiente/filter/Filter';
 import { useFilter } from '../../context/Filter';
 import { useAuth } from '../../context/Auth';
 import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function MapPatiente(navigation) {
 	const [origin, setOrigin] = useState(null);
 	const [psychologist, setPsychologist] = useState(null);
 	const { filters } = useFilter();
-	const { token, user } = useAuth();
+	const { token, user, setUser } = useAuth();
 	const {navigate} = useNavigation();
+	const [expoPushToken, setExpoPushToken] = useState(user.notitoken);
 
+	
+	async function registerForPushNotificationsAsync(){
+        if (Constants.isDevice) {
+          const { status: existingStatus } = await Notifications.getPermissionsAsync();
+          let finalStatus = existingStatus;
+          if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+          }
+          if (finalStatus !== 'granted') {
+            alert('Failed to get push token for push notification!');
+            return;
+          }
+          const token = (await Notifications.getExpoPushTokenAsync()).data;
+          setExpoPushToken(token);
+        } else {
+			alert('Must use physical device for Push Notifications');
+        }
+		
+        if (Platform.OS === 'android') {
+			Notifications.setNotificationChannelAsync('default', {
+				name: 'default',
+				importance: Notifications.AndroidImportance.MAX,
+				vibrationPattern: [0, 250, 250, 250],
+				lightColor: '#FF231F7C',
+			});
+        }
+    };
 
+	useEffect(() => {
+        async function saveUser(){
+			console.log('AAAAAAAAAAAAAAAAAAAA')
+            await instance.put(`/update_userToken/${user.id}`, {
+                notitoken: expoPushToken,
+            }, {
+                headers:{
+                    Authorization: 'Bearer ' + token,
+                }
+            })
+            .then(response => {
+                AsyncStorage.removeItem('@sendHelp:user');
+                const data = {...user, notitoken: expoPushToken};
+                AsyncStorage.setItem('@sendHelp:user', JSON.stringify(data));
+                if (response.status === 200){
+                    setUser(data);
+                }
+            })
+            .catch(err => console.log(err))
+        }
+
+        saveUser();
+    }, [expoPushToken]);
+	
+	useEffect(() => {
+		console.log('testando + ' + user.notitoken)
+		if(!user.notitoken){
+			registerForPushNotificationsAsync();
+		} else {
+			return;
+		}
+	}, []);
 
 
 	useEffect(() => {

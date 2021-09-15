@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import {
 	View,
 	KeyboardAvoidingView,
@@ -13,7 +13,7 @@ import { RadioButton } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../../context/Auth';
 import { instance } from '../../../config/axios';
-
+import { TextInputMask } from 'react-native-masked-text';
 
 import { css } from './style';
 
@@ -27,28 +27,26 @@ export default function RegisterUser() {
 	const [idade, setIdade] = useState('');
 	const [genero, setGenero] = useState('');
 	const { navigate } = useNavigation();
-	const {setUser, setType} = useAuth();
+	const { setUser, setType } = useAuth();
 
+	async function registrarUsuario() {
+		const { data } = await instance.post(`/admin/createUser`, {
+			cpf: cpf,
+			nome: name,
+			ativo: true,
+			senha: pass,
+			perfil: perfil,
+			idade: idade,
+			email: email,
+			genero: genero,
+		});
 
-
-		async function registrarUsuario() {
-			const { data } = await instance.post(`/admin/createUser`, {
-				cpf: cpf,
-				nome: name,
-				ativo: true,
-				senha: pass,
-				perfil: perfil,
-				idade: idade,
-				email: email,
-				genero: genero,
-			});
-
-			console.log(data);
-			setUser(data.user);
-			setType(data.user.perfil);
-			Alert.alert('Dados registrados com sucesso! Vamos prosseguir.');
-			navigate('RegisterClient');
-		}
+		console.log(data);
+		setUser(data.user);
+		setType(data.user.perfil);
+		Alert.alert('Dados registrados com sucesso! Vamos prosseguir.');
+		navigate('RegisterClient');
+	}
 
 	return (
 		<KeyboardAvoidingView style={css.container}>
@@ -73,9 +71,9 @@ export default function RegisterUser() {
 						onChangeText={setName}
 						value={name}
 						placeholder='Nome completo'
-						
 					/>
-					<TextInput
+					<TextInputMask
+						type={'cpf'}
 						style={css.input}
 						onChangeText={setCpf}
 						value={cpf}
@@ -107,7 +105,6 @@ export default function RegisterUser() {
 						value={idade}
 						placeholder='Idade'
 						keyboardType='numeric'
-
 					/>
 					<View style={css.radio}>
 						<RadioButton

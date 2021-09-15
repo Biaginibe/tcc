@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "108318627714",
+    "project_id": "sendhelp-4d3d5",
+    "storage_bucket": "sendhelp-4d3d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108318627714:android:e0e0dcc4519839859ca19b",
+        "android_client_info": {
+          "package_name": "com.cornos.sendhelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "108318627714-qf8q61qgfp7tnnrk0dcceeljjq6k2bar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH6CowcXalWZg1Bq9P3KKr-UJQYhGM7V8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "108318627714-qf8q61qgfp7tnnrk0dcceeljjq6k2bar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

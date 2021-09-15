@@ -1,12 +1,11 @@
 const User = require('../model/User');
 
 module.exports = {
-	
 	async findAllUsers(req, res) {
 		const users = await User.findAll();
 		return res.json(users);
 	},
-	
+
 	async disable_enableUser(req, res) {
 		const { id_user } = req.params;
 		const user = await User.findByPk(id_user);
@@ -35,7 +34,7 @@ module.exports = {
 			return res.json(change);
 		}
 	},
-	
+
 	async deleteUser(req, res) {
 		const { id_user } = req.params;
 		await User.destroy({
@@ -44,6 +43,26 @@ module.exports = {
 			},
 		});
 		success = `User whith id ${id_user} has been successfully deleted`;
+		return res.json(success);
+	},
+
+	async updateUserNotiToken(req, res) {
+		const { id_user } = req.params;
+		const { notitoken } = req.body;
+
+		await User.update(
+			{ notificationToken: notitoken },
+			{
+				where: {
+					id: id_user,
+				},
+			}
+		)
+			.then(console.log('ok'))
+			.catch((err) => console.log(err));
+
+		success = `User whith id ${id_user} has been successfully deleted`;
+
 		return res.json(success);
 	},
 };
