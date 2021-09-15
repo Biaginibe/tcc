@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { css } from './style';
 import { useAuth } from '../../../context/Auth';
 import { instance } from '../../../config/axios';
+import { TextInputMask } from 'react-native-masked-text'
 
 export default function Login() {
 	const [cpf, setCpf] = useState(null);
@@ -37,7 +38,8 @@ export default function Login() {
 			<View>
 				<Text style={css.title}>SendHelp</Text>
 				<View>
-					<TextInput
+					<TextInputMask
+						type={'cpf'}
 						style={css.input}
 						onChangeText={setCpf}
 						value={cpf}

@@ -17,6 +17,7 @@ import { Ionicons, Entypo } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
 import { RadioButton } from 'react-native-paper';
 import { useAuth } from '../../../context/Auth';
+import { TextInputMask } from 'react-native-masked-text';
 
 export default function Psychologistschedule() {
 	const [modalVisibleAdd, setmodalVisibleAdd] = useState(false);
@@ -171,7 +172,6 @@ export default function Psychologistschedule() {
 						console.error(err);
 					}
 				}
-				console.log(user.id)
 				const { data } = await instance.get(
 					`/psychologist/${user.id}/findSchedule`,
 					{
@@ -407,7 +407,11 @@ export default function Psychologistschedule() {
 							<Text style={css.label}>Horário</Text>
 							<KeyboardAvoidingView>
 								<View>
-									<TextInput
+									<TextInputMask
+										type={'datetime'}
+										options={{
+											format: 'HH:mm',
+										}}
 										style={css.input}
 										onChangeText={setHorario}
 										value={horario}
@@ -557,7 +561,11 @@ export default function Psychologistschedule() {
 							</View>
 							<Text style={css.label}>Horário</Text>
 							<View>
-								<TextInput
+								<TextInputMask
+									type={'datetime'}
+									options={{
+										format: 'HH:mm',
+									}}
 									style={css.input}
 									onChangeText={setHorario}
 									value={horario}

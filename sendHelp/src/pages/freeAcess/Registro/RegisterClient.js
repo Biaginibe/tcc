@@ -38,10 +38,9 @@ export default function RegisterClient() {
 			);
 
 			setToken(data.token);
-			console.log(data.token);
+			if(type == 'psicologo')
+				Alert.alert('Registre suas informações especificas na tela de perfil.')
 		}
-
-		console.log(type)
 
 		if (!data.token) {
 			Alert.alert('Registro finalizado! Seja bem vinde.');
@@ -71,14 +70,14 @@ export default function RegisterClient() {
 						setEndereco(details.formatted_address);
 					}}
 					query={{
-						key: 'AIzaSyCyuj4Bef9O_70JnvIhj92A-cOEBvQXRoE',
+						key: 'AIzaSyAXBQNlzrJL88x7MjnQnbtPCD-_9sIl2ug',
 						language: 'pt-br',
 					}}
 					fetchDetails={true}
 					onFail={(error) => console.error(error)}
 				/>
 			</View>
-
+					
 			<TouchableOpacity style={css.btn} onPress={registrarCliente}>
 				<Text style={css.btnTxt}>Prosseguir</Text>
 			</TouchableOpacity>
