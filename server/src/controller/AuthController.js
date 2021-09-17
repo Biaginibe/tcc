@@ -99,6 +99,8 @@ module.exports = {
 		if (!user) {
 			return res.status(400).json({ error: 'User not found.' });
 		}
+		
+		console.log(user)
 
 		const client = await Client.create({
 			endereco,
@@ -108,6 +110,7 @@ module.exports = {
 		});
 
 		if (!client) console.log('erro na criação do cliente');
+
 
 		const token = jwt.sign({ id: user.id }, authConfig.secret, {
 			expiresIn: 1209600, //14 dias

@@ -28,6 +28,11 @@ authRoute.post(
 );
 
 //TESTES ---DEPOIS TIRAR DO AUTHROUTE
+authRoute.post('/psychologist/position', QueueController.position)
+routes.post('/psychologist/callNext', QueueController.callTheNext)
+
+routes.put('/update_userToken/:id_user', UserController.updateUserNotiToken)
+
 routes.post('/patiente/quitQueue', QueueController.quitQueue)
 
 routes.post('/patiente/insertQueue', QueueController.insertInQueue)
@@ -92,16 +97,16 @@ routes.delete(
 //TELAS PSICOLOGO
 //AGENDA
 routes.post(
-	'/psychologist/:id_psicologo/createSchedule',
+	'/psychologist/:id_user/createSchedule',
 	ScheduleController.createSchedule
 );
 
 routes.get(
-	'/psychologist/:id_psicologo/findSchedule',
+	'/psychologist/:id_user/findSchedule',
 	ScheduleController.findScheduleByPsychologist
 );
 routes.get(
-	'/psychologist/:id_psicologo/findOneSchedule',
+	'/psychologist/:id_user/findOneSchedule',
 	ScheduleController.findDataOfOneSchedule
 );
 
@@ -111,24 +116,24 @@ routes.get(
 );
 
 routes.put(
-	'/psychologist/:id_psicologo/:id_schedule/disable_enableSchedule',
+	'/psychologist/:id_user/:id_schedule/disable_enableSchedule',
 	ScheduleController.enable_disableSchedule
 );
 
 routes.put(
-	'/psychologist/:id_psicologo/:id_schedule/updateSchedule',
+	'/psychologist/:id_user/:id_schedule/updateSchedule',
 	ScheduleController.updateSchedule
 );
 
 routes.delete(
-	'/psychologist/:id_psicologo/:id_schedule/deleteSchedule',
+	'/psychologist/:id_user/:id_schedule/deleteSchedule',
 	ScheduleController.deleteSchedule
 );
 
 //TELAS USUARIO
 //Exibir no mapa
 routes.get(
-	'/psychologist/:id_psicologo/findAllbyWeekSchedules',
+	'/psychologist/:id_user/findAllbyWeekSchedules',
 	ScheduleController.findAllbyWeekSchedules
 );
 

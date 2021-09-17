@@ -82,6 +82,18 @@ const css = StyleSheet.create({
 		marginBottom: 10,
 		marginHorizontal: 10
 	},
+	btnCallNext:{
+		backgroundColor:'#053165',
+		width: '50%',
+		marginHorizontal: '25%',
+		borderRadius: 5,
+		marginVertical: '5%'
+	},
+	txtCallNext:{
+		textAlign: 'center',
+		color:'white',
+		paddingVertical: 8
+	},
 });
 
 export { css };
