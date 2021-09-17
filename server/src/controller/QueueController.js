@@ -32,8 +32,6 @@ module.exports = {
 			where: { id_paciente: id_paciente },
 		});
 
-		console.log(posicao_fila);
-
 		await Queue.sequelize.query(
 			`UPDATE queues SET posicao_fila = (posicao_fila - 1) WHERE posicao_fila > ${posicao_fila} AND id_psicologo = ${id_psico};`,
 			{ type: QueryTypes.UPDATE }

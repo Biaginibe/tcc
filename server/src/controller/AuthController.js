@@ -1,45 +1,52 @@
 const User = require('../model/User');
 const Client = require('../model/Client');
+const Psychologist = require('../model/Psychologist');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth.json');
+const bcrypt = require('bcryptjs');
+const { QueryTypes } = require('sequelize');
 
 module.exports = {
 	async signIn(req, res) {
 		try {
-			const { cpf, pass } = req.body; //no front vou passar as variaveis assim: axios.post('rota', {cpf, pass})
+			const { cpf, pass } = req.body;
 
 			const user = await User.findOne({ where: { cpf: cpf } });
 
-			console.log('PASS PORRA ' + pass);
-			console.log(user);
-
 			if (!user) {
-				console.log('user error');
 				return res
 					.status(400)
 					.send({ error: 'Usuario não encontrado!' });
 			}
 
-			if (pass != user.senha) {
-				console.log('pass error');
+			if (!(await bcrypt.compare(pass, user.senha))) {
 				return res.status(400).send({ error: 'Senha incorreta.' });
 			}
-
+			let psychologist = [null];
 			let type;
 			if (user.perfil == 1) {
 				type = 'admin';
 			} else if (user.perfil == 2) {
 				type = 'psicologo';
+
+				psychologist = await User.sequelize.query(
+					`SELECT p.* 
+					FROM users u 
+					INNER JOIN clients c ON (c.id_user = u.id)
+					INNER JOIN psychologists p ON (p.id_cliente = c.id)
+					WHERE u.id = ${user.id} LIMIT 1`,
+					{ type: QueryTypes.SELECT }
+				);
 			} else {
 				type = 'paciente';
 			}
-
 			const token = jwt.sign({ id: user.id }, authConfig.secret, {
 				expiresIn: 1209600, //14 dias
 			});
 
 			return res.send({
 				user,
+				psychologist,
 				type,
 				token,
 			});
@@ -51,6 +58,14 @@ module.exports = {
 	async registerUser(req, res) {
 		const { cpf, nome, ativo, senha, perfil, idade, email, genero } =
 			req.body;
+		const senhaHash = await bcrypt.hash(senha, 8);
+
+		let type = perfil;
+
+		//tratamento para ele identificar o perfil e converter para int
+		let profile = 0;
+		if (perfil == 'paciente') profile = 3;
+		else if (perfil == 'psicologo') profile = 2;
 
 		if (await User.findOne({ where: { cpf: cpf } })) {
 			return res
@@ -62,29 +77,21 @@ module.exports = {
 				cpf,
 				nome,
 				ativo,
-				senha,
-				perfil,
+				senha: senhaHash,
+				perfil: profile,
 				idade,
 				email,
 				genero,
 			});
 
-			let type;
-			if (user.perfil == 1) {
-				type = 'admin';
-			} else if (user.perfil == 2) {
-				type = 'psicologo';
-			} else {
-				type = 'paciente';
-			}
-
 			return res.json({
 				user,
 				type,
 			});
-		} catch {
+			
+		} catch (err) {
 			return res.status(400).send({
-				error: 'Falha no registro, por favor tente novamente.',
+				error: 'Falha no registro, por favor tente novamente.' + err,
 			});
 		}
 	},
@@ -92,15 +99,13 @@ module.exports = {
 	async createClient(req, res) {
 		const { id_user } = req.params;
 		const { endereco, latitude, longitude } = req.body;
-		console.log(latitude)
-		console.log(longitude)
 		const user = await User.findByPk(id_user);
 
 		if (!user) {
 			return res.status(400).json({ error: 'User not found.' });
 		}
-		
-		console.log(user)
+
+		console.log(user);
 
 		const client = await Client.create({
 			endereco,
@@ -111,12 +116,29 @@ module.exports = {
 
 		if (!client) console.log('erro na criação do cliente');
 
-
 		const token = jwt.sign({ id: user.id }, authConfig.secret, {
 			expiresIn: 1209600, //14 dias
 		});
+		
+		let psychologist = [null]
+		// caso seja um psicologo já cria uma linha para ele
+		if (user.dataValues.perfil == 2) {
+			psychologist = await Psychologist.create({
+				metodologia: null,
+				numeroContato: null,
+				prefFaixaEtaria: null,
+				valorConsulta: null,
+				tempoSessao: null,
+				descricao: null,
+				tipoAtendimento: null,
+				crp: null,
+				id_cliente: client.dataValues.id,
+			});
+		}
 
-		return res.send({ client, token });
+		console.log(psychologist)
+
+		return res.send({ psychologist, token });
 	},
 
 	async validateToken(req, res) {

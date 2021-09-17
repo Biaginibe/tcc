@@ -17,7 +17,6 @@ module.exports = {
         id: id_user,
       },
     });
-    //console.log(user.dataValues.ativo)
     if (patiente.dataValues.ativo) {
       await User.update(
         { ativo: false },
