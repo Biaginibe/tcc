@@ -29,7 +29,6 @@ export default function Login() {
 			.catch((err) => {
 				setPass('');
 				Alert.alert('Aviso!', 'CPF ou senha incorreto.');
-				console.log(err);
 			});
 	}
 

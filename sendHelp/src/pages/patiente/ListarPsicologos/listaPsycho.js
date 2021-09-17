@@ -7,7 +7,6 @@ import Filters from '../../../components/patiente/filter/Filter';
 import { useFilter } from '../../../context/Filter';
 import { useAuth } from '../../../context/Auth';
 
-
 export default function ListPsychologist() {
 	const [profiles, setProfiles] = useState(null);
 	const { filters } = useFilter();
@@ -56,39 +55,41 @@ export default function ListPsychologist() {
 	}, [filters]);
 
 	return (
-		<ScrollView>
-			<FlatList
-				data={profiles}
-				keyExtractor={(item) => String(item.id)}
-				renderItem={({ item }) => (
-					<TouchableOpacity>
-						<ListItem bottomDivider style={css.container}>
-							<ListItem.Content>
-								<ListItem.Title style={css.nome}>
-									{item.nome}
-								</ListItem.Title>
-								<ListItem.Subtitle>
-									{item.tipo}
-								</ListItem.Subtitle>
-								<ListItem.Title>
-									{'Abordagem: ' + item.metodologia}
-								</ListItem.Title>
-								<ListItem.Title>
-									{'Faixa etaria: ' + item.faixaEtaria}
-								</ListItem.Title>
-								<ListItem.Title style={css.valor}>
-									{item.valor}
-								</ListItem.Title>
-								<ListItem.Title style={css.tempoSessao}>
-									{'Duração:\n' + item.tempoSessao}
-								</ListItem.Title>
-							</ListItem.Content>
-							<ListItem.Chevron />
-						</ListItem>
-					</TouchableOpacity>
-				)}
-			/>
+		<>
+			<ScrollView>
+				<FlatList
+					data={profiles}
+					keyExtractor={(item) => String(item.id)}
+					renderItem={({ item }) => (
+						<TouchableOpacity>
+							<ListItem bottomDivider style={css.container}>
+								<ListItem.Content>
+									<ListItem.Title style={css.nome}>
+										{item.nome}
+									</ListItem.Title>
+									<ListItem.Subtitle>
+										{item.tipo}
+									</ListItem.Subtitle>
+									<ListItem.Title>
+										{'Abordagem: ' + item.metodologia}
+									</ListItem.Title>
+									<ListItem.Title>
+										{'Faixa etaria: ' + item.faixaEtaria}
+									</ListItem.Title>
+									<ListItem.Title style={css.valor}>
+										{item.valor}
+									</ListItem.Title>
+									<ListItem.Title style={css.tempoSessao}>
+										{'Duração:\n' + item.tempoSessao}
+									</ListItem.Title>
+								</ListItem.Content>
+								<ListItem.Chevron />
+							</ListItem>
+						</TouchableOpacity>
+					)}
+				/>
+			</ScrollView>
 			<Filters />
-		</ScrollView>
+		</>
 	);
 }

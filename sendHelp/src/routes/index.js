@@ -12,12 +12,13 @@ export const Routes = () => {
 		console.log(user)
 		console.log(type)
 	}
+
 	if (!user || !token) {
 		return <FreeRoutes />;
 	} else {
-		if (type == 'paciente') {
+		if (type == 'paciente' || type == 3) {
 			return <PatienteRoutes />;
-		} else if(type == 'psicologo'){
+		} else if(type == 'psicologo' || type == 2){
 			return <PsychologistRoutes/>;
 		}else{
 			return(

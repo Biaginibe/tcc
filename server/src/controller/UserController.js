@@ -9,7 +9,6 @@ module.exports = {
 	async disable_enableUser(req, res) {
 		const { id_user } = req.params;
 		const user = await User.findByPk(id_user);
-		console.log(user);
 		if (user.dataValues.ativo) {
 			await User.update(
 				{ ativo: false },

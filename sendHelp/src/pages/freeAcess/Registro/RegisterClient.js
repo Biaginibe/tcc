@@ -24,7 +24,7 @@ export default function RegisterClient() {
 	const [lat, setLat] = useState(null);
 	const [endereco, setEndereco] = useState(null);
 	const { navigate } = useNavigation();
-	const { user, setToken, type } = useAuth();
+	const { user, setToken, type, setPsychologist } = useAuth();
 
 	async function registrarCliente() {
 		if (lat != null && long != null && lat != '' && long != '') {
@@ -40,6 +40,8 @@ export default function RegisterClient() {
 			setToken(data.token);
 			if(type == 'psicologo')
 				Alert.alert('Registre suas informações especificas na tela de perfil.')
+			// let data2 = data.psychologist[0]
+			setPsychologist(data.psychologist)
 		}
 
 		if (!data.token) {
