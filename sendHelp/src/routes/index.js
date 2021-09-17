@@ -1,28 +1,42 @@
-import React, { useEffect } from 'react';
-import { Text } from 'react-native-elements';
-import { useAuth } from '../context/Auth';
-import { FreeRoutes } from './freeAcess.routes';
-import  PatienteRoutes  from './patiente.routes';
-import  PsychologistRoutes  from './psychologist.routes';
+import React, { useEffect } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  Alert,
+  Button,
+} from "react-native";
+import { Octicons } from "@expo/vector-icons";
+import { useAuth } from "../context/Auth";
+import { FreeRoutes } from "./freeAcess.routes";
+import PatienteRoutes from "./patiente.routes";
+import PsychologistRoutes from "./psychologist.routes";
 
 export const Routes = () => {
-	const { user, type, token } = useAuth();
+  const { user, type, token, signOut } = useAuth();
 
-	function err(){
-		console.log(user)
-		console.log(type)
-	}
-	if (!user || !token) {
-		return <FreeRoutes />;
-	} else {
-		if (type == 'paciente') {
-			return <PatienteRoutes />;
-		} else if(type == 'psicologo'){
-			return <PsychologistRoutes/>;
-		}else{
-			return(
-				<Text onPress={err}>Erro!! Nenhuma pagina encontrada</Text>
-			)
-		}
-	}
+  function err() {
+    console.log(user);
+    console.log(type);
+  }
+  if (!user || !token) {
+    return <FreeRoutes />;
+  } else {
+    if (type == "paciente") {
+      return <PatienteRoutes />;
+    } else if (type == "psicologo") {
+      return <PsychologistRoutes />;
+    } else {
+      return (
+        <View>
+          <Text onPress={err}>Erro!! Nenhuma pagina encontrada</Text>
+          <TouchableOpacity onPress={signOut}>
+            <Octicons name="sign-out" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  }
 };
