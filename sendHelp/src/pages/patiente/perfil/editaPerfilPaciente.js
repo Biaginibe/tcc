@@ -80,7 +80,7 @@ export default function editaPacienteProfile(navigation) {
   return (
     <View style={css.container}>
       <SafeAreaView style={css.container}>
-        <Text>Edita DO USUARIO</Text>
+        
         <ScrollView>
           <TextInput value={nome} onChangeText={(e) => setNome(e)}></TextInput>
           <TextInput

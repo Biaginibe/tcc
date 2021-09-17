@@ -1,5 +1,6 @@
 import React from 'react';
 import PsychologistProfile from '../pages/psychologist/perfil/perfilPsychologist';
+import editaPsychologistProfile from '../pages/psychologist/perfil/editaPerfilPsicologo';
 import Psychologistschedule from '../pages/psychologist/agenda/agenda'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,6 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Tabs = createBottomTabNavigator();
 const ProfilelUserStack = createStackNavigator();
+const PsichologistProfileStack = createStackNavigator();
 const PsychologistscheduleStack = createStackNavigator();
 
 
@@ -53,6 +55,73 @@ const PsychologistScheduleStackScreen = () => (
 			/>
 	</PsychologistscheduleStack.Navigator>
 );
+const PsichologistProfileStackScreen = ({navigation}) => {
+	const { navigate } = useNavigation();
+	const {signOut } = useAuth();
+	return (
+	  <PsichologistProfileStack.Navigator>
+		<PsichologistProfileStack.Screen
+		  name="PerfilPsicologo"
+		  component={PsychologistProfile}
+		  options={{
+			title: "SendHelp",
+			headerStyle: {
+			  backgroundColor: "#053165",
+			},
+			headerTintColor: "#fff",
+			headerTitleStyle: {
+			  fontWeight: "bold",
+			  fontSize: 28,
+			  fontFamily: "sans-serif",
+			},
+			headerRight: () => (
+			  <View style={{ marginRight: 10 }}>
+				<MaterialCommunityIcons.Button
+				  backgroundColor="#053165"
+				  name="account-edit"
+				  size={25}
+				  color={"white"}
+				  onPress={signOut}
+				/>
+			  </View>
+			),
+		  }}
+		/>
+		<PsichologistProfileStack.Screen
+		 name="EditarPsichologist"
+		 component={editaPsychologistProfile}
+		 options={{
+		   title: "SendHelp",
+		   headerStyle: {
+			 backgroundColor: "#053165",
+		   },
+		   headerTintColor: "#fff",
+   
+		   headerTitleStyle: {
+			 fontWeight: "bold",
+			 fontSize: 28,
+			 fontFamily: "sans-serif",
+		   },
+	   headerRight: () => (
+		<View style={{ marginRight: 10 }}>
+		  <MaterialCommunityIcons.Button
+			backgroundColor="#053165"
+			name="account-edit"
+			size={25}
+			color={"white"}
+			onPress={signOut}
+		  />
+		</View>
+	  ),
+		 }}>
+			
+		</PsichologistProfileStack.Screen>
+	  </PsichologistProfileStack.Navigator>
+	)
+	  
+	  
+	
+  };
 
 export default function PsychologistRoutes() {
 	
