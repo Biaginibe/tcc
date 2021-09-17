@@ -9,7 +9,6 @@ import {Text} from 'react-native-elements'
 export default function ProfileUser() {
 	
 	const { token, user, signOut } = useAuth();
-    console.log(user);
 
 	return (
 		

@@ -55,7 +55,6 @@ export default function MapPatiente(navigation) {
 
 	useEffect(() => {
         async function saveUser(){
-			console.log('AAAAAAAAAAAAAAAAAAAA')
             await instance.put(`/update_userToken/${user.id}`, {
                 notitoken: expoPushToken,
             }, {
@@ -78,7 +77,6 @@ export default function MapPatiente(navigation) {
     }, [expoPushToken]);
 	
 	useEffect(() => {
-		console.log('testando + ' + user.notitoken)
 		if(!user.notitoken){
 			registerForPushNotificationsAsync();
 		} else {
@@ -128,7 +126,6 @@ export default function MapPatiente(navigation) {
 				if (filters.tempoSessao == null) {
 					filters.tempoSessao = '';
 				}
-				console.log(token + user.id);
 				const { data } = await instance.get(
 					`/filter?abordagem=${filters.abordagem}&
 												tipoAtendimento=${filters.tipoAtendimento}&

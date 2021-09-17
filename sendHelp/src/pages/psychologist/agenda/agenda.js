@@ -201,8 +201,6 @@ export default function Psychologistschedule() {
 						}
 					);
 					setOneSchedule(data);
-					console.log(oneSchedule);
-					console.log('\n\n');
 
 					oneSchedule.map(
 						(item, id) => (

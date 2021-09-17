@@ -8,14 +8,16 @@ export default function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 	const [token, setToken] = useState(null);
 	const [type, setType] = useState(null);
+	const [psychologist, setPsychologist] = useState(null);
 
 	useEffect(() => {
 		async function loadStoragedData() {
-			const [storagedUser, storagedToken, storagedType] =
+			const [storagedUser, storagedToken, storagedType, storagedPsychologist] =
 				await AsyncStorage.multiGet([
 					'@sendHelp:user',
 					'@sendHelp:token',
 					'@sendHelp:type',
+					'@sendHelp:psychologist',
 				]);
 			
 			async function isTokenValid() {
@@ -24,18 +26,17 @@ export default function AuthProvider({ children }) {
 						token: JSON.parse(storagedToken[1]),
 					})
 					.then((response) => {
-						console.log(response.data.valid)
 						if (response.data.valid) {
-							console.log('to aqui no if')
 							instance.defaults.headers.Authorization = `Bearer ${storagedToken[1]}`;
 							setToken(JSON.parse(storagedToken[1]));
 							setUser(JSON.parse(storagedUser[1]));
 							setType(JSON.parse(storagedType[1]));
-							console.log('\n\nCONTEXT\n' + user, token, type);
+							setPsychologist(JSON.parse(storagedPsychologist[1]));
 						} else {
 							setUser(null);
 							setType(null);
 							setToken(null);
+							setPsychologist(null);
 							AsyncStorage.clear();
 						}
 					})
@@ -52,23 +53,27 @@ export default function AuthProvider({ children }) {
         setUser(response.user);
         setToken(response.token);
         setType(response.type);
+		const data = response.psychologist[0]
+        setPsychologist(data);
 		
         instance.defaults.headers["Authorization"] = `Bearer ${response.token}`;
         AsyncStorage.setItem("@sendHelp:user", JSON.stringify(response.user));
         AsyncStorage.setItem("@sendHelp:type", JSON.stringify(response.type));
         AsyncStorage.setItem("@sendHelp:token", JSON.stringify(response.token));
+        AsyncStorage.setItem("@sendHelp:psychologist", JSON.stringify(data));
     }
 
     const signOut = useCallback(async () => {
-        await AsyncStorage.multiRemove(['@sendHelp:token','@sendHelp:user', '@sendHelp:type']);
+        await AsyncStorage.multiRemove(['@sendHelp:token','@sendHelp:user', '@sendHelp:type', '@sendHelp:psychologist']);
         setUser(null);
         setType(null);
         setToken(null);
+        setPsychologist(null);
         AsyncStorage.clear();
       }, []);
 
 	return (
-		<AuthContext.Provider value={{ signIn, signOut, user, type, setToken, setType, setUser, token }}>
+		<AuthContext.Provider value={{ signIn, signOut, user, type, setToken, setType, setUser, token, psychologist, setPsychologist }}>
 			{children}
 		</AuthContext.Provider>
 	);
@@ -76,6 +81,6 @@ export default function AuthProvider({ children }) {
 
 export function useAuth() {
 	const context = useContext(AuthContext);
-	const { signIn, signOut, user, type, setType, setToken, setUser, token } = context;
-	return { signIn, signOut, user, type, setType, setToken, setUser, token };
+	const { signIn, signOut, user, type, setType, setToken, setUser, token, psychologist, setPsychologist } = context;
+	return { signIn, signOut, user, type, setType, setToken, setUser, token, psychologist, setPsychologist };
 }

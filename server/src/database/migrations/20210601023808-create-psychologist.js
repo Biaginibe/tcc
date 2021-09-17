@@ -11,35 +11,27 @@ module.exports = {
 			},
 			metodologia: {
 				type: Sequelize.STRING,
-				allowNull: false,
 			},
 			numeroContato: {
 				type: Sequelize.STRING,
-				allowNull: false,
 			},
 			prefFaixaEtaria: {
 				type: Sequelize.STRING,
-				allowNull: false,
 			},
 			valorConsulta: {
 				type: Sequelize.STRING,
-				allowNull: false,
 			},
 			tempoSessao: {
 				type: Sequelize.STRING,
-				allowNull: false,
 			},
 			descricao: {
 				type: Sequelize.STRING,
-				allowNull: false,
 			},
 			tipoAtendimento: {
 				type: Sequelize.STRING,
-				allowNull: false,
 			},
 			crp: {
 				type: Sequelize.STRING,
-				allowNull: false,
 				unique: true,
 			},
 			id_cliente: {

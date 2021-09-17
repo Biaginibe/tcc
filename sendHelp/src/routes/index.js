@@ -17,26 +17,22 @@ import PsychologistRoutes from "./psychologist.routes";
 export const Routes = () => {
   const { user, type, token, signOut } = useAuth();
 
-  function err() {
-    console.log(user);
-    console.log(type);
-  }
-  if (!user || !token) {
-    return <FreeRoutes />;
-  } else {
-    if (type == "paciente") {
-      return <PatienteRoutes />;
-    } else if (type == "psicologo") {
-      return <PsychologistRoutes />;
-    } else {
-      return (
-        <View>
-          <Text onPress={err}>Erro!! Nenhuma pagina encontrada</Text>
-          <TouchableOpacity onPress={signOut}>
-            <Octicons name="sign-out" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-      );
-    }
-  }
+	function err(){
+		console.log(user)
+		console.log(type)
+	}
+
+	if (!user || !token) {
+		return <FreeRoutes />;
+	} else {
+		if (type == 'paciente' || type == 3) {
+			return <PatienteRoutes />;
+		} else if(type == 'psicologo' || type == 2){
+			return <PsychologistRoutes/>;
+		}else{
+			return(
+				<Text onPress={err}>Erro!! Nenhuma pagina encontrada</Text>
+			)
+		}
+	}
 };

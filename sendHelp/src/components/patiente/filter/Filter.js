@@ -32,7 +32,6 @@ export default function Filters(props) {
       });
     }
     setAplicar(null);
-    console.log(filters);
   }, [aplicar]);
 
   const toggleModal = () => {
