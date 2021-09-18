@@ -20,39 +20,47 @@ export default function editaPsychologistProfile(navigation) {
   const {navigate} = useNavigation();
   const [perfil, setPerfil] = useState(user);
   const [nome, setNome] = useState(user.nome);
-  const [cpf, setCpf] = useState(user.cpf);
+  
   const [email, setEmail] = useState(user.email);
   const [idade, setIdade] = useState(user.idade);
   const [senha, setSenha] = useState(user.senha);
-  const [crp, setCrp] = useState("");
-  const [valorconsulta, setValorConsulta] = useState("");
-  const [metodologia, setMetodologia] = useState("");
-  const [tempoSessao, setTempoSessao] = useState("");
-  const [tipoAtendimento, setTipoAtendimento] = useState("");
-  const [prefFaixaEtaria, setPrefFaixaEtaria] = useState("");
-  const [descricao, setDescricao] = useState("");
+  const [crp, setCrp] = useState(psychologist.crp);
+  const [numeroContato, setNumeroContato] = useState(psychologist.numeroContato);
+  const [valorConsulta, setValorConsulta] = useState(psychologist.valorConsulta);
+  const [metodologia, setMetodologia] = useState(psychologist.metodologia);
+  const [tempoSessao, setTempoSessao] = useState(psychologist.tempoSessao);
+  const [tipoAtendimento, setTipoAtendimento] = useState(psychologist.tipoAtendimento);
+  const [prefFaixaEtaria, setPrefFaixaEtaria] = useState(psychologist.prefFaixaEtaria);
+  const [descricao, setDescricao] = useState(psychologist.descricao);
   const [update, setUpdate] = useState(null);
     console.log(psychologist);
   
+  console.log(valorConsulta)
+
+  function handleNavigate(){
+    
+    navigate('PerfilPsicologo');
+  }
   function handleUpdate() {
     
     console.log("ISSO AQUI?")
-    // setUser({...user, nome: nome, cpf: cpf, idade:idade, email: email})
-    // setPsychologist({...psychologist, crp: crp, valorconsulta: valorconsulta, metodologia: metodologia, tempoSessao: tempoSessao, tipoAtendimento: tipoAtendimento, prefFaixaEtaria: prefFaixaEtaria, descricao: descricao })
+     setUser({...user, nome: nome, idade:idade, email: email})
+     setPsychologist({...psychologist, crp: crp, numeroContato: numeroContato, valorConsulta: valorConsulta, metodologia: metodologia, tempoSessao: tempoSessao, tipoAtendimento: tipoAtendimento, prefFaixaEtaria: prefFaixaEtaria, descricao: descricao })
     console.log(user, token);
     setUpdate(true);
+    handleNavigate()
    
   }
 
   useEffect(() => {
     async function getData() {
       try {
-        const valorrequest = user.id;
+        const valorrequest = psychologist.id;
         if (update != null) {
           try {
             console.log("Entrou no IF")
             await instance.put(
-              `/psychologist/1/updatePsychologists?nome=${nome}&cpf=${cpf}&idade=${idade}}&email=${email}&crp=${crp}&valorconsulta=${valorconsulta}}&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
+              `/psychologist/${valorrequest}/updatePsychologists?nome=${nome}&idade=${idade}&email=${email}&crp=${crp}&numeroContato=${numeroContato}&valorConsulta=${valorConsulta}&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
               {
                 headers: {
                   Authorization: "Bearer " + token,
@@ -91,11 +99,7 @@ export default function editaPsychologistProfile(navigation) {
         
         <ScrollView>
           <TextInput value={nome} onChangeText={(e) => setNome(e)}></TextInput>
-          <TextInput
-            value={cpf}
-            onChangeText={(e) => setCpf(e)}
-            placeholder={cpf}
-          ></TextInput>
+          
           <TextInput
             value={email}
             onChangeText={(e) => setEmail(e)}
@@ -111,8 +115,13 @@ export default function editaPsychologistProfile(navigation) {
             onChangeText={(e) => setCrp(e)}
             placeholder="Insira o CRP aqui"
           ></TextInput>
+           <TextInput
+            value={numeroContato}
+            onChangeText={(e) => setNumeroContato(e)}
+            placeholder="Insira o Numero aqui"
+          ></TextInput>
           <TextInput
-            value={valorconsulta}
+            value={valorConsulta}
             onChangeText={(e) => setValorConsulta(e)}
             placeholder="Insira o valor da consulta aqui"
           ></TextInput>

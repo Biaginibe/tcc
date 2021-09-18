@@ -46,7 +46,8 @@ export default function PsychologistProfile() {
 				<Text>Email: {user.email}</Text>
 				<Text>Idade: {user.idade}</Text>
 				<Text>CRP: {psychologist.crp}</Text>
-				<Text>Valor da Consulta: {psychologist.valorconsulta}</Text>
+				<Text>Valor da Consulta: {psychologist.valorConsulta}</Text>
+				<Text>Numero de Contato: {psychologist.numeroContato}</Text>
 				<Text>Metodologia: {psychologist.metodologia}</Text>
 				<Text>Tempo de Sessão: {psychologist.tempoSessao}</Text>
 				<Text>Tipo de Atendimento: {psychologist.tipoAtendimento}</Text>

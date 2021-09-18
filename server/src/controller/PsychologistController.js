@@ -108,16 +108,18 @@ module.exports = {
 		return res.json(psycologist);
 	},
 	async updatePsychologists(req, res){
-		const {id_user} = req.params
-		const { nome, cpf, idade, email, senha, crp, valorconsulta, metodologia, tempoSessao, tipoAtendimento,prefFaixaEtaria, descricao } = req.query;
+		const {id_psycho} = req.params
+		const { nome,  idade, email, crp, numeroContato, valorConsulta, metodologia, tempoSessao, tipoAtendimento,prefFaixaEtaria, descricao } = req.query;
 		// const updateUser = await User.findOne({
 		// 	where: {
-		// 	  id: id_user,
+		// 	  id: id_psycho,
 		// 	},
 		//   });
+		console.log(nome,  idade, email, crp, numeroContato, valorConsulta, metodologia, tempoSessao, tipoAtendimento,prefFaixaEtaria, descricao)
+		console.log(id_psycho);
 		const psychoUpdate = await Psychologist.findOne({
 			where: {
-				id: id_user,
+				id: id_psycho,
 			},
 			include: [{
 				model: Client,
@@ -128,43 +130,78 @@ module.exports = {
 				}
 			}]
 		});
-		await User.update(
-			{
-			  nome: nome,
-			  cpf: cpf,
-			  idade: idade,
-			  email: email,
-			  
-			},
-			{
-			  where: {
-				id: id_user,
-			  },
-			}
-		  );
-		await Psychologist.update(
-			{
-				
-				valorconsulta: valorconsulta, 
-				metodologia: metodologia, 
-				tempoSessao: tempoSessao, 
-				tipoAtendimento: tipoAtendimento, 
-				prefFaixaEtaria: prefFaixaEtaria, 
-				descricao: descricao
-			}, 
-			{where: {
-				id: id_user,
-			},
-			include: [{
-				model: Client,
-				as: 'client',
-				include:{
-					model: User,
-					as: 'user'
+		let id_user = psychoUpdate.dataValues.client.user.id;
+		console.log(psychoUpdate.dataValues.client.user.id);	
+		
+		try{
+			await User.update(
+				{
+				  nome: nome,
+				  
+				  idade: idade,
+				  email: email,
+				  
+				},
+				{
+				  where: {
+					id: id_user,
+				  },
 				}
-			}]}
-		)
-		return res.json( psychoUpdate);
+			  )
+		}catch(err){
+			console.log(err)
+		}
+		
+		
+		if(psychoUpdate.dataValues.crp==crp){
+			console.log("entrou aqui iririririririr");
+			try{
+			
+				await Psychologist.update(
+					{
+						numeroContato: numeroContato,
+						valorConsulta: valorConsulta, 
+						metodologia: metodologia, 
+						tempoSessao: tempoSessao, 
+						tipoAtendimento: tipoAtendimento, 
+						prefFaixaEtaria: prefFaixaEtaria, 
+						descricao: descricao
+					}, 
+					{where: {
+						id: id_psycho,
+					}
+					
+			}
+				)
+			}catch(err){
+				console.log(err)
+			}
+		}else{
+			try{
+			
+				await Psychologist.update(
+					{
+						crp: crp,
+						numeroContato: numeroContato,
+						valorConsulta: valorConsulta, 
+						metodologia: metodologia, 
+						tempoSessao: tempoSessao, 
+						tipoAtendimento: tipoAtendimento, 
+						prefFaixaEtaria: prefFaixaEtaria, 
+						descricao: descricao
+					}, 
+					{where: {
+						id: id_psycho,
+					}
+			}
+				)
+			}catch(err){
+				console.log(err)
+			}
+		}
+		
+		
+		return res.json(psychoUpdate);
 	}
 	
 };
