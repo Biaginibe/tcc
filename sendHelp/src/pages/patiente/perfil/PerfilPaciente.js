@@ -14,7 +14,7 @@ export default function PacienteProfile() {
 	return (
 		
 		<SafeAreaView style={css.container}>
-			<Text>PERFIL DO USUARIO</Text>
+			
 			<ScrollView>
 				<Text>Nome: {user.nome}</Text>
 				<Text>CPF: {user.cpf}</Text>
