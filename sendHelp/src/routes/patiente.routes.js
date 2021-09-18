@@ -8,6 +8,7 @@ import ListPsychologist from "../pages/patiente/ListarPsicologos/listaPsycho";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import ProfileMarker from "../pages/patiente/PerfilMarcador/perfilMarker";
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/Auth'
@@ -43,9 +44,9 @@ const MapStackScreen = () => {
         },
         headerRight: () => (
           <View style={{ marginRight: 10 }}>
-            <MaterialCommunityIcons.Button
+            <Octicons.Button
               backgroundColor="#053165"
-              name="account-edit"
+              name="sign-out"
               size={25}
               color={"white"}
               onPress={signOut}
@@ -112,9 +113,9 @@ const PacienteProfileStackScreen = ({navigation}) => {
           },
           headerRight: () => (
             <View style={{ marginRight: 10 }}>
-              <MaterialCommunityIcons.Button
+              <Octicons.Button
                 backgroundColor="#053165"
-                name="account-edit"
+                name="sign-out"
                 size={25}
                 color={"white"}
                 onPress={signOut}
@@ -140,9 +141,9 @@ const PacienteProfileStackScreen = ({navigation}) => {
 		 },
      headerRight: () => (
       <View style={{ marginRight: 10 }}>
-        <MaterialCommunityIcons.Button
+        <Octicons.Button
           backgroundColor="#053165"
-          name="account-edit"
+          name="sign-out"
           size={25}
           color={"white"}
           onPress={signOut}

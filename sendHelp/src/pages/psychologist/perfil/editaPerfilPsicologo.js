@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 
 export default function editaPsychologistProfile(navigation) {
-  const { token, user, signOut, setUser } = useAuth();
+  const { token, user, signOut, setUser, psychologist, setPsychologist } = useAuth();
   const {navigate} = useNavigation();
   const [perfil, setPerfil] = useState(user);
   const [nome, setNome] = useState(user.nome);
@@ -24,13 +24,21 @@ export default function editaPsychologistProfile(navigation) {
   const [email, setEmail] = useState(user.email);
   const [idade, setIdade] = useState(user.idade);
   const [senha, setSenha] = useState(user.senha);
+  const [crp, setCrp] = useState("");
+  const [valorconsulta, setValorConsulta] = useState("");
+  const [metodologia, setMetodologia] = useState("");
+  const [tempoSessao, setTempoSessao] = useState("");
+  const [tipoAtendimento, setTipoAtendimento] = useState("");
+  const [prefFaixaEtaria, setPrefFaixaEtaria] = useState("");
+  const [descricao, setDescricao] = useState("");
   const [update, setUpdate] = useState(null);
-
+    console.log(psychologist);
   
   function handleUpdate() {
     
     console.log("ISSO AQUI?")
-    setUser({...user, nome: nome, cpf: cpf, idade:idade, email: email, senha:senha})
+    // setUser({...user, nome: nome, cpf: cpf, idade:idade, email: email})
+    // setPsychologist({...psychologist, crp: crp, valorconsulta: valorconsulta, metodologia: metodologia, tempoSessao: tempoSessao, tipoAtendimento: tipoAtendimento, prefFaixaEtaria: prefFaixaEtaria, descricao: descricao })
     console.log(user, token);
     setUpdate(true);
    
@@ -44,7 +52,7 @@ export default function editaPsychologistProfile(navigation) {
           try {
             console.log("Entrou no IF")
             await instance.put(
-              `/patientes/${valorrequest}/updatePatientes?nome=${nome}&cpf=${cpf}&idade=${idade}&email=${email}&senha=${senha}`,
+              `/psychologist/1/updatePsychologists?nome=${nome}&cpf=${cpf}&idade=${idade}}&email=${email}&crp=${crp}&valorconsulta=${valorconsulta}}&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
               {
                 headers: {
                   Authorization: "Bearer " + token,
@@ -98,10 +106,40 @@ export default function editaPsychologistProfile(navigation) {
             onChangeText={(e) => setIdade(e)}
             placeholder={String(idade)}
           ></TextInput>
+           <TextInput
+            value={crp}
+            onChangeText={(e) => setCrp(e)}
+            placeholder="Insira o CRP aqui"
+          ></TextInput>
           <TextInput
-            value={senha}
-            onChangeText={(e) => setSenha(e)}
-            placeholder={senha}
+            value={valorconsulta}
+            onChangeText={(e) => setValorConsulta(e)}
+            placeholder="Insira o valor da consulta aqui"
+          ></TextInput>
+          <TextInput
+            value={metodologia}
+            onChangeText={(e) => setMetodologia(e)}
+            placeholder="Insira o metodologia aqui"
+          ></TextInput>
+          <TextInput
+            value={tempoSessao}
+            onChangeText={(e) => setTempoSessao(e)}
+            placeholder="Insira o tempo de sessão aqui"
+          ></TextInput>
+          <TextInput
+            value={tipoAtendimento}
+            onChangeText={(e) => setTipoAtendimento(e)}
+            placeholder="Insira o tipo de atendimento(online ou presencial) aqui"
+          ></TextInput>
+          <TextInput
+            value={prefFaixaEtaria}
+            onChangeText={(e) => setPrefFaixaEtaria(e)}
+            placeholder="Insira a preferência de faixa etária aqui"
+          ></TextInput>
+          <TextInput
+            value={descricao}
+            onChangeText={(e) => setDescricao(e)}
+            placeholder="Descreva-se aqui"
           ></TextInput>
         </ScrollView>
 
@@ -109,7 +147,7 @@ export default function editaPsychologistProfile(navigation) {
           {/* <TouchableOpacity onPress={handleUpdate()}>
             SALVAR
           </TouchableOpacity> */}
-          <Button onPress={()=>{handleUpdate();navigate('EditarPaciente')}} title="Salvar"></Button>
+          <Button onPress={()=>{handleUpdate()}} title="Salvar"></Button>
        
 
         <TouchableOpacity onPress={signOut}>

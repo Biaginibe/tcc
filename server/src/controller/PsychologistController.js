@@ -2,6 +2,7 @@ const User = require('../model/User');
 const Client = require('../model/Client');
 const Psychologist = require('../model/Psychologist');
 const { QueryTypes } = require('sequelize');
+const { update } = require('../model/User');
 
 module.exports = {
 	async createpsychologist(req, res) {
@@ -106,5 +107,64 @@ module.exports = {
 		success = `Sucesso`;
 		return res.json(psycologist);
 	},
+	async updatePsychologists(req, res){
+		const {id_user} = req.params
+		const { nome, cpf, idade, email, senha, crp, valorconsulta, metodologia, tempoSessao, tipoAtendimento,prefFaixaEtaria, descricao } = req.query;
+		// const updateUser = await User.findOne({
+		// 	where: {
+		// 	  id: id_user,
+		// 	},
+		//   });
+		const psychoUpdate = await Psychologist.findOne({
+			where: {
+				id: id_user,
+			},
+			include: [{
+				model: Client,
+				as: 'client',
+				include:{
+					model: User,
+					as: 'user'
+				}
+			}]
+		});
+		await User.update(
+			{
+			  nome: nome,
+			  cpf: cpf,
+			  idade: idade,
+			  email: email,
+			  
+			},
+			{
+			  where: {
+				id: id_user,
+			  },
+			}
+		  );
+		await Psychologist.update(
+			{
+				
+				valorconsulta: valorconsulta, 
+				metodologia: metodologia, 
+				tempoSessao: tempoSessao, 
+				tipoAtendimento: tipoAtendimento, 
+				prefFaixaEtaria: prefFaixaEtaria, 
+				descricao: descricao
+			}, 
+			{where: {
+				id: id_user,
+			},
+			include: [{
+				model: Client,
+				as: 'client',
+				include:{
+					model: User,
+					as: 'user'
+				}
+			}]}
+		)
+		return res.json( psychoUpdate);
+	}
 	
 };

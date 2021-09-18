@@ -93,6 +93,10 @@ routes.delete(
 	'/admin/:id_user/deletePsychologist',
 	PsychologistController.deletePsychologist
 );
+routes.put(
+	'/psychologist/:id_user/updatePsychologists',
+	PsychologistController.updatePsychologists
+)
 
 //TELAS PSICOLOGO
 //AGENDA
@@ -129,6 +133,7 @@ routes.delete(
 	'/psychologist/:id_user/:id_schedule/deleteSchedule',
 	ScheduleController.deleteSchedule
 );
+
 
 //TELAS USUARIO
 //Exibir no mapa

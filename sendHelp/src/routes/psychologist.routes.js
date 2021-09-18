@@ -1,10 +1,13 @@
 import React from 'react';
+import { View } from "react-native-animatable";
 import PsychologistProfile from '../pages/psychologist/perfil/perfilPsychologist';
 import editaPsychologistProfile from '../pages/psychologist/perfil/editaPerfilPsicologo';
 import Psychologistschedule from '../pages/psychologist/agenda/agenda'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../context/Auth'
 
 
 
@@ -76,9 +79,9 @@ const PsichologistProfileStackScreen = ({navigation}) => {
 			},
 			headerRight: () => (
 			  <View style={{ marginRight: 10 }}>
-				<MaterialCommunityIcons.Button
+				<Octicons.Button
 				  backgroundColor="#053165"
-				  name="account-edit"
+				  name="sign-out"
 				  size={25}
 				  color={"white"}
 				  onPress={signOut}
@@ -104,9 +107,9 @@ const PsichologistProfileStackScreen = ({navigation}) => {
 		   },
 	   headerRight: () => (
 		<View style={{ marginRight: 10 }}>
-		  <MaterialCommunityIcons.Button
+		  <Octicons.Button
 			backgroundColor="#053165"
-			name="account-edit"
+			name="sign-out"
 			size={25}
 			color={"white"}
 			onPress={signOut}
@@ -145,7 +148,7 @@ export default function PsychologistRoutes() {
 				inactiveTintColor: 'gray',
 			}}
 		>
-			<Tabs.Screen name="Perfil" component={ProfilelUserStackScreen} />
+			<Tabs.Screen name="Perfil" component={PsichologistProfileStackScreen} />
 			<Tabs.Screen name="Agenda" component={PsychologistScheduleStackScreen} />
 		</Tabs.Navigator>
 	);
