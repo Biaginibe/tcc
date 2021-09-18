@@ -94,7 +94,7 @@ routes.delete(
 	PsychologistController.deletePsychologist
 );
 routes.put(
-	'/psychologist/:id_user/updatePsychologists',
+	'/psychologist/:id_psycho/updatePsychologists',
 	PsychologistController.updatePsychologists
 )
 
