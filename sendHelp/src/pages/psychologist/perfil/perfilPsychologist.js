@@ -1,64 +1,119 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { css } from '../../../css/style'; 
+import React, { useState, useEffect } from 'react';
+import {
+	Text,
+	View,
+	TouchableOpacity,
+	SafeAreaView,
+	ScrollView,
+} from 'react-native';
 import { Octicons } from '@expo/vector-icons';
-import { useAuth } from '../../../context/Auth'; 
+import { useAuth } from '../../../context/Auth';
 import { useNavigation } from '@react-navigation/native';
-import { instance } from "../../../config/axios";
+import { instance } from '../../../config/axios';
+import { css } from './style';
 
 export default function PsychologistProfile() {
 	const { token, user, signOut, psychologist } = useAuth();
-	const {navigate} = useNavigation();
-	const [perfil, setPerfil] = useState([])
-    //console.log(user);
-	console.log("--------------------------");
-	//console.log(perfil);
-	console.log(psychologist);
+	const { navigate } = useNavigation();
+	const [perfil, setPerfil] = useState([]);
 	useEffect(() => {
 		async function getData() {
-		  try {
-			const valorrequest = user.id;
-			console.log(user.id);
-			const perfildata = await instance.get(
-				`/Psychologist/${user.id}}/findPsychologistsjoinUsers`,
-				{
-					headers: {
-						Authorization: 'Bearer ' + token,
-					},
-				}
-			);
-				//console.log(perfildata);
-			setPerfil(perfildata.data);
-			// console.log(perfil);
-		  } catch (err) {
-			console.log(err);
-		  }
+			try {
+				const valorrequest = user.id;
+				console.log(user.id);
+				const perfildata = await instance.get(
+					`/Psychologist/${user.id}}/findPsychologistsjoinUsers`,
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
+				);
+				setPerfil(perfildata.data);
+			} catch (err) {
+				console.log(err);
+			}
 		}
 		getData();
-	  }, []);
+	}, []);
 
 	return (
 		<SafeAreaView style={css.container}>
-			<Text>PERFIL DO PSICO</Text>
 			<ScrollView>
-				<Text>Nome: {user.nome}</Text>
-				<Text>CPF: {user.cpf}</Text>
-				<Text>Email: {user.email}</Text>
-				<Text>Idade: {user.idade}</Text>
-				<Text>CRP: {psychologist.crp}</Text>
-				<Text>Valor da Consulta: {psychologist.valorconsulta}</Text>
-				<Text>Metodologia: {psychologist.metodologia}</Text>
-				<Text>Tempo de Sessão: {psychologist.tempoSessao}</Text>
-				<Text>Tipo de Atendimento: {psychologist.tipoAtendimento}</Text>
-				<Text>Preferência de Faixa Etária: {psychologist.prefFaixaEtaria}</Text>
-				<Text>Descrição: {psychologist.descricao}</Text>
-				
-				
+				<View style={css.inline}>
+					<Text style={css.name}>{user.nome}</Text>
+					<TouchableOpacity
+						onPress={(e) => {
+							navigate('EditarPsichologist');
+						}}
+					>
+						<Octicons name='pencil' size={24} color='gray' />
+					</TouchableOpacity>
+				</View>
+				<Text style={css.info}>{user.idade} anos</Text>
+				<Text style={css.info}>{user.email}</Text>
+				<Text style={css.info}>{user.cpf}</Text>
+				{psychologist.valorConsulta ? (
+					<Text style={css.info}>
+						Valor da Consulta: {psychologist.valorConsulta}
+					</Text>
+				) : (
+					<Text style={css.infoNull}>
+						Registre a faixa de valor da sua consulta
+					</Text>
+				)}
+				{psychologist.metodologia ? (
+					<Text style={css.info}>
+						Metodologia: {psychologist.metodologia}
+					</Text>
+				) : (
+					<Text style={css.infoNull}>
+						Registre a metodologia que você trabalha
+					</Text>
+				)}
+				{psychologist.tempoSessao ? (
+					<Text style={css.info}>
+						{psychologist.tempoSessao} por sessão
+					</Text>
+				) : (
+					<Text style={css.infoNull}>
+						Registre a duração de cada sessão
+					</Text>
+				)}
+				{psychologist.tipoAtendimento ? (
+					<Text style={css.info}>
+						Atendimento {psychologist.tipoAtendimento}
+					</Text>
+				) : (
+					<Text style={css.infoNull}>
+						Registre o tipo do de atendimento (online/ remoto)
+					</Text>
+				)}
+				{psychologist.prefFaixaEtaria ? (
+					<Text style={css.info}>
+						Atende a faixa de {psychologist.prefFaixaEtaria}
+					</Text>
+				) : (
+					<Text style={css.infoNull}>
+						Registre a faixa etaria que você atende
+					</Text>
+				)}
+				{psychologist.crp ? (
+					<Text style={css.info}>CRP {psychologist.crp}</Text>
+				) : (
+					<Text style={css.infoNull}>Registre o seu CRP</Text>
+				)}
+				<View>
+					<Text style={css.info}>Descrição</Text>
+					<View style={css.desc}>
+						{psychologist.descricao ? (
+							<Text> {psychologist.descricao}</Text>
+						) : (
+							<Text style={css.infoNull}>Registre sua descrição</Text>
+						)}
+					</View>
+				</View>
 			</ScrollView>
-			<TouchableOpacity onPress={(e)=>{navigate('EditarPsichologist')}}>
-				<Octicons name='pencil' size={24} color='black' />
-			</TouchableOpacity>
-			
 		</SafeAreaView>
 	);
 }

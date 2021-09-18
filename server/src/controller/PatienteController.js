@@ -83,7 +83,7 @@ module.exports = {
 
   async updatePatientes(req, res) {
     const { id_user } = req.params;
-    const { nome, cpf, idade, email, senha } = req.query;
+    const { nome, idade, email, senha } = req.query;
     console.log(nome);
     const updateUser = await User.findOne({
       where: {
@@ -97,7 +97,6 @@ module.exports = {
      await User.update(
       {
         nome: nome,
-        cpf: cpf,
         idade: idade,
         email: email,
         senha: senha,
