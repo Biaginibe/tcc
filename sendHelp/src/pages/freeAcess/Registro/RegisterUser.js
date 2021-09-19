@@ -8,6 +8,7 @@ import {
 	ScrollView,
 	Alert,
 } from 'react-native';
+import SwitchSelector from 'react-native-switch-selector';
 import { Picker } from '@react-native-picker/picker';
 import { RadioButton } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -22,7 +23,6 @@ export default function RegisterUser() {
 	const [perfil, setPerfil] = useState('');
 	const [cpf, setCpf] = useState('');
 	const [pass, setPass] = useState('');
-	const [pass2, setPass2] = useState('');
 	const [email, setEmail] = useState('');
 	const [idade, setIdade] = useState('');
 	const [genero, setGenero] = useState('');
@@ -48,24 +48,38 @@ export default function RegisterUser() {
 		navigate('RegisterClient');
 	}
 
+	const options = [
+		{
+			label: 'Paciente',
+			value: 'paciente',
+			testID: '1',
+			accessibilityLabel: 'Paciente',
+		},
+		{
+			label: 'Psicologo',
+			value: 'psicologo',
+			testID: '2',
+			accessibilityLabel: 'Psicologo',
+		},
+	];
+
 	return (
 		<KeyboardAvoidingView style={css.container}>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<View>
 					<Text style={css.title}>SendHelp</Text>
 					<Text style={css.subTitle}>Registro</Text>
-					<Text>Deseja criar perfil como:</Text>
-					<Picker
-						selectedValue={perfil}
-						style={css.input}
-						onValueChange={(itemValue, itemIndex) =>
-							setPerfil(itemValue)
+					<SwitchSelector
+						options={options}
+						onPress={(value) =>
+							setPerfil(value)
 						}
-					>
-						<Picker.Item label='Selecione' value={''} />
-						<Picker.Item label='Paciente' value='paciente' />
-						<Picker.Item label='Psicologo' value='psicologo' />
-					</Picker>
+						buttonColor={'#E1E1E1'}
+						selectedColor={'#505050'}
+						borderRadius={10}
+						style={{marginBottom: 25}}
+					/>
+
 					<TextInput
 						style={css.input}
 						onChangeText={setName}
