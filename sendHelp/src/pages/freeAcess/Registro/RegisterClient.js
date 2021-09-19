@@ -28,20 +28,24 @@ export default function RegisterClient() {
 
 	async function registrarCliente() {
 		if (lat != null && long != null && lat != '' && long != '') {
-			const { data } = await instance.post(
-				`/freeAccess/${user.id}/client`,
-				{
-					endereco: endereco,
-					latitude: lat,
-					longitude: long,
-				}
-			);
-
-			setToken(data.token);
-			if(type == 'psicologo')
-				Alert.alert('Registre suas informações especificas na tela de perfil.')
-			// let data2 = data.psychologist[0]
-			setPsychologist(data.psychologist)
+			try{
+				const { data } = await instance.post(
+					`/freeAccess/${user.id}/client`,
+					{
+						endereco: endereco,
+						latitude: lat,
+						longitude: long,
+					}
+				);
+	
+				setToken(data.token);
+				if(type == 'psicologo')
+					Alert.alert('Registre suas informações especificas na tela de perfil.')
+				// let data2 = data.psychologist[0]
+				setPsychologist(data.psychologist)
+			}catch(err){
+				console.log(err)
+			}
 		}
 
 		if (!data.token) {

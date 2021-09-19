@@ -223,9 +223,9 @@ module.exports = {
 		const psychologist = await User.sequelize.query(
 			`SELECT p.id 
 			FROM users u 
-		INNER JOIN clients c ON (c.id_user = u.id)
-		INNER JOIN psychologists p ON (p.id_cliente = c.id)
-		WHERE u.id=${id_user} `,
+		INNER JOIN clients c ON c.id_user = u.id
+		INNER JOIN psychologists p ON p.id_cliente = c.id
+		WHERE u.id=${id_user}`,
 			{ type: QueryTypes.SELECT }
 		);
 
@@ -236,6 +236,7 @@ module.exports = {
 				id_psicologo: id_psicologo,
 			},
 		});
+
 		schedules.map((schedule) => {
 			if (schedule.dataValues.diaDisponivel === 'Segunda') {
 				scheduleSeg.push(schedule);
@@ -253,6 +254,9 @@ module.exports = {
 				scheduleDom.push(schedule);
 			}
 		});
+
+			console.log(scheduleSeg)
+			console.log(scheduleTer)
 
 		return res.send({
 			scheduleSeg,

@@ -28,7 +28,8 @@ authRoute.post(
 );
 
 //TESTES ---DEPOIS TIRAR DO AUTHROUTE
-authRoute.post('/psychologist/position', QueueController.position)
+routes.post('/patiente/NumeroContato', PatienteController.findPsychologistNumberById)
+routes.post('/psychologist/position', QueueController.position)
 routes.post('/psychologist/callNext', QueueController.callTheNext)
 
 routes.put('/update_userToken/:id_user', UserController.updateUserNotiToken)

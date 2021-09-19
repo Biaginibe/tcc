@@ -8,6 +8,7 @@ import {
 	ScrollView,
 	StyleSheet,
 	Alert,
+	Linking
 } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
@@ -35,12 +36,32 @@ export default function ProfileMarker(route, navigation) {
 	const { valorid } = route.route.params;
 	const { token, user } = useAuth();
 
+	async function callWhatsapp() {
+		try{
+
+			const phone = await instance.post(
+				`/patiente/NumeroContato`,
+				{
+					id_psycho: valorid,
+				},
+				{
+					headers: {
+						Authorization: 'Bearer ' + token,
+					},
+				}
+			);
+			Linking.openURL(`https://api.whatsapp.com/send?phone=55${phone.data.replace(/[^0-9]/g, '')}&text=Olá!%20Vi%20seu%20perfil%20no%20SendHelp%20e%20estou%20entrando%20em%20contato.%20Gostaria%20de%20falar%20sobre%20seu%20atendimento`) 
+		}catch(err){
+			console.log(err)
+		}
+	}
+
 	useEffect(() => {
 		async function getData() {
 			try {
 				const valorrequest = valorid;
 				const perfildata = await instance.get(
-					`/Psychologist/${valorrequest}}/findPsychologistsjoinUsers`,
+					`/Psychologist/${valorrequest}/findPsychologistsjoinUsers`,
 					{
 						headers: {
 							Authorization: 'Bearer ' + token,
@@ -55,7 +76,7 @@ export default function ProfileMarker(route, navigation) {
 			try {
 				const valorrequest = valorid;
 				const scheduledata = await instance.get(
-					`/psychologist/${valorrequest}}/findAllbyWeekSchedules`,
+					`/psychologist/${valorrequest}/findAllbyWeekSchedules`,
 					{
 						headers: {
 							Authorization: 'Bearer ' + token,
@@ -89,8 +110,6 @@ export default function ProfileMarker(route, navigation) {
 			);
 
 			setPosition(posFila.data);
-
-			console.log(position)
 			const sum =
 				segunda.length +
 				terca.length +
@@ -259,7 +278,10 @@ export default function ProfileMarker(route, navigation) {
 					{hasSchedule || position == 0 ? (
 						<>
 							<View style={css.btn}>
-								<TouchableOpacity style={css.inline}>
+								<TouchableOpacity
+									style={css.inline}
+									onPress={callWhatsapp}
+								>
 									<Text style={css.btnTxt}>
 										Entre em Contato
 									</Text>

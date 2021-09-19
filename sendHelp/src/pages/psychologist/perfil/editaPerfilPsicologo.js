@@ -236,7 +236,7 @@ export default function editaPsychologistProfile(navigation) {
 						<SwitchSelector
 							options={options2}
 							initial={initial2}
-							onPress={(value) => setValorConsulta(value)}
+							onPress={(value) => setTempoSessao(value)}
 							buttonColor={'#F1F1F1'}
 							selectedColor={'#0BBF59'}
 							borderRadius={5}

@@ -53,6 +53,7 @@ export default function PsychologistProfile() {
 				<Text style={css.info}>{user.idade} anos</Text>
 				<Text style={css.info}>{user.email}</Text>
 				<Text style={css.info}>{user.cpf}</Text>
+				{console.log(psychologist)}
 				{psychologist.valorConsulta ? (
 					<Text style={css.info}>
 						Valor da Consulta: {psychologist.valorConsulta}
@@ -91,7 +92,7 @@ export default function PsychologistProfile() {
 				)}
 				{psychologist.prefFaixaEtaria ? (
 					<Text style={css.info}>
-						Atende a faixa de {psychologist.prefFaixaEtaria}
+						Faz atendimento para {psychologist.prefFaixaEtaria}
 					</Text>
 				) : (
 					<Text style={css.infoNull}>
