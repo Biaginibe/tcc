@@ -155,30 +155,19 @@ export default function editaPsychologistProfile(navigation) {
 						></TextInput>
 					</View>
 
-					<Text>Valor da Consulta: </Text>
+					
 					<View style={css.borderInput}>
-						<Picker
-							selectedValue={valorConsulta}
-							style={{
-								padding: 10,
-								fontSize: 16,
-
-								// height: 35,
-								// borderColor: 'grey',
-								// borderWidth: 1,
-								// borderStyle: 'solid',
-								// borderRadius: 5,
-								// marginBottom: 5
-							}}
-							onValueChange={(itemValue, itemIndex) =>
-								setValorConsulta(itemValue)
-							}
-						>
-							<Picker.Item label='Selecione' value='' />
-							<Picker.Item label='$' value='$' />
-							<Picker.Item label='$$' value='$$' />
-							<Picker.Item label='$$$' value='$$$' />
-						</Picker>
+          <Picker
+              selectedValue={valorConsulta}
+              style={css.picker}
+              onValueChange={(itemValue, itemIndex) => setValorConsulta(itemValue)}
+            >
+              <Picker.Item label="Valor da Consulta: " value={""} />
+              <Picker.Item label="Gratuito" value="gratuito" />
+              <Picker.Item label="$" value="$" />
+              <Picker.Item label="$$" value="$$" />
+              <Picker.Item label="$$$" value="$$$" />
+            </Picker>
 
 						{/* <TextInput
 							style={css.input}

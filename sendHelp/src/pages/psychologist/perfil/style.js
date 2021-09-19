@@ -71,7 +71,13 @@ const css = StyleSheet.create({
 		paddingVertical: '1.5%',
 		borderRadius: 5,
 		marginBottom: 15
-	}
+	},
+	picker:{
+		fontSize:16,
+		
+		padding: 13,
+		
+	},
 });
 
 export { css };
