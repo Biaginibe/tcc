@@ -124,14 +124,14 @@ module.exports = {
 		// caso seja um psicologo já cria uma linha para ele
 		if (user.dataValues.perfil == 2) {
 			psychologist = await Psychologist.create({
-				metodologia: null,
-				numeroContato: null,
-				prefFaixaEtaria: null,
-				valorConsulta: null,
-				tempoSessao: null,
-				descricao: null,
-				tipoAtendimento: null,
-				crp: null,
+				metodologia: '',
+				numeroContato: '',
+				prefFaixaEtaria: '',
+				valorConsulta: '',
+				tempoSessao: '',
+				descricao: '',
+				tipoAtendimento: '',
+				crp: '',
 				id_cliente: client.dataValues.id,
 			});
 		}
