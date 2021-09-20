@@ -52,9 +52,10 @@ export default function editaPsychologistProfile(navigation) {
 	function handleNavigate() {
 		navigate('PerfilPsicologo');
 	}
+
 	function handleUpdate() {
 		setUser({ ...user, nome: nome, idade: idade, email: email });
-		setPsychologist({
+		let psycho = {
 			...psychologist,
 			crp: crp,
 			numeroContato: numeroContato,
@@ -64,7 +65,8 @@ export default function editaPsychologistProfile(navigation) {
 			tipoAtendimento: tipoAtendimento,
 			prefFaixaEtaria: prefFaixaEtaria,
 			descricao: descricao,
-		});
+		}
+		setPsychologist(psycho);
 		setUpdate(!update);
 
 		handleNavigate();
@@ -179,6 +181,7 @@ export default function editaPsychologistProfile(navigation) {
 
 	return (
 		<View style={css.container}>
+			{console.log(psychologist)}
 			{initial && initial2 && (
 				<SafeAreaView style={css.containerLateral}>
 					<ScrollView>
