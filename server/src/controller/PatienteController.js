@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const Psychologist = require("../model/Psychologist");
 const { QueryTypes } = require("sequelize");
 
 module.exports = {
@@ -110,4 +111,14 @@ module.exports = {
 
     return res.json(updateUser);
   },
+
+  async findPsychologistNumberById(req, res){
+    const {id_psycho} = req.body;
+
+    const psychologist = await Psychologist.findOne({where: {id: id_psycho}})
+
+    let numeroContato = psychologist.dataValues.numeroContato
+
+    return res.json(numeroContato)
+  }
 };

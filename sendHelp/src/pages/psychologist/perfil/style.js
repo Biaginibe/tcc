@@ -47,6 +47,7 @@ const css = StyleSheet.create({
 		width: '95%',
 		marginLeft: 5,
         padding: 10,
+		
 	},
 	btnSave:{
 		backgroundColor:'#053165',
@@ -63,7 +64,7 @@ const css = StyleSheet.create({
 	},
 	input:{
 		fontSize: 16,
-		paddingHorizontal: 5
+		paddingHorizontal: 10
 	},
 	borderInput:{
 		borderColor: '#C2C2C2',
@@ -73,11 +74,9 @@ const css = StyleSheet.create({
 		marginBottom: 15
 	},
 	picker:{
-		fontSize:16,
-		
-		padding: 13,
-		
-	},
+		padding: 13.5,
+		fontSize:16
+	}
 });
 
 export { css };

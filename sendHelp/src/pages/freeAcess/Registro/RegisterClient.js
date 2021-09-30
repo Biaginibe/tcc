@@ -24,32 +24,29 @@ export default function RegisterClient() {
 	const [lat, setLat] = useState(null);
 	const [endereco, setEndereco] = useState(null);
 	const { navigate } = useNavigation();
-	const { user, setToken, type, setPsychologist } = useAuth();
+	const { user, type, setPsychologist } = useAuth();
 
 	async function registrarCliente() {
 		if (lat != null && long != null && lat != '' && long != '') {
-			const { data } = await instance.post(
-				`/freeAccess/${user.id}/client`,
-				{
-					endereco: endereco,
-					latitude: lat,
-					longitude: long,
-				}
-			);
-
-			setToken(data.token);
-			if(type == 'psicologo')
-				Alert.alert('Registre suas informações especificas na tela de perfil.')
-			// let data2 = data.psychologist[0]
-			setPsychologist(data.psychologist)
+			try {
+				const { data } = await instance.post(
+					`/freeAccess/${user.id}/client`,
+					{
+						endereco: endereco,
+						latitude: lat,
+						longitude: long,
+					}
+				);
+				if (type == 'psicologo')
+					Alert.alert(
+						'Registre suas informações especificas na tela de perfil.'
+					);
+				setPsychologist(data.psychologist);
+			} catch (err) {
+				console.log(err);
+			}
 		}
-
-		if (!data.token) {
-			Alert.alert('Registro finalizado! Seja bem vinde.');
-			type === 'paciente' ? navigate('Mapa') : navigate('Agenda');
-		}else{
-			Alert.alert('Algo deu errado, por favor tente novamente.')
-		}
+		navigate('Login');
 	}
 
 	return (
@@ -79,7 +76,7 @@ export default function RegisterClient() {
 					onFail={(error) => console.error(error)}
 				/>
 			</View>
-					
+
 			<TouchableOpacity style={css.btn} onPress={registrarCliente}>
 				<Text style={css.btnTxt}>Prosseguir</Text>
 			</TouchableOpacity>

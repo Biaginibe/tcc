@@ -115,10 +115,6 @@ module.exports = {
 		});
 
 		if (!client) console.log('erro na criação do cliente');
-
-		const token = jwt.sign({ id: user.id }, authConfig.secret, {
-			expiresIn: 1209600, //14 dias
-		});
 		
 		let psychologist = [null]
 		// caso seja um psicologo já cria uma linha para ele
@@ -138,7 +134,7 @@ module.exports = {
 
 		console.log(psychologist)
 
-		return res.send({ psychologist, token });
+		return res.send({ psychologist });
 	},
 
 	async validateToken(req, res) {
