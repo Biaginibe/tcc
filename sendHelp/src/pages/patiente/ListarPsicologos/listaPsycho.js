@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import {
+	TouchableOpacity,
+	FlatList,
+	ScrollView,
+	TextInput,
+	View,
+} from 'react-native';
 import { css } from './style';
 import ListItem from 'react-native-elements/dist/list/ListItem';
 import { instance } from '../../../config/axios';
@@ -7,8 +13,11 @@ import Filters from '../../../components/patiente/filter/Filter';
 import { useFilter } from '../../../context/Filter';
 import { useAuth } from '../../../context/Auth';
 
+import { FontAwesome } from '@expo/vector-icons';
+
 export default function ListPsychologist() {
 	const [profiles, setProfiles] = useState(null);
+	const [search, setSearch] = useState('');
 	const { filters } = useFilter();
 	const { token } = useAuth();
 
@@ -47,6 +56,7 @@ export default function ListPsychologist() {
 					}
 				);
 				setProfiles(data);
+				console.log(data)
 			} catch (err) {
 				console.error(err);
 			}
@@ -54,9 +64,44 @@ export default function ListPsychologist() {
 		getProfiles();
 	}, [filters]);
 
+	async function onClick() {
+		const data2 = await instance.post(
+			`/listarLike?abordagem=${filters.abordagem}&
+													tipoAtendimento=${filters.tipoAtendimento}&
+													valor=${filters.valor}&
+													genero=${filters.genero}&
+													faixaEtaria=${filters.faixaEtaria}&
+													tempoSessao=${filters.tempoSessao}`,
+			{like: search},
+			{
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			}
+		);
+		setProfiles(data2.data)
+		// console.log(data2.data)
+		setSearch('');
+	}
+
 	return (
 		<>
-			<ScrollView>
+			<ScrollView style={css.bigContainer}>
+				<View style={css.input}>
+					<TextInput
+						onChangeText={setSearch}
+						value={search}
+						placeholder='Procure um psicologo...'
+					/>
+					<TouchableOpacity onPress={onClick}>
+						<FontAwesome
+							name='search'
+							size={20}
+							style={{ marginLeft: 65 }}
+							color='#053165'
+						/>
+					</TouchableOpacity>
+				</View>
 				<FlatList
 					data={profiles}
 					keyExtractor={(item) => String(item.id)}
@@ -68,16 +113,16 @@ export default function ListPsychologist() {
 										{item.nome}
 									</ListItem.Title>
 									<ListItem.Subtitle>
-										{item.tipo}
+										{item.tipoAtendimento}
 									</ListItem.Subtitle>
 									<ListItem.Title>
 										{'Abordagem: ' + item.metodologia}
 									</ListItem.Title>
 									<ListItem.Title>
-										{'Faixa etaria: ' + item.faixaEtaria}
+										{'Faixa etaria: ' + item.prefFaixaEtaria}
 									</ListItem.Title>
 									<ListItem.Title style={css.valor}>
-										{item.valor}
+										{item.valorConsulta}
 									</ListItem.Title>
 									<ListItem.Title style={css.tempoSessao}>
 										{'Duração:\n' + item.tempoSessao}

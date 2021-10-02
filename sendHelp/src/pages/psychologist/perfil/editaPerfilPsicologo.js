@@ -15,7 +15,6 @@ import { css } from './style';
 import { instance } from '../../../config/axios';
 import { Octicons } from '@expo/vector-icons';
 import { useAuth } from '../../../context/Auth';
-import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
 import SwitchSelector from 'react-native-switch-selector';

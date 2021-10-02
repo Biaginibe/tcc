@@ -150,6 +150,7 @@ routes.get('/filter', ClientController.findAllPsychologistClientsFilter);
 
 //Exibir na lista
 routes.get('/listar', ClientController.findPsychologistProfileWithUserName);
+routes.post('/listarLike', ClientController.findPsychologistProfileWithUserNameLike);
 
 //Exibir perfil do psicologo
 routes.get(
