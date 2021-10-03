@@ -3,11 +3,22 @@ const Client = require('../model/Client');
 const Psychologist = require('../model/Psychologist');
 const { QueryTypes } = require('sequelize');
 const { update } = require('../model/User');
+const bcrypt = require('bcryptjs');
+
 
 module.exports = {
 	async createpsychologist(req, res) {
 		const { id_cliente } = req.params;
-		const { metodologia, numeroContato,	prefFaixaEtaria, valorConsulta,	tempoSessao, tipoAtendimento, descricao, crp } = req.body;
+		const {
+			metodologia,
+			numeroContato,
+			prefFaixaEtaria,
+			valorConsulta,
+			tempoSessao,
+			tipoAtendimento,
+			descricao,
+			crp,
+		} = req.body;
 
 		const client = await Client.findByPk(id_cliente);
 
@@ -16,28 +27,27 @@ module.exports = {
 		}
 
 		const psychologist = await Psychologist.create({
-			metodologia, 
-            numeroContato, 
-            prefFaixaEtaria,
-            valorConsulta,
-            tempoSessao,
-            descricao,
-            tipoAtendimento,
-            crp,
-			id_cliente
+			metodologia,
+			numeroContato,
+			prefFaixaEtaria,
+			valorConsulta,
+			tempoSessao,
+			descricao,
+			tipoAtendimento,
+			crp,
+			id_cliente,
 		});
 
 		return res.json(psychologist);
 	},
-	async findAllPerfil(req, res){
-			const psychologist = await Psychologist.findAll();
-	
-			if (!psychologist) {
-				return res.status(400).json({ error: 'Not found' });
-			}
-	
-			return res.json(psychologist);
-		
+	async findAllPerfil(req, res) {
+		const psychologist = await Psychologist.findAll();
+
+		if (!psychologist) {
+			return res.status(400).json({ error: 'Not found' });
+		}
+
+		return res.json(psychologist);
 	},
 	async findAllPsycologists(req, res) {
 		const psycologists = await User.findAll({
@@ -48,7 +58,7 @@ module.exports = {
 		return res.json(psycologists);
 	},
 	async disable_enablePsychologist(req, res) {
-		const {id_user} = req.params;
+		const { id_user } = req.params;
 
 		const psychologist = await User.findOne({
 			where: {
@@ -80,7 +90,7 @@ module.exports = {
 		}
 	},
 	async deletePsychologist(req, res) {
-		const {id_user} = req.params;
+		const { id_user } = req.params;
 		await User.destroy({
 			where: {
 				id: id_user,
@@ -90,118 +100,186 @@ module.exports = {
 		return res.json(success);
 	},
 	async findPsychologistsjoinUsers(req, res) {
-		const {id_user} = req.params;
+		const { id_user } = req.params;
 		const psycologist = await Psychologist.findAll({
 			where: {
 				id: id_user,
 			},
-			include: [{
-				model: Client,
-				as: 'client',
-				include:{
-					model: User,
-					as: 'user'
-				}
-			}]
+			include: [
+				{
+					model: Client,
+					as: 'client',
+					include: {
+						model: User,
+						as: 'user',
+					},
+				},
+			],
 		});
 		success = `Sucesso`;
 		return res.json(psycologist);
 	},
-	async updatePsychologists(req, res){
-		const {id_psycho} = req.params
-		const { nome,  idade, email, crp, numeroContato, valorConsulta, metodologia, tempoSessao, tipoAtendimento,prefFaixaEtaria, descricao } = req.query;
-		// const updateUser = await User.findOne({
-		// 	where: {
-		// 	  id: id_psycho,
-		// 	},
-		//   });
-		console.log(nome,  idade, email, crp, numeroContato, valorConsulta, metodologia, tempoSessao, tipoAtendimento,prefFaixaEtaria, descricao)
+
+	async updatePsychologists(req, res) {
+		const { id_psycho } = req.params;
+		const {
+			nome,
+			idade,
+			email,
+			crp,
+			numeroContato,
+			valorConsulta,
+			metodologia,
+			tempoSessao,
+			tipoAtendimento,
+			prefFaixaEtaria,
+			descricao,
+		} = req.query;
+
+		console.log(
+			nome,
+			idade,
+			email,
+			crp,
+			numeroContato,
+			valorConsulta,
+			metodologia,
+			tempoSessao,
+			tipoAtendimento,
+			prefFaixaEtaria,
+			descricao
+		);
 		console.log(id_psycho);
 		const psychoUpdate = await Psychologist.findOne({
 			where: {
 				id: id_psycho,
 			},
-			include: [{
-				model: Client,
-				as: 'client',
-				include:{
-					model: User,
-					as: 'user'
-				}
-			}]
+			include: [
+				{
+					model: Client,
+					as: 'client',
+					include: {
+						model: User,
+						as: 'user',
+					},
+				},
+			],
 		});
 		let id_user = psychoUpdate.dataValues.client.user.id;
-		console.log(psychoUpdate.dataValues.client.user.id);	
-		
-		try{
+		console.log(psychoUpdate.dataValues.client.user.id);
+
+		try {
 			await User.update(
 				{
-				  nome: nome,
-				  
-				  idade: idade,
-				  email: email,
-				  
+					nome: nome,
+
+					idade: idade,
+					email: email,
 				},
 				{
-				  where: {
-					id: id_user,
-				  },
+					where: {
+						id: id_user,
+					},
 				}
-			  )
-		}catch(err){
-			console.log(err)
+			);
+		} catch (err) {
+			console.log(err);
 		}
-		
-		
-		if(psychoUpdate.dataValues.crp==crp){
-			console.log("entrou aqui iririririririr");
-			try{
-			
+
+		if (psychoUpdate.dataValues.crp == crp) {
+			console.log('entrou aqui iririririririr');
+			try {
 				await Psychologist.update(
 					{
 						numeroContato: numeroContato,
-						valorConsulta: valorConsulta, 
-						metodologia: metodologia, 
-						tempoSessao: tempoSessao, 
-						tipoAtendimento: tipoAtendimento, 
-						prefFaixaEtaria: prefFaixaEtaria, 
-						descricao: descricao
-					}, 
-					{where: {
-						id: id_psycho,
+						valorConsulta: valorConsulta,
+						metodologia: metodologia,
+						tempoSessao: tempoSessao,
+						tipoAtendimento: tipoAtendimento,
+						prefFaixaEtaria: prefFaixaEtaria,
+						descricao: descricao,
+					},
+					{
+						where: {
+							id: id_psycho,
+						},
 					}
-					
+				);
+			} catch (err) {
+				console.log(err);
 			}
-				)
-			}catch(err){
-				console.log(err)
-			}
-		}else{
-			try{
-			
+		} else {
+			try {
 				await Psychologist.update(
 					{
 						crp: crp,
 						numeroContato: numeroContato,
-						valorConsulta: valorConsulta, 
-						metodologia: metodologia, 
-						tempoSessao: tempoSessao, 
-						tipoAtendimento: tipoAtendimento, 
-						prefFaixaEtaria: prefFaixaEtaria, 
-						descricao: descricao
-					}, 
-					{where: {
-						id: id_psycho,
+						valorConsulta: valorConsulta,
+						metodologia: metodologia,
+						tempoSessao: tempoSessao,
+						tipoAtendimento: tipoAtendimento,
+						prefFaixaEtaria: prefFaixaEtaria,
+						descricao: descricao,
+					},
+					{
+						where: {
+							id: id_psycho,
+						},
 					}
-			}
-				)
-			}catch(err){
-				console.log(err)
+				);
+			} catch (err) {
+				console.log(err);
 			}
 		}
-		
-		
+
 		return res.json(psychoUpdate);
-	}
-	
+	},
+
+	async updatePsychologistsPassword(req, res) {
+		const { id_psycho } = req.params;
+		const { senha, novaSenha } = req.body;
+
+		const psychoUpdate = await Psychologist.findOne({
+			where: {
+				id: id_psycho,
+			},
+			include: [
+				{
+					model: Client,
+					as: 'client',
+					include: {
+						model: User,
+						as: 'user',
+					},
+				},
+			],
+		});
+		let id_user = psychoUpdate.dataValues.client.user.id;
+		// console.log(psychoUpdate.dataValues.client.user.senha);
+
+		if (
+			!(await bcrypt.compare(
+				senha,
+				psychoUpdate.dataValues.client.user.senha
+			))
+		) {
+			console.log('CAI AQUI NO IF OH!!!!');
+			return res.status(400).send({ err: 'Senha atual incorreta.' });
+		}
+
+		const senhaHash = await bcrypt.hash(novaSenha, 8);
+
+		await User.update(
+			{
+				senha: senhaHash,
+			},
+			{
+				where: {
+					id: id_user,
+				},
+			}
+		);
+
+		return res.sendStatus(200);
+	},
 };

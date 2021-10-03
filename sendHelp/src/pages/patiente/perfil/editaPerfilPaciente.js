@@ -22,7 +22,8 @@ export default function editaPacienteProfile(navigation) {
 	const [nome, setNome] = useState(user.nome);
 	const [email, setEmail] = useState(user.email);
 	const [idade, setIdade] = useState(user.idade);
-	const [senha, setSenha] = useState(user.senha);
+	const [senha, setSenha] = useState('');
+	const [novaSenha, setNovaSenha] = useState('');
 	const [update, setUpdate] = useState(null);
 
 	function handleNavigate() {
@@ -34,9 +35,8 @@ export default function editaPacienteProfile(navigation) {
 			nome: nome,
 			idade: idade,
 			email: email,
-			senha: senha,
 		});
-		console.log(user, token);
+		// console.log(user, token);
 		setUpdate(true);
 		handleNavigate();
 	}
@@ -47,9 +47,8 @@ export default function editaPacienteProfile(navigation) {
 				const valorrequest = user.id;
 				if (update != null) {
 					try {
-						console.log('Entrou no IF');
 						await instance.put(
-							`/patientes/${valorrequest}/updatePatientes?nome=${nome}&idade=${idade}&email=${email}&senha=${senha}`,
+							`/patientes/${valorrequest}/updatePatientes?nome=${nome}&idade=${idade}&email=${email}`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -58,10 +57,33 @@ export default function editaPacienteProfile(navigation) {
 						);
 
 						setUpdate(null);
-					} catch {
+					} catch (err) {
 						console.error(err);
 					}
+
+					if (senha !== '' && novaSenha !== '') {
+						try {
+							await instance.put(
+								`/patientes/${valorrequest}/updatePatientesPassword`,
+								{ senha: senha, novaSenha: novaSenha },
+								{
+									headers: {
+										Authorization: 'Bearer ' + token,
+									},
+								}
+							);
+						} catch (err) {
+							Alert.alert('Senha atual incorreta.');
+							console.error(err);
+						}
+					} else {
+						Alert.alert(
+							'É necessario informar os dois campos para alterar a senha.'
+						);
+						navigate('EditarPaciente');
+					}
 				}
+
 				const perfildata = await instance.get(
 					`/patientes/${valorrequest}}/findOnebyIDPatientes`,
 					{
@@ -74,13 +96,14 @@ export default function editaPacienteProfile(navigation) {
 				setPerfil(perfildata.data);
 				// console.log(perfil);
 			} catch (err) {
-				console.log(err);
+				console.log('AQUI?');
+				console.error(err);
 			}
 		}
 		getData();
 	}, [update]);
 
-	console.log(perfil.nome);
+	// console.log(perfil.nome);
 
 	return (
 		<View style={css.container}>
@@ -88,33 +111,51 @@ export default function editaPacienteProfile(navigation) {
 				<ScrollView>
 					<View style={css.borderInput}>
 						<TextInput
-              style={css.input}
+							style={css.input}
 							value={nome}
 							onChangeText={(e) => setNome(e)}
-              placeholder='Nome'
-              ></TextInput>
+							placeholder='Nome'
+						></TextInput>
 					</View>
 					<View style={css.borderInput}>
 						<TextInput
-              style={css.input}
+							style={css.input}
 							value={email}
 							onChangeText={(e) => setEmail(e)}
 							placeholder='Email'
-              ></TextInput>
+						></TextInput>
 					</View>
 					<View style={css.borderInput}>
 						<TextInput
-              style={css.input}
+							style={css.input}
 							value={String(idade)}
 							onChangeText={(e) => setIdade(e)}
 							placeholder='Idade'
 						></TextInput>
 					</View>
-				<TouchableOpacity onPress={handleUpdate}>
-					<View style={css.btnSave}>
-						<Text style={css.txtSave}>Salvar</Text>
+					<View style={css.borderInput}>
+						<TextInput
+							style={css.input}
+							value={senha}
+							onChangeText={(e) => setSenha(e)}
+							placeholder='Senha atual'
+							secureTextEntry={true}
+						></TextInput>
 					</View>
-				</TouchableOpacity>
+					<View style={css.borderInput}>
+						<TextInput
+							style={css.input}
+							value={novaSenha}
+							onChangeText={(e) => setNovaSenha(e)}
+							placeholder='Nova senha'
+							secureTextEntry={true}
+						></TextInput>
+					</View>
+					<TouchableOpacity onPress={handleUpdate}>
+						<View style={css.btnSave}>
+							<Text style={css.txtSave}>Salvar</Text>
+						</View>
+					</TouchableOpacity>
 				</ScrollView>
 			</SafeAreaView>
 		</View>

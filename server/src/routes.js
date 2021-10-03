@@ -76,6 +76,10 @@ routes.put(
 	'/patientes/:id_user/updatePatientes',
 	PatienteController.updatePatientes
 )
+routes.put(
+	'/patientes/:id_user/updatePatientesPassword',
+	PatienteController.updatePatientesPassword
+)
 
 
 
@@ -97,6 +101,10 @@ routes.delete(
 routes.put(
 	'/psychologist/:id_psycho/updatePsychologists',
 	PsychologistController.updatePsychologists
+)
+routes.put(
+	'/psychologist/:id_psycho/updatePsychologistsPassword',
+	PsychologistController.updatePsychologistsPassword
 )
 
 //TELAS PSICOLOGO

@@ -44,6 +44,8 @@ module.exports = {
 				expiresIn: 1209600, //14 dias
 			});
 
+			user.senha = undefined;
+
 			return res.send({
 				user,
 				psychologist,
@@ -83,6 +85,8 @@ module.exports = {
 				email,
 				genero,
 			});
+
+			user.senha = undefined;
 
 			return res.json({
 				user,

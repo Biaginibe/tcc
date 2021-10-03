@@ -29,7 +29,7 @@ const css = StyleSheet.create({
 		fontSize: 30,
 	},
 	info: {
-		paddingHorizontal: '2%',
+		paddingHorizontal: '5%',
 		fontSize: 16,
 		marginBottom: 5,
 	},
@@ -44,8 +44,8 @@ const css = StyleSheet.create({
 		borderWidth: 1,
 		borderRadius: 2,
 		marginTop: 5,
-		width: '95%',
-		marginLeft: 5,
+		width: '90%',
+		marginHorizontal: '5%',
         padding: 10,
 		
 	},
