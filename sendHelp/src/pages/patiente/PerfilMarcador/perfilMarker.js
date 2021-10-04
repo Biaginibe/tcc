@@ -313,8 +313,6 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-										var varcount = 0;
-										if (item.disponivel == true) {
 											return (
 												<View>
 													<ListItem>
@@ -340,32 +338,7 @@ export default function ProfileMarker(route, navigation) {
 													</ListItem>
 												</View>
 											);
-										} else {
-											varcount++;
-											console.log(
-												varcount +
-													'tamamho ' +
-													segunda.length
-											);
-											varcount == segunda.length ? (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.inactiveSchedule
-																}
-															>
-																<Text>
-																	Horário
-																	Indisponível
-																</Text>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											) : null;
-										}
+										
 									}}
 								/>
 
@@ -381,59 +354,33 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-										let varcountterca = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountterca = varcountterca + 1;
-											if (varcountterca == terca.length) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
+										return (
+											<View>
+												<ListItem>
+													<ListItem.Content>
+														<ListItem.Title
+															style={
+																css.schedulesTouchable
+															}
+														>
+															<TouchableOpacity>
+																<Text
 																	style={
-																		css.inactiveSchedule
+																		css.schedules
 																	}
 																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
+																	{
+																		item.horarioDisponivel
+																	}
+																</Text>
+															</TouchableOpacity>
+														</ListItem.Title>
+													</ListItem.Content>
+												</ListItem>
+											</View>
+										);
+									
+								}}
 								/>
 
 								{quarta.length != 0 && quarta !== [] ? (
@@ -448,61 +395,33 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-										let varcountquarta = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountquarta = varcountquarta + 1;
-											if (
-												varcountquarta == quarta.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
+										return (
+											<View>
+												<ListItem>
+													<ListItem.Content>
+														<ListItem.Title
+															style={
+																css.schedulesTouchable
+															}
+														>
+															<TouchableOpacity>
+																<Text
 																	style={
-																		css.inactiveSchedule
+																		css.schedules
 																	}
 																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
+																	{
+																		item.horarioDisponivel
+																	}
+																</Text>
+															</TouchableOpacity>
+														</ListItem.Title>
+													</ListItem.Content>
+												</ListItem>
+											</View>
+										);
+									
+								}}
 								/>
 								{quinta.length != 0 && quinta.segunda !== [] ? (
 									<View>
@@ -516,66 +435,33 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-										let varcountquinta = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountquinta = varcountquinta + 1;
-											console.log(
-												varcountquinta +
-													'tamamho ' +
-													quinta.length
-											);
-											if (
-												varcountquinta == quinta.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
+										return (
+											<View>
+												<ListItem>
+													<ListItem.Content>
+														<ListItem.Title
+															style={
+																css.schedulesTouchable
+															}
+														>
+															<TouchableOpacity>
+																<Text
 																	style={
-																		css.inactiveSchedule
+																		css.schedules
 																	}
 																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
+																	{
+																		item.horarioDisponivel
+																	}
+																</Text>
+															</TouchableOpacity>
+														</ListItem.Title>
+													</ListItem.Content>
+												</ListItem>
+											</View>
+										);
+									
+								}}
 								/>
 								{sexta.length != 0 && sexta !== [] ? (
 									<View>
@@ -589,59 +475,33 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-										let varcountsexta = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountsexta = varcountsexta + 1;
-											if (varcountsexta == sexta.length) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
+										return (
+											<View>
+												<ListItem>
+													<ListItem.Content>
+														<ListItem.Title
+															style={
+																css.schedulesTouchable
+															}
+														>
+															<TouchableOpacity>
+																<Text
 																	style={
-																		css.inactiveSchedule
+																		css.schedules
 																	}
 																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
+																	{
+																		item.horarioDisponivel
+																	}
+																</Text>
+															</TouchableOpacity>
+														</ListItem.Title>
+													</ListItem.Content>
+												</ListItem>
+											</View>
+										);
+									
+								}}
 								/>
 								{sabado.length != 0 && sabado !== [] ? (
 									<View>
@@ -655,61 +515,33 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-										let varcountsabado = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountsabado = varcountsabado + 1;
-											if (
-												varcountsabado == sabado.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
+										return (
+											<View>
+												<ListItem>
+													<ListItem.Content>
+														<ListItem.Title
+															style={
+																css.schedulesTouchable
+															}
+														>
+															<TouchableOpacity>
+																<Text
 																	style={
-																		css.inactiveSchedule
+																		css.schedules
 																	}
 																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
+																	{
+																		item.horarioDisponivel
+																	}
+																</Text>
+															</TouchableOpacity>
+														</ListItem.Title>
+													</ListItem.Content>
+												</ListItem>
+											</View>
+										);
+									
+								}}
 								/>
 								{domingo.length != 0 && domingo !== [] ? (
 									<View>
@@ -723,63 +555,33 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-										let varcountdomingo = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountdomingo =
-												varcountdomingo + 1;
-											if (
-												varcountdomingo ==
-												domingo.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
+										return (
+											<View>
+												<ListItem>
+													<ListItem.Content>
+														<ListItem.Title
+															style={
+																css.schedulesTouchable
+															}
+														>
+															<TouchableOpacity>
+																<Text
 																	style={
-																		css.inactiveSchedule
+																		css.schedules
 																	}
 																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
+																	{
+																		item.horarioDisponivel
+																	}
+																</Text>
+															</TouchableOpacity>
+														</ListItem.Title>
+													</ListItem.Content>
+												</ListItem>
+											</View>
+										);
+									
+								}}
 								/>
 							</View>
 						</>

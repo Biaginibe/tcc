@@ -237,26 +237,24 @@ module.exports = {
 			},
 		});
 
+
 		schedules.map((schedule) => {
-			if (schedule.dataValues.diaDisponivel === 'Segunda') {
+			if (schedule.dataValues.diaDisponivel === 'Segunda' && schedule.dataValues.disponivel) {
 				scheduleSeg.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Terça') {
+			} else if (schedule.dataValues.diaDisponivel === 'Terça' && schedule.dataValues.disponivel) {
 				scheduleTer.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Quarta') {
+			} else if (schedule.dataValues.diaDisponivel === 'Quarta' && schedule.dataValues.disponivel) {
 				scheduleQua.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Quinta') {
+			} else if (schedule.dataValues.diaDisponivel === 'Quinta' && schedule.dataValues.disponivel) {
 				scheduleQui.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Sexta') {
+			} else if (schedule.dataValues.diaDisponivel === 'Sexta' && schedule.dataValues.disponivel) {
 				scheduleSex.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Sabado') {
+			} else if (schedule.dataValues.diaDisponivel === 'Sabado' && schedule.dataValues.disponivel) {
 				scheduleSab.push(schedule);
-			} else {
+			} else if(schedule.dataValues.diaDisponivel === 'Domingo' && schedule.dataValues.disponivel) {
 				scheduleDom.push(schedule);
 			}
 		});
-
-			console.log(scheduleSeg)
-			console.log(scheduleTer)
 
 		return res.send({
 			scheduleSeg,
