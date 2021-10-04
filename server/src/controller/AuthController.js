@@ -9,8 +9,9 @@ const { QueryTypes } = require('sequelize');
 module.exports = {
 	async signIn(req, res) {
 		try {
+			
 			const { cpf, pass } = req.body;
-
+			
 			const user = await User.findOne({ where: { cpf: cpf } });
 
 			if (!user) {
@@ -43,7 +44,9 @@ module.exports = {
 			const token = jwt.sign({ id: user.id }, authConfig.secret, {
 				expiresIn: 1209600, //14 dias
 			});
-
+			console.log(user);
+			console.log(token);
+			console.log(type);
 			return res.send({
 				user,
 				psychologist,
