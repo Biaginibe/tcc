@@ -7,7 +7,7 @@ body {
   font-family: Helvetica;
   color: rgba(36, 38, 38, 1);
   -webkit-font-smoothing: antialiased;
-  background: #fff;
+  background: var(--bg-main);
 }
 .btn-table {
   display: flex;
@@ -19,7 +19,7 @@ body {
   display: flex;
   align-content: center;
   justify-content: center;
-  background-color:  var(--bg-terciary);
+  background-color:  rgb(57, 116, 224,0);
 }
 .btn-table button:hover {
   transform: scale(1.3, 1.3);
@@ -42,7 +42,7 @@ body {
   width: 100%;
   max-width: 100%;
   white-space: nowrap;
-  background-color:  var(--bg-terciary);
+  background-color:  rgb(57, 116, 224);
   
 }
 
@@ -61,7 +61,7 @@ body {
 
 .fl-table thead th {
   color: #e6e4e4;
-  background:  var(--bg-terciary);
+  background:  rgb(43, 104, 219);
  
   border-bottom: 1px solid #969090;
   font-size: larger;
@@ -74,7 +74,7 @@ body {
 }
 
 .fl-table tr:nth-child(even) {
-  background:  var(--bg-terciary);
+  background:  rgb(43, 104, 219);
 }
 
 /* Responsividade */

@@ -55,7 +55,8 @@ function Login() {
 
         <div className="loginContainer">
           <div className="formwrap">
-            <label className="login">CPF:</label>
+            <label className="login"></label>
+            <div className="inputContainer">
             <input
               className="login"
               type="text"
@@ -63,24 +64,26 @@ function Login() {
               autoFocus
               required
               //validações simples
-
+              placeholder="CPF"
               onChange={(e) =>
                 setCpf(e.target.value)
               } /* atualiza a variável a cada mudança */
             ></input>
 
-            <label className="senha">Senha:</label>
+            <label className="senha"></label>
             <input
               className="login"
               type="password"
               name="user_senha"
               required
+              placeholder="Senha"
               onChange={(e) => {
                 let senha = e.target.value;
                 console.log(senha);
                 setPass(senha);
               }}
             ></input>
+            </div>
             <div id="loginBtn">
               <button
                 type="submit"

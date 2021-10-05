@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento&family=Red+Rose&display=swap');
 
 :root {
-  --bg-main: #fff;
+  --bg-main: rgb(246, 246, 246);
   --bg-secondary: #444f64;
   --bg-terciary:#054070;
   --bg-btn: #20262f;
@@ -84,7 +84,7 @@ button {
   
 }
 .page-title h2{
-  background-color:  var(--bg-terciary);
+  background-color: rgb(43, 104, 219);
   color:#e6e4e4;
   font-size:large;
   padding:0.2rem;
