@@ -76,7 +76,7 @@ export default function editaPacienteProfile(navigation) {
 							Alert.alert('Senha atual incorreta.');
 							console.error(err);
 						}
-					} else {
+					}  else if((senha !== '' && novaSenha === '') || (senha === '' && novaSenha !== '')) {
 						Alert.alert(
 							'É necessario informar os dois campos para alterar a senha.'
 						);

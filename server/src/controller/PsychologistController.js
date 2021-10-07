@@ -5,7 +5,6 @@ const { QueryTypes } = require('sequelize');
 const { update } = require('../model/User');
 const bcrypt = require('bcryptjs');
 
-
 module.exports = {
 	async createpsychologist(req, res) {
 		const { id_cliente } = req.params;
@@ -101,23 +100,31 @@ module.exports = {
 	},
 	async findPsychologistsjoinUsers(req, res) {
 		const { id_user } = req.params;
-		const psycologist = await Psychologist.findAll({
-			where: {
-				id: id_user,
-			},
-			include: [
-				{
-					model: Client,
-					as: 'client',
-					include: {
-						model: User,
-						as: 'user',
-					},
-				},
-			],
-		});
+
+		const data = await User.sequelize.query(
+			`SELECT u.*, p.*, c.endereco from users u INNER JOIN clients c
+		ON (u.id = c.id_user)
+		INNER JOIN psychologists p
+		ON (c.id = p.id_cliente)
+		WHERE u.id = ${id_user}`,
+			{ type: QueryTypes.SELECT }
+		);
+
+		data[0].endereco = data[0].endereco.split('-').slice(0, 1);
+		// console.log(data)
+		// let a = data.slice(0, 1)
+		// console.log(a)
+		
+		//  psycologist.map((psycho) => {
+		// 	let data = psycho.dataValues.client.dataValues.endereco;
+		// 	data = data.split('-');
+		// 	endereco = data.slice(0, 1);
+		// });
+
+		// RETORNAR ESSE ENDERECO E VER AS CONSEQUECIAS NO FRONT -> TRATAR AS CONSEQUENCIAS
+
 		success = `Sucesso`;
-		return res.json(psycologist);
+		return res.json(data);
 	},
 
 	async updatePsychologists(req, res) {
@@ -136,20 +143,6 @@ module.exports = {
 			descricao,
 		} = req.query;
 
-		console.log(
-			nome,
-			idade,
-			email,
-			crp,
-			numeroContato,
-			valorConsulta,
-			metodologia,
-			tempoSessao,
-			tipoAtendimento,
-			prefFaixaEtaria,
-			descricao
-		);
-		console.log(id_psycho);
 		const psychoUpdate = await Psychologist.findOne({
 			where: {
 				id: id_psycho,
@@ -166,7 +159,6 @@ module.exports = {
 			],
 		});
 		let id_user = psychoUpdate.dataValues.client.user.id;
-		console.log(psychoUpdate.dataValues.client.user.id);
 
 		try {
 			await User.update(
@@ -187,7 +179,6 @@ module.exports = {
 		}
 
 		if (psychoUpdate.dataValues.crp == crp) {
-			console.log('entrou aqui iririririririr');
 			try {
 				await Psychologist.update(
 					{
@@ -254,8 +245,8 @@ module.exports = {
 				},
 			],
 		});
+
 		let id_user = psychoUpdate.dataValues.client.user.id;
-		// console.log(psychoUpdate.dataValues.client.user.senha);
 
 		if (
 			!(await bcrypt.compare(
@@ -263,7 +254,6 @@ module.exports = {
 				psychoUpdate.dataValues.client.user.senha
 			))
 		) {
-			console.log('CAI AQUI NO IF OH!!!!');
 			return res.status(400).send({ err: 'Senha atual incorreta.' });
 		}
 

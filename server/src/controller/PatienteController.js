@@ -119,16 +119,15 @@ module.exports = {
 		});
 
 		if (!(await bcrypt.compare(senha, updateUser.senha))) {
-      console.log('CAI AQUI NO IF OH!!!!')
+			console.log('CAI AQUI NO IF OH!!!!');
 			return res.status(400).send({ err: 'Senha atual incorreta.' });
 		}
 
-	  const senhaHash = await bcrypt.hash(novaSenha, 8);
-
+		const senhaHash = await bcrypt.hash(novaSenha, 8);
 
 		await User.update(
 			{
-				senha: senhaHash
+				senha: senhaHash,
 			},
 			{
 				where: {

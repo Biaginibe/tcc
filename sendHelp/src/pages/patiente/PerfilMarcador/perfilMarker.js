@@ -68,8 +68,10 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
-
+				console.log(perfildata)
 				setPerfil(perfildata.data);
+				// let teste = perfildata.data.endereco;
+				// console.log(teste)
 			} catch (err) {
 				console.log(err);
 			}
@@ -206,7 +208,7 @@ export default function ProfileMarker(route, navigation) {
 									<ListItem.Content>
 										<View style={css.inline}>
 											<ListItem.Title style={css.name}>
-												{item.client.user.nome}
+												{item.nome}
 											</ListItem.Title>
 											<ListItem.Title style={css.value}>
 												{item.valorConsulta}
@@ -229,7 +231,7 @@ export default function ProfileMarker(route, navigation) {
 												>
 													Idade:{' '}
 												</Text>
-												{item.client.user.idade}
+												{item.idade}
 											</ListItem.Title>
 											<ListItem.Title
 												style={css.infoContent}
@@ -260,6 +262,16 @@ export default function ProfileMarker(route, navigation) {
 													Tempo de Sessão:{' '}
 												</Text>
 												{'' + item.tempoSessao}
+											</ListItem.Title>
+											<ListItem.Title
+												style={css.infoContent}
+											>
+												<Text
+													style={css.infoContentTitle}
+												>
+													Endereço do consultorio:{' '}
+												</Text>
+												{'\n' + item.endereco[0]}
 											</ListItem.Title>
 											<Text style={css.infoContentTitle}>
 												Descrição:{' '}
@@ -338,7 +350,6 @@ export default function ProfileMarker(route, navigation) {
 													</ListItem>
 												</View>
 											);
-										
 									}}
 								/>
 

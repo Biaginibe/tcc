@@ -88,7 +88,7 @@ export default function editaPsychologistProfile(navigation) {
 					try {
 						console.log('Entrou no IF');
 						await instance.put(
-							`/psychologist/${valorrequest}/updatePsychologists?nome=${nome}&idade=${idade}&email=${email}&crp=${crp}&numeroContato=${numeroContato}&valorConsulta=${valorConsulta}&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
+							`/psychologist/${valorrequest}/updatePsychologists?nome=${nome}&idade=${idade}&email=${email}&crp=${crp}&numeroContato=${numeroContato}&valorConsulta=gratuito&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -116,7 +116,7 @@ export default function editaPsychologistProfile(navigation) {
 							Alert.alert('Senha atual incorreta.');
 							console.error(err);
 						}
-					} else {
+					} else if((senha !== '' && novaSenha === '') || (senha === '' && novaSenha !== '')) {
 						Alert.alert(
 							'É necessario informar os dois campos para alterar a senha.'
 						);
