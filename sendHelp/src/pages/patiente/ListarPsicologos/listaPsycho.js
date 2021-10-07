@@ -85,8 +85,8 @@ export default function ListPsychologist() {
 	}
 
 	return (
-		<>
-			<ScrollView style={css.bigContainer}>
+		<View style={css.bigContainer}>
+			{/* <ScrollView > */}
 				<View style={css.input}>
 					<TextInput
 						onChangeText={setSearch}
@@ -133,8 +133,7 @@ export default function ListPsychologist() {
 						</TouchableOpacity>
 					)}
 				/>
-			</ScrollView>
 			<Filters />
-		</>
+		</View>
 	);
 }

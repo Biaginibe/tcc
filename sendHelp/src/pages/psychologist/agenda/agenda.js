@@ -213,7 +213,6 @@ export default function Psychologistschedule() {
 
 	return (
 		<>
-			<ScrollView>
 				{console.log(token)}
 				<View style={{ display: 'flex' }}>
 					<FlatList
@@ -276,7 +275,6 @@ export default function Psychologistschedule() {
 						</View>
 					</TouchableOpacity>
 				</View>
-			</ScrollView>
 
 			{/* MODAL ADD */}
 

@@ -135,7 +135,7 @@ export default function ProfileMarker(route, navigation) {
 			setHasQueue(data.data);
 
 			const data2 = await instance.post(
-				'/patiente/itsThatQueue',
+				'/patiente/itsThatQueue', 
 				{
 					id_paciente: user.id,
 					id_psico: valorid,
@@ -155,7 +155,7 @@ export default function ProfileMarker(route, navigation) {
 			}
 		}
 		Details();
-	}, [segunda, terca, quarta, quinta, sexta, sabado, domingo, runAgain]);
+	}, [runAgain]);
 
 	async function onClickInsert() {
 		if (hasQueue) {
@@ -179,6 +179,7 @@ export default function ProfileMarker(route, navigation) {
 			setRunAgain(!runAgain);
 		}
 	}
+	
 	async function onClickQuit() {
 		await instance.post(
 			'patiente/quitQueue',
