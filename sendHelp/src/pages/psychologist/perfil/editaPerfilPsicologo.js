@@ -41,7 +41,6 @@ export default function editaPsychologistProfile(navigation) {
 		psychologist.prefFaixaEtaria
 	);
 
-	
 	const [senha, setSenha] = useState('');
 	const [novaSenha, setNovaSenha] = useState('');
 
@@ -116,7 +115,10 @@ export default function editaPsychologistProfile(navigation) {
 							Alert.alert('Senha atual incorreta.');
 							console.error(err);
 						}
-					} else if((senha !== '' && novaSenha === '') || (senha === '' && novaSenha !== '')) {
+					} else if (
+						(senha !== '' && novaSenha === '') ||
+						(senha === '' && novaSenha !== '')
+					) {
 						Alert.alert(
 							'É necessario informar os dois campos para alterar a senha.'
 						);
@@ -307,12 +309,17 @@ export default function editaPsychologistProfile(navigation) {
 							</Picker>
 						</View>
 						<View style={css.borderInput}>
-							<TextInput
+							<TextInputMask
+								type={'custom'}
+								options={{
+								  mask: '99/999999'
+								}}
 								style={css.input}
 								value={crp}
 								onChangeText={(e) => setCrp(e)}
 								placeholder='Insira o CRP aqui'
-							></TextInput>
+								keyboardType='numeric'
+							/>
 						</View>
 						<Text style={css.info}>Descrição:</Text>
 						<View style={css.borderInput}>
