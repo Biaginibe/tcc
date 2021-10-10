@@ -12,12 +12,13 @@ import { instance } from '../../../config/axios';
 import Filters from '../../../components/patiente/filter/Filter';
 import { useFilter } from '../../../context/Filter';
 import { useAuth } from '../../../context/Auth';
-
+import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default function ListPsychologist() {
 	const [profiles, setProfiles] = useState(null);
 	const [search, setSearch] = useState('');
+	const {navigate} = useNavigation();
 	const { filters } = useFilter();
 	const { token } = useAuth();
 
@@ -83,7 +84,11 @@ export default function ListPsychologist() {
 		// console.log(data2.data)
 		setSearch('');
 	}
-
+	function handleLista(id){
+		console.log("funciona?");		
+		{navigate('ProfileMarker', {valorid: id})}
+	}
+	
 	return (
 		<View style={css.bigContainer}>
 			{/* <ScrollView > */}
@@ -106,7 +111,7 @@ export default function ListPsychologist() {
 					data={profiles}
 					keyExtractor={(item) => String(item.id)}
 					renderItem={({ item }) => (
-						<TouchableOpacity>
+						<TouchableOpacity onPress={(e)=>handleLista(item.id)}>
 							<ListItem bottomDivider style={css.container}>
 								<ListItem.Content>
 									<ListItem.Title style={css.nome}>
