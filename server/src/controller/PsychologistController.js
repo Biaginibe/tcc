@@ -101,6 +101,8 @@ module.exports = {
 	async findPsychologistsjoinUsers(req, res) {
 		const { id_user } = req.params;
 
+		console.log(id_user)
+
 		const data = await User.sequelize.query(
 			`SELECT u.*, p.*, c.endereco from users u INNER JOIN clients c
 		ON (u.id = c.id_user)
@@ -110,18 +112,9 @@ module.exports = {
 			{ type: QueryTypes.SELECT }
 		);
 
-		data[0].endereco = data[0].endereco.split('-').slice(0, 1);
-		// console.log(data)
-		// let a = data.slice(0, 1)
-		// console.log(a)
-		
-		//  psycologist.map((psycho) => {
-		// 	let data = psycho.dataValues.client.dataValues.endereco;
-		// 	data = data.split('-');
-		// 	endereco = data.slice(0, 1);
-		// });
+		console.log(data)
 
-		// RETORNAR ESSE ENDERECO E VER AS CONSEQUECIAS NO FRONT -> TRATAR AS CONSEQUENCIAS
+		data[0].endereco = data[0].endereco.split('-').slice(0, 1);
 
 		success = `Sucesso`;
 		return res.json(data);

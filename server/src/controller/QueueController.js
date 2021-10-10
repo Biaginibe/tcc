@@ -78,6 +78,8 @@ module.exports = {
 			{ type: QueryTypes.SELECT }
 		);
 
+		console.log(psychologist)
+
 		const id_psicologo = psychologist[0].id;
 
 
