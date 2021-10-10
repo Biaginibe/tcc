@@ -213,7 +213,7 @@ export default function editaPsychologistProfile(navigation) {
 								style={css.input}
 								value={numeroContato}
 								onChangeText={(e) => setNumeroContato(e)}
-								placeholder='Insira o Numero aqui'
+								placeholder='Insira o numero de contato aqui'
 							></TextInputMask>
 						</View>
 						<Text style={css.info}>Tempo da sessão em minutos</Text>

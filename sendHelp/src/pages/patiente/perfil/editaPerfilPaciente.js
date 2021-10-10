@@ -85,7 +85,7 @@ export default function editaPacienteProfile(navigation) {
 				}
 
 				const perfildata = await instance.get(
-					`/patientes/${valorrequest}}/findOnebyIDPatientes`,
+					`/patientes/${valorrequest}/findOnebyIDPatientes`,
 					{
 						headers: {
 							Authorization: 'Bearer ' + token,

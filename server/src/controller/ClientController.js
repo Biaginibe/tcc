@@ -16,7 +16,7 @@ module.exports = {
 		} = req.query;
 
 		const profiles = await Psychologist.sequelize.query(
-			`SELECT p.id as id, 
+			`SELECT u.id as id, 
 					p.tipoAtendimento, 
 					u.nome as nome, 
 					u.genero as genero, 
@@ -36,6 +36,7 @@ module.exports = {
 			AND IF('${tempoSessao}' != '', p.tempoSessao = '${tempoSessao}', p.tempoSessao IS NOT NULL);`,
 			{ type: QueryTypes.SELECT }
 		);
+		console.log(profiles);
 		return res.send(profiles);
 	},
 

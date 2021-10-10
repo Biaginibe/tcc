@@ -85,6 +85,7 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
+				console.log(scheduledata.data)
 				setSegunda(scheduledata.data.scheduleSeg);
 				setTerca(scheduledata.data.scheduleTer);
 				setQuarta(scheduledata.data.scheduleQua);
@@ -112,6 +113,7 @@ export default function ProfileMarker(route, navigation) {
 			);
 
 			setPosition(posFila.data);
+			console.log(position)
 			const sum =
 				segunda.length +
 				terca.length +
