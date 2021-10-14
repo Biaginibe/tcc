@@ -149,7 +149,7 @@ export default function ProfileMarker(route, navigation) {
 				}
 			);
 			setThatQueue(data2.data);
-
+				console.log(sum)
 			if (sum > 0) {
 				setHasSchedule(true);
 			} else {

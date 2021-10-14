@@ -18,7 +18,8 @@ const css = StyleSheet.create({
 	},
     name: {
         fontWeight: 'bold',
-        fontSize: 30
+        fontSize: 30,
+        maxWidth:'70%'
     },
     value: {
         fontSize: 26,

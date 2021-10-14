@@ -58,7 +58,7 @@ export default function editaPsychologistProfile(navigation) {
 			...psychologist,
 			crp: crp,
 			numeroContato: numeroContato,
-			valorConsulta: 'gratuito',
+			valorConsulta: 'Gratuito',
 			metodologia: metodologia,
 			tempoSessao: tempoSessao,
 			tipoAtendimento: tipoAtendimento,

@@ -16,7 +16,6 @@ export default function Filters(props) {
   const [genero, setGenero] = useState(filters.genero);
   const [faixaEtaria, setFaixaEtaria] = useState(filters.faixaEtaria);
   const [tempoSessao, setTempoSessao] = useState(filters.tempoSessao);
-  const [valor, setValor] = useState(filters.valor);
 
   const [aplicar, setAplicar] = useState(null);
 
@@ -25,7 +24,6 @@ export default function Filters(props) {
       setFilters({
         abordagem: abordagem,
         tipoAtendimento: tipoAtendimento,
-        valor: valor,
         genero: genero,
         faixaEtaria: faixaEtaria,
         tempoSessao: tempoSessao,
@@ -140,19 +138,6 @@ export default function Filters(props) {
               <Picker.Item label="40 minutos" value="40 minutos" />
               <Picker.Item label="50 minutos" value="50 minutos" />
               <Picker.Item label="60 minutos" value="60 minutos" />
-            </Picker>
-
-            <Text style={css.label}>Valor:</Text>
-            <Picker
-              selectedValue={valor}
-              style={css.picker}
-              onValueChange={(itemValue, itemIndex) => setValor(itemValue)}
-            >
-              <Picker.Item label="Selecione" value={""} />
-              <Picker.Item label="Gratuito" value="gratuito" />
-              <Picker.Item label="$" value="$" />
-              <Picker.Item label="$$" value="$$" />
-              <Picker.Item label="$$$" value="$$$" />
             </Picker>
 
             <View style={css.inline}>

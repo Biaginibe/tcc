@@ -18,7 +18,7 @@ import { FontAwesome } from '@expo/vector-icons';
 export default function ListPsychologist() {
 	const [profiles, setProfiles] = useState(null);
 	const [search, setSearch] = useState('');
-	const {navigate} = useNavigation();
+	const { navigate } = useNavigation();
 	const { filters } = useFilter();
 	const { token } = useAuth();
 
@@ -57,7 +57,7 @@ export default function ListPsychologist() {
 					}
 				);
 				setProfiles(data);
-				console.log(data)
+				console.log(data);
 			} catch (err) {
 				console.error(err);
 			}
@@ -73,71 +73,79 @@ export default function ListPsychologist() {
 													genero=${filters.genero}&
 													faixaEtaria=${filters.faixaEtaria}&
 													tempoSessao=${filters.tempoSessao}`,
-			{like: search},
+			{ like: search },
 			{
 				headers: {
 					Authorization: 'Bearer ' + token,
 				},
 			}
 		);
-		setProfiles(data2.data)
+		setProfiles(data2.data);
 		// console.log(data2.data)
 		setSearch('');
 	}
-	function handleLista(id){
-		console.log("funciona?");		
-		{navigate('ProfileMarker', {valorid: id})}
+	function handleLista(id) {
+		console.log('funciona?');
+		{
+			navigate('ProfileMarker', { valorid: id });
+		}
 	}
-	
+
 	return (
 		<View style={css.bigContainer}>
 			{/* <ScrollView > */}
-				<View style={css.input}>
-					<TextInput
-						onChangeText={setSearch}
-						value={search}
-						placeholder='Procure um psicologo...'
+			<View style={css.input}>
+				<TextInput
+					onChangeText={setSearch}
+					value={search}
+					placeholder='Procure um psicologo...'
+				/>
+				<TouchableOpacity onPress={onClick}>
+					<FontAwesome
+						name='search'
+						size={20}
+						style={{ marginLeft: 65 }}
+						color='#053165'
 					/>
-					<TouchableOpacity onPress={onClick}>
-						<FontAwesome
-							name='search'
-							size={20}
-							style={{ marginLeft: 65 }}
-							color='#053165'
-						/>
-					</TouchableOpacity>
-				</View>
-				<FlatList
-					data={profiles}
-					keyExtractor={(item) => String(item.id)}
-					renderItem={({ item }) => (
-						<TouchableOpacity onPress={(e)=>handleLista(item.id)}>
-							<ListItem bottomDivider style={css.container}>
-								<ListItem.Content>
-									<ListItem.Title style={css.nome}>
-										{item.nome}
-									</ListItem.Title>
-									<ListItem.Subtitle>
-										{item.tipoAtendimento}
-									</ListItem.Subtitle>
+				</TouchableOpacity>
+			</View>
+			<FlatList
+				data={profiles}
+				keyExtractor={(item) => String(item.id)}
+				renderItem={({ item }) => (
+					<TouchableOpacity onPress={(e) => handleLista(item.id)}>
+						<ListItem bottomDivider style={css.container}>
+							<ListItem.Content>
+								<View style={css.inline}>
+
+								<ListItem.Title style={css.nome}>
+									{item.nome}
+								</ListItem.Title>
+								<ListItem.Title style={css.valor}>
+									{item.valorConsulta}
+								</ListItem.Title>
+								</View>
+								<ListItem.Subtitle>
+									{item.tipoAtendimento}
+								</ListItem.Subtitle>
+								<View style={{maxWidth: '70%', marginBottom: 5}}>
 									<ListItem.Title>
 										{'Abordagem: ' + item.metodologia}
 									</ListItem.Title>
-									<ListItem.Title>
-										{'Faixa etaria: ' + item.prefFaixaEtaria}
-									</ListItem.Title>
-									<ListItem.Title style={css.valor}>
-										{item.valorConsulta}
-									</ListItem.Title>
-									<ListItem.Title style={css.tempoSessao}>
-										{'Duração:\n' + item.tempoSessao}
-									</ListItem.Title>
-								</ListItem.Content>
-								<ListItem.Chevron />
-							</ListItem>
-						</TouchableOpacity>
-					)}
-				/>
+								</View>
+								<ListItem.Title>
+									{'Faixa etaria: ' + item.prefFaixaEtaria}
+								</ListItem.Title>
+								
+								<ListItem.Title style={css.tempoSessao}>
+									{'Duração:\n' + item.tempoSessao}
+								</ListItem.Title>
+							</ListItem.Content>
+							{/* <ListItem.Chevron /> */}
+						</ListItem>
+					</TouchableOpacity>
+				)}
+			/>
 			<Filters />
 		</View>
 	);

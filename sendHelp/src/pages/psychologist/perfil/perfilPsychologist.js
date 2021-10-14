@@ -22,7 +22,7 @@ export default function PsychologistProfile() {
 				const valorrequest = user.id;
 				console.log(user.id);
 				const perfildata = await instance.get(
-					`/Psychologist/${user.id}}/findPsychologistsjoinUsers`,
+					`/Psychologist/${user.id}/findPsychologistsjoinUsers`,
 					{
 						headers: {
 							Authorization: 'Bearer ' + token,
@@ -54,17 +54,7 @@ export default function PsychologistProfile() {
 				<Text style={css.info}>{user.idade} anos</Text>
 				<Text style={css.info}>{user.email}</Text>
 				<Text style={css.info}>{user.cpf}</Text>
-				{psychologist.valorConsulta ? (
-					<View>
-						<Text style={css.info}>
-							Valor da Consulta: {psychologist.valorConsulta}
-						</Text>
-					</View>
-				) : (
-					<Text style={css.infoNull}>
-						Registre a faixa de valor da sua consulta
-					</Text>
-				)}
+
 				{psychologist.metodologia ? (
 					<View>
 						<Text style={css.info}>
@@ -120,7 +110,9 @@ export default function PsychologistProfile() {
 					<Text style={css.info}>Descrição</Text>
 					<View style={css.desc}>
 						{psychologist.descricao ? (
-							<Text> {psychologist.descricao}</Text>
+							<View>
+								<Text> {psychologist.descricao}</Text>
+							</View>
 						) : (
 							<Text style={css.infoNull}>
 								Registre sua descrição

@@ -34,7 +34,7 @@ const css = StyleSheet.create({
 		marginBottom: 5,
 	},
 	infoNull: {
-		paddingHorizontal: '2%',
+		paddingHorizontal: '5%',
 		fontSize: 16,
 		marginBottom: 5,
 		color: 'gray',

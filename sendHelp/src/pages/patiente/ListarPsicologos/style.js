@@ -5,6 +5,15 @@ const css = StyleSheet.create({
         backgroundColor: '#F9f9f9',
 
     },
+
+    inline: {
+        width: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+	},
     container:{
         marginBottom: 5,
     },  
@@ -30,15 +39,12 @@ const css = StyleSheet.create({
 	valor:{
         color: 'green',
         fontSize: 22,
-        position: 'absolute',
-        left: '85%',
-        top: '10%'
     },
 	tempoSessao:{
         color: 'gray',
         fontSize: 16,
         position: 'absolute',
-        left: '82%',
+        left: '76.5%',
         bottom: '2%',
         textAlign: 'center'
     },
