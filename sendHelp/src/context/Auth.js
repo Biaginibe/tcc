@@ -41,7 +41,7 @@ export default function AuthProvider({ children }) {
 						}
 					})
 					.catch((err) => {
-						return;
+						return console.log(err);
 					});
 			}
 			isTokenValid();

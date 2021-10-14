@@ -142,11 +142,22 @@ module.exports = {
 	async findPsychologistNumberById(req, res) {
 		const { id_psycho } = req.body;
 
-		const psychologist = await Psychologist.findOne({
-			where: { id: id_psycho },
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id 
+			FROM users u 
+			INNER JOIN clients c ON c.id_user = u.id
+			INNER JOIN psychologists p ON p.id_cliente = c.id
+			WHERE u.id=${id_psycho}`,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
+
+		const psycho = await Psychologist.findOne({
+			where: { id: id_psicologo },
 		});
 
-		let numeroContato = psychologist.dataValues.numeroContato;
+		let numeroContato = psycho.dataValues.numeroContato;
 
 		return res.json(numeroContato);
 	},
