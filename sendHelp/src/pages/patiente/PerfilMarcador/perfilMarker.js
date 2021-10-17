@@ -8,7 +8,7 @@ import {
 	ScrollView,
 	StyleSheet,
 	Alert,
-	Linking
+	Linking,
 } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
@@ -37,8 +37,7 @@ export default function ProfileMarker(route, navigation) {
 	const { token, user } = useAuth();
 
 	async function callWhatsapp() {
-		try{
-
+		try {
 			const phone = await instance.post(
 				`/patiente/NumeroContato`,
 				{
@@ -50,9 +49,14 @@ export default function ProfileMarker(route, navigation) {
 					},
 				}
 			);
-			Linking.openURL(`https://api.whatsapp.com/send?phone=55${phone.data.replace(/[^0-9]/g, '')}&text=Olá!%20Vi%20seu%20perfil%20no%20SendHelp%20e%20estou%20entrando%20em%20contato.%20Gostaria%20de%20falar%20sobre%20seu%20atendimento`) 
-		}catch(err){
-			console.log(err)
+			Linking.openURL(
+				`https://api.whatsapp.com/send?phone=55${phone.data.replace(
+					/[^0-9]/g,
+					''
+				)}&text=Olá!%20Vi%20seu%20perfil%20no%20SendHelp%20e%20estou%20entrando%20em%20contato.%20Gostaria%20de%20falar%20sobre%20seu%20atendimento`
+			);
+		} catch (err) {
+			console.log(err);
 		}
 	}
 
@@ -68,7 +72,7 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
-				console.log(perfildata)
+				console.log(perfildata);
 				setPerfil(perfildata.data);
 				// let teste = perfildata.data.endereco;
 				// console.log(teste)
@@ -85,7 +89,7 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
-				console.log(scheduledata.data)
+				console.log(scheduledata.data);
 				setSegunda(scheduledata.data.scheduleSeg);
 				setTerca(scheduledata.data.scheduleTer);
 				setQuarta(scheduledata.data.scheduleQua);
@@ -113,7 +117,7 @@ export default function ProfileMarker(route, navigation) {
 			);
 
 			setPosition(posFila.data);
-			console.log(position)
+			console.log(position);
 			const sum =
 				segunda.length +
 				terca.length +
@@ -122,6 +126,13 @@ export default function ProfileMarker(route, navigation) {
 				sexta.length +
 				sabado.length +
 				domingo.length;
+			console.log(segunda.length);
+			console.log(terca.length);
+			console.log(quarta.length);
+			console.log(quinta.length);
+			console.log(sexta.length);
+			console.log(sabado.length);
+			console.log(domingo.length);
 
 			const data = await instance.post(
 				'/patiente/hasQueue',
@@ -137,7 +148,7 @@ export default function ProfileMarker(route, navigation) {
 			setHasQueue(data.data);
 
 			const data2 = await instance.post(
-				'/patiente/itsThatQueue', 
+				'/patiente/itsThatQueue',
 				{
 					id_paciente: user.id,
 					id_psico: valorid,
@@ -149,7 +160,10 @@ export default function ProfileMarker(route, navigation) {
 				}
 			);
 			setThatQueue(data2.data);
-				console.log(sum)
+			console.log('SOMA');
+			console.log(sum);
+			console.log(sum);
+			console.log(sum);
 			if (sum > 0) {
 				setHasSchedule(true);
 			} else {
@@ -181,7 +195,7 @@ export default function ProfileMarker(route, navigation) {
 			setRunAgain(!runAgain);
 		}
 	}
-	
+
 	async function onClickQuit() {
 		await instance.post(
 			'patiente/quitQueue',
@@ -290,6 +304,7 @@ export default function ProfileMarker(route, navigation) {
 							</View>
 						)}
 					/>
+					{console.log('HASSCHEDULE' + hasSchedule)}
 					{hasSchedule || position == 0 ? (
 						<>
 							<View style={css.btn}>
@@ -328,31 +343,31 @@ export default function ProfileMarker(route, navigation) {
 									horizontal
 									keyExtractor={(item) => Number(item.id)}
 									renderItem={({ item }) => {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
+										return (
+											<View>
+												<ListItem>
+													<ListItem.Content>
+														<ListItem.Title
+															style={
+																css.schedulesTouchable
+															}
+														>
+															<TouchableOpacity>
+																<Text
+																	style={
+																		css.schedules
+																	}
+																>
+																	{
+																		item.horarioDisponivel
+																	}
+																</Text>
+															</TouchableOpacity>
+														</ListItem.Title>
+													</ListItem.Content>
+												</ListItem>
+											</View>
+										);
 									}}
 								/>
 
@@ -393,8 +408,7 @@ export default function ProfileMarker(route, navigation) {
 												</ListItem>
 											</View>
 										);
-									
-								}}
+									}}
 								/>
 
 								{quarta.length != 0 && quarta !== [] ? (
@@ -434,8 +448,7 @@ export default function ProfileMarker(route, navigation) {
 												</ListItem>
 											</View>
 										);
-									
-								}}
+									}}
 								/>
 								{quinta.length != 0 && quinta.segunda !== [] ? (
 									<View>
@@ -474,8 +487,7 @@ export default function ProfileMarker(route, navigation) {
 												</ListItem>
 											</View>
 										);
-									
-								}}
+									}}
 								/>
 								{sexta.length != 0 && sexta !== [] ? (
 									<View>
@@ -514,8 +526,7 @@ export default function ProfileMarker(route, navigation) {
 												</ListItem>
 											</View>
 										);
-									
-								}}
+									}}
 								/>
 								{sabado.length != 0 && sabado !== [] ? (
 									<View>
@@ -554,8 +565,7 @@ export default function ProfileMarker(route, navigation) {
 												</ListItem>
 											</View>
 										);
-									
-								}}
+									}}
 								/>
 								{domingo.length != 0 && domingo !== [] ? (
 									<View>
@@ -594,8 +604,7 @@ export default function ProfileMarker(route, navigation) {
 												</ListItem>
 											</View>
 										);
-									
-								}}
+									}}
 								/>
 							</View>
 						</>

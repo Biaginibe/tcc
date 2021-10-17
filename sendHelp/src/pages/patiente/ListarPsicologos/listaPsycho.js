@@ -5,6 +5,7 @@ import {
 	ScrollView,
 	TextInput,
 	View,
+	SafeAreaView,
 } from 'react-native';
 import { css } from './style';
 import ListItem from 'react-native-elements/dist/list/ListItem';
@@ -92,7 +93,7 @@ export default function ListPsychologist() {
 	}
 
 	return (
-		<View style={css.bigContainer}>
+		<SafeAreaView style={css.bigContainer}>
 			{/* <ScrollView > */}
 			<View style={css.input}>
 				<TextInput
@@ -147,6 +148,6 @@ export default function ListPsychologist() {
 				)}
 			/>
 			<Filters />
-		</View>
+		</SafeAreaView>
 	);
 }
