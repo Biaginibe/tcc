@@ -237,24 +237,35 @@ module.exports = {
 			},
 		});
 
+		var sum = 0;
+
 
 		schedules.map((schedule) => {
 			if (schedule.dataValues.diaDisponivel === 'Segunda' && schedule.dataValues.disponivel) {
 				scheduleSeg.push(schedule);
+				sum++
 			} else if (schedule.dataValues.diaDisponivel === 'Terça' && schedule.dataValues.disponivel) {
 				scheduleTer.push(schedule);
+				sum++
 			} else if (schedule.dataValues.diaDisponivel === 'Quarta' && schedule.dataValues.disponivel) {
 				scheduleQua.push(schedule);
+				sum++
 			} else if (schedule.dataValues.diaDisponivel === 'Quinta' && schedule.dataValues.disponivel) {
 				scheduleQui.push(schedule);
+				sum++
 			} else if (schedule.dataValues.diaDisponivel === 'Sexta' && schedule.dataValues.disponivel) {
 				scheduleSex.push(schedule);
+				sum++
 			} else if (schedule.dataValues.diaDisponivel === 'Sabado' && schedule.dataValues.disponivel) {
+				sum++
 				scheduleSab.push(schedule);
 			} else if(schedule.dataValues.diaDisponivel === 'Domingo' && schedule.dataValues.disponivel) {
 				scheduleDom.push(schedule);
+				sum++
 			}
 		});
+
+		console.log(sum)
 
 		return res.send({
 			scheduleSeg,
@@ -264,6 +275,7 @@ module.exports = {
 			scheduleSex,
 			scheduleSab,
 			scheduleDom,
+			sum
 		});
 	},
 

@@ -31,6 +31,7 @@ export default function ProfileMarker(route, navigation) {
 	const [hasSchedule, setHasSchedule] = useState(null);
 	const [position, setPosition] = useState(null);
 	const [thatQueue, setThatQueue] = useState(null);
+	const [sum, setSum] = useState(null);
 	const [runAgain, setRunAgain] = useState(true);
 
 	const { valorid } = route.route.params;
@@ -72,10 +73,8 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
-				console.log(perfildata);
+				console.log(perfildata.data);
 				setPerfil(perfildata.data);
-				// let teste = perfildata.data.endereco;
-				// console.log(teste)
 			} catch (err) {
 				console.log(err);
 			}
@@ -89,7 +88,7 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
-				console.log(scheduledata.data);
+				console.log(scheduledata.data.sum);
 				setSegunda(scheduledata.data.scheduleSeg);
 				setTerca(scheduledata.data.scheduleTer);
 				setQuarta(scheduledata.data.scheduleQua);
@@ -97,6 +96,8 @@ export default function ProfileMarker(route, navigation) {
 				setSexta(scheduledata.data.scheduleSex);
 				setSabado(scheduledata.data.scheduleSab);
 				setDomingo(scheduledata.data.scheduleDom);
+				setSum(scheduledata.data.sum)
+				
 			} catch (err) {
 				console.log(err);
 			}
@@ -118,21 +119,6 @@ export default function ProfileMarker(route, navigation) {
 
 			setPosition(posFila.data);
 			console.log(position);
-			const sum =
-				segunda.length +
-				terca.length +
-				quarta.length +
-				quinta.length +
-				sexta.length +
-				sabado.length +
-				domingo.length;
-			console.log(segunda.length);
-			console.log(terca.length);
-			console.log(quarta.length);
-			console.log(quinta.length);
-			console.log(sexta.length);
-			console.log(sabado.length);
-			console.log(domingo.length);
 
 			const data = await instance.post(
 				'/patiente/hasQueue',
@@ -171,7 +157,7 @@ export default function ProfileMarker(route, navigation) {
 			}
 		}
 		Details();
-	}, [runAgain]);
+	}, [runAgain, sum]);
 
 	async function onClickInsert() {
 		if (hasQueue) {
@@ -305,7 +291,8 @@ export default function ProfileMarker(route, navigation) {
 						)}
 					/>
 					{console.log('HASSCHEDULE' + hasSchedule)}
-					{hasSchedule || position == 0 ? (
+					{sum && hasSchedule || position == 0 ? 
+					(
 						<>
 							<View style={css.btn}>
 								<TouchableOpacity

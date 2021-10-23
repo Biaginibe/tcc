@@ -27,11 +27,18 @@ const css = StyleSheet.create({
 	name: {
 		fontWeight: 'bold',
 		fontSize: 30,
+		marginRight: '23%'
 	},
 	info: {
 		paddingHorizontal: '5%',
 		fontSize: 16,
 		marginBottom: 5,
+	},
+	pass: {
+		paddingHorizontal: '5%',
+		fontSize: 14,
+		marginBottom: 5,
+		color: 'rgb(111,141, 228)'
 	},
 	infoNull: {
 		paddingHorizontal: '2%',
