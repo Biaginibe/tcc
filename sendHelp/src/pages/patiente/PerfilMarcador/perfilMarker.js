@@ -15,6 +15,7 @@ import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import { css } from './style';
 import { instance } from '../../../config/axios';
 import { useAuth } from '../../../context/Auth';
+import FlatSchedule from '../../../components/patiente/agendaPerfilMarker/Schedule';
 
 export default function ProfileMarker(route, navigation) {
 	const [perfil, setPerfil] = useState(null);
@@ -96,8 +97,7 @@ export default function ProfileMarker(route, navigation) {
 				setSexta(scheduledata.data.scheduleSex);
 				setSabado(scheduledata.data.scheduleSab);
 				setDomingo(scheduledata.data.scheduleDom);
-				setSum(scheduledata.data.sum)
-				
+				setSum(scheduledata.data.sum);
 			} catch (err) {
 				console.log(err);
 			}
@@ -291,8 +291,7 @@ export default function ProfileMarker(route, navigation) {
 						)}
 					/>
 					{console.log('HASSCHEDULE' + hasSchedule)}
-					{sum && hasSchedule || position == 0 ? 
-					(
+					{(sum && hasSchedule) || position == 0 ? (
 						<>
 							<View style={css.btn}>
 								<TouchableOpacity
@@ -324,40 +323,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-
-								<FlatList
-									data={segunda}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										return (
-											<View>
-												<ListItem>
-													<ListItem.Content>
-														<ListItem.Title
-															style={
-																css.schedulesTouchable
-															}
-														>
-															<TouchableOpacity>
-																<Text
-																	style={
-																		css.schedules
-																	}
-																>
-																	{
-																		item.horarioDisponivel
-																	}
-																</Text>
-															</TouchableOpacity>
-														</ListItem.Title>
-													</ListItem.Content>
-												</ListItem>
-											</View>
-										);
-									}}
-								/>
-
+								<FlatSchedule data={segunda} />
 								{terca.length != 0 && terca !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -365,39 +331,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={terca}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										return (
-											<View>
-												<ListItem>
-													<ListItem.Content>
-														<ListItem.Title
-															style={
-																css.schedulesTouchable
-															}
-														>
-															<TouchableOpacity>
-																<Text
-																	style={
-																		css.schedules
-																	}
-																>
-																	{
-																		item.horarioDisponivel
-																	}
-																</Text>
-															</TouchableOpacity>
-														</ListItem.Title>
-													</ListItem.Content>
-												</ListItem>
-											</View>
-										);
-									}}
-								/>
-
+								<FlatSchedule data={terca} />
 								{quarta.length != 0 && quarta !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -405,38 +339,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={quarta}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										return (
-											<View>
-												<ListItem>
-													<ListItem.Content>
-														<ListItem.Title
-															style={
-																css.schedulesTouchable
-															}
-														>
-															<TouchableOpacity>
-																<Text
-																	style={
-																		css.schedules
-																	}
-																>
-																	{
-																		item.horarioDisponivel
-																	}
-																</Text>
-															</TouchableOpacity>
-														</ListItem.Title>
-													</ListItem.Content>
-												</ListItem>
-											</View>
-										);
-									}}
-								/>
+								<FlatSchedule data={quarta} />
 								{quinta.length != 0 && quinta.segunda !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -444,38 +347,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={quinta}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										return (
-											<View>
-												<ListItem>
-													<ListItem.Content>
-														<ListItem.Title
-															style={
-																css.schedulesTouchable
-															}
-														>
-															<TouchableOpacity>
-																<Text
-																	style={
-																		css.schedules
-																	}
-																>
-																	{
-																		item.horarioDisponivel
-																	}
-																</Text>
-															</TouchableOpacity>
-														</ListItem.Title>
-													</ListItem.Content>
-												</ListItem>
-											</View>
-										);
-									}}
-								/>
+								<FlatSchedule data={quinta} />
 								{sexta.length != 0 && sexta !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -483,38 +355,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={sexta}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										return (
-											<View>
-												<ListItem>
-													<ListItem.Content>
-														<ListItem.Title
-															style={
-																css.schedulesTouchable
-															}
-														>
-															<TouchableOpacity>
-																<Text
-																	style={
-																		css.schedules
-																	}
-																>
-																	{
-																		item.horarioDisponivel
-																	}
-																</Text>
-															</TouchableOpacity>
-														</ListItem.Title>
-													</ListItem.Content>
-												</ListItem>
-											</View>
-										);
-									}}
-								/>
+								<FlatSchedule data={sexta} />
 								{sabado.length != 0 && sabado !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -522,38 +363,8 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={sabado}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										return (
-											<View>
-												<ListItem>
-													<ListItem.Content>
-														<ListItem.Title
-															style={
-																css.schedulesTouchable
-															}
-														>
-															<TouchableOpacity>
-																<Text
-																	style={
-																		css.schedules
-																	}
-																>
-																	{
-																		item.horarioDisponivel
-																	}
-																</Text>
-															</TouchableOpacity>
-														</ListItem.Title>
-													</ListItem.Content>
-												</ListItem>
-											</View>
-										);
-									}}
-								/>
+								<FlatSchedule data={sabado} />
+
 								{domingo.length != 0 && domingo !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -561,38 +372,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={domingo}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										return (
-											<View>
-												<ListItem>
-													<ListItem.Content>
-														<ListItem.Title
-															style={
-																css.schedulesTouchable
-															}
-														>
-															<TouchableOpacity>
-																<Text
-																	style={
-																		css.schedules
-																	}
-																>
-																	{
-																		item.horarioDisponivel
-																	}
-																</Text>
-															</TouchableOpacity>
-														</ListItem.Title>
-													</ListItem.Content>
-												</ListItem>
-											</View>
-										);
-									}}
-								/>
+								<FlatSchedule data={domingo} />
 							</View>
 						</>
 					) : (
