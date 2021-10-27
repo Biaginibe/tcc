@@ -6,6 +6,7 @@ const css = StyleSheet.create({
 		position:'absolute'
 	},
 	botao: {
+		// flex: 1,
 		position:'absolute',
 		backgroundColor: '#054070',
 		borderRadius: 50,

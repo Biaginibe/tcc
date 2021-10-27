@@ -7,14 +7,26 @@ module.exports = {
 	async insertInQueue(req, res) {
 		const { id_psico, id_paciente } = req.body;
 
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id 
+			FROM users u 
+		INNER JOIN clients c ON c.id_user = u.id
+		INNER JOIN psychologists p ON p.id_cliente = c.id
+		WHERE u.id=${id_psico}`,
+			{ type: QueryTypes.SELECT }
+		);
+
+		const id_psicologo = psychologist[0].id;
+
+
 		const count = await Queue.count({
 			where: {
-				id_psicologo: id_psico,
+				id_psicologo: id_psicologo,
 			},
 		});
 
 		const results = await Queue.create({
-			id_psicologo: id_psico,
+			id_psicologo: id_psicologo,
 			id_paciente: id_paciente,
 			posicao_fila: count + 1,
 		});
@@ -57,8 +69,22 @@ module.exports = {
 	async itsThatQueue(req, res) {
 		const { id_paciente, id_psico } = req.body;
 
+		const psychologist = await User.sequelize.query(
+			`SELECT p.id 
+			FROM users u 
+		INNER JOIN clients c ON c.id_user = u.id
+		INNER JOIN psychologists p ON p.id_cliente = c.id
+		WHERE u.id=${id_psico}`,
+			{ type: QueryTypes.SELECT }
+		);
+
+		console.log(psychologist)
+
+		const id_psicologo = psychologist[0].id;
+
+
 		const row = await Queue.findOne({
-			where: { id_paciente: id_paciente, id_psicologo: id_psico },
+			where: { id_paciente: id_paciente, id_psicologo: id_psicologo },
 		});
 
 		if (!row) return res.json(false);

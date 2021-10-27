@@ -44,9 +44,9 @@ module.exports = {
 			const token = jwt.sign({ id: user.id }, authConfig.secret, {
 				expiresIn: 1209600, //14 dias
 			});
-			console.log(user);
-			console.log(token);
-			console.log(type);
+
+			user.senha = undefined;
+
 			return res.send({
 				user,
 				psychologist,
@@ -87,11 +87,12 @@ module.exports = {
 				genero,
 			});
 
+			user.senha = undefined;
+
 			return res.json({
 				user,
 				type,
 			});
-			
 		} catch (err) {
 			return res.status(400).send({
 				error: 'Falha no registro, por favor tente novamente.' + err,
@@ -109,33 +110,32 @@ module.exports = {
 		}
 
 		console.log(user);
-
-		const client = await Client.create({
-			endereco,
-			latitude,
-			longitude,
-			id_user,
-		});
-
-		if (!client) console.log('erro na criação do cliente');
-		
-		let psychologist = [null]
-		// caso seja um psicologo já cria uma linha para ele
-		if (user.dataValues.perfil == 2) {
-			psychologist = await Psychologist.create({
-				metodologia: '',
-				numeroContato: '',
-				prefFaixaEtaria: '',
-				valorConsulta: '',
-				tempoSessao: '',
-				descricao: '',
-				tipoAtendimento: '',
-				crp: '',
-				id_cliente: client.dataValues.id,
+		let psychologist = [''];
+		try {
+			const client = await Client.create({
+				endereco,
+				latitude,
+				longitude,
+				id_user,
 			});
+			if (!client) console.log('erro na criação do cliente');
+			console.log(client.dataValues.id);
+			if (user.dataValues.perfil == 2) {
+				psychologist = await Psychologist.create({
+					metodologia: '',
+					numeroContato: '',
+					prefFaixaEtaria: '',
+					valorConsulta: '',
+					tempoSessao: '',
+					descricao: '',
+					tipoAtendimento: '',
+					crp: '',
+					id_cliente: client.dataValues.id,
+				});
+			}
+		} catch (error) {
+			console.error(error);
 		}
-
-		console.log(psychologist)
 
 		return res.send({ psychologist });
 	},

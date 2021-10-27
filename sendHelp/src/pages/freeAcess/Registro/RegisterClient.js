@@ -36,17 +36,19 @@ export default function RegisterClient() {
 						latitude: lat,
 						longitude: long,
 					}
-				);
-				if (type == 'psicologo')
-					Alert.alert(
-						'Registre suas informações especificas na tela de perfil.'
 					);
+				console.log(type)
+				if (type == 'psicologo' || type == 2)
+					Alert.alert(
+						'Logue e registre suas informações especificas na tela de perfil.'
+					);	
+				else Alert.alert('Registro feito com sucesso, logue para acessar sua conta.') 
 				setPsychologist(data.psychologist);
 			} catch (err) {
 				console.log(err);
 			}
+			navigate('Login');
 		}
-		navigate('Login');
 	}
 
 	return (

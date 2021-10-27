@@ -8,7 +8,7 @@ export default function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 	const [token, setToken] = useState(null);
 	const [type, setType] = useState(null);
-	const [psychologist, setPsychologist] = useState(null);
+	const [psychologist, setPsychologist] = useState('');
 
 	useEffect(() => {
 		async function loadStoragedData() {
@@ -36,12 +36,12 @@ export default function AuthProvider({ children }) {
 							setUser(null);
 							setType(null);
 							setToken(null);
-							setPsychologist(null);
+							setPsychologist('');
 							AsyncStorage.clear();
 						}
 					})
 					.catch((err) => {
-						return;
+						return console.log(err);
 					});
 			}
 			isTokenValid();
@@ -68,7 +68,7 @@ export default function AuthProvider({ children }) {
         setUser(null);
         setType(null);
         setToken(null);
-        setPsychologist(null);
+        setPsychologist('');
         AsyncStorage.clear();
       }, []);
 

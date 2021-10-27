@@ -8,13 +8,14 @@ import {
 	ScrollView,
 	StyleSheet,
 	Alert,
-	Linking
+	Linking,
 } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import { css } from './style';
 import { instance } from '../../../config/axios';
 import { useAuth } from '../../../context/Auth';
+import FlatSchedule from '../../../components/patiente/agendaPerfilMarker/Schedule';
 
 export default function ProfileMarker(route, navigation) {
 	const [perfil, setPerfil] = useState(null);
@@ -31,14 +32,14 @@ export default function ProfileMarker(route, navigation) {
 	const [hasSchedule, setHasSchedule] = useState(null);
 	const [position, setPosition] = useState(null);
 	const [thatQueue, setThatQueue] = useState(null);
+	const [sum, setSum] = useState(null);
 	const [runAgain, setRunAgain] = useState(true);
 
 	const { valorid } = route.route.params;
 	const { token, user } = useAuth();
 
 	async function callWhatsapp() {
-		try{
-
+		try {
 			const phone = await instance.post(
 				`/patiente/NumeroContato`,
 				{
@@ -50,9 +51,14 @@ export default function ProfileMarker(route, navigation) {
 					},
 				}
 			);
-			Linking.openURL(`https://api.whatsapp.com/send?phone=55${phone.data.replace(/[^0-9]/g, '')}&text=Olá!%20Vi%20seu%20perfil%20no%20SendHelp%20e%20estou%20entrando%20em%20contato.%20Gostaria%20de%20falar%20sobre%20seu%20atendimento`) 
-		}catch(err){
-			console.log(err)
+			Linking.openURL(
+				`https://api.whatsapp.com/send?phone=55${phone.data.replace(
+					/[^0-9]/g,
+					''
+				)}&text=Olá!%20Vi%20seu%20perfil%20no%20SendHelp%20e%20estou%20entrando%20em%20contato.%20Gostaria%20de%20falar%20sobre%20seu%20atendimento`
+			);
+		} catch (err) {
+			console.log(err);
 		}
 	}
 
@@ -68,7 +74,7 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
-
+				console.log(perfildata.data);
 				setPerfil(perfildata.data);
 			} catch (err) {
 				console.log(err);
@@ -83,6 +89,7 @@ export default function ProfileMarker(route, navigation) {
 						},
 					}
 				);
+				console.log(scheduledata.data.sum);
 				setSegunda(scheduledata.data.scheduleSeg);
 				setTerca(scheduledata.data.scheduleTer);
 				setQuarta(scheduledata.data.scheduleQua);
@@ -90,6 +97,7 @@ export default function ProfileMarker(route, navigation) {
 				setSexta(scheduledata.data.scheduleSex);
 				setSabado(scheduledata.data.scheduleSab);
 				setDomingo(scheduledata.data.scheduleDom);
+				setSum(scheduledata.data.sum);
 			} catch (err) {
 				console.log(err);
 			}
@@ -110,14 +118,7 @@ export default function ProfileMarker(route, navigation) {
 			);
 
 			setPosition(posFila.data);
-			const sum =
-				segunda.length +
-				terca.length +
-				quarta.length +
-				quinta.length +
-				sexta.length +
-				sabado.length +
-				domingo.length;
+			console.log(position);
 
 			const data = await instance.post(
 				'/patiente/hasQueue',
@@ -145,7 +146,10 @@ export default function ProfileMarker(route, navigation) {
 				}
 			);
 			setThatQueue(data2.data);
-
+			console.log('SOMA');
+			console.log(sum);
+			console.log(sum);
+			console.log(sum);
 			if (sum > 0) {
 				setHasSchedule(true);
 			} else {
@@ -153,7 +157,7 @@ export default function ProfileMarker(route, navigation) {
 			}
 		}
 		Details();
-	}, [segunda, terca, quarta, quinta, sexta, sabado, domingo, runAgain]);
+	}, [runAgain, sum]);
 
 	async function onClickInsert() {
 		if (hasQueue) {
@@ -177,6 +181,7 @@ export default function ProfileMarker(route, navigation) {
 			setRunAgain(!runAgain);
 		}
 	}
+
 	async function onClickQuit() {
 		await instance.post(
 			'patiente/quitQueue',
@@ -206,7 +211,7 @@ export default function ProfileMarker(route, navigation) {
 									<ListItem.Content>
 										<View style={css.inline}>
 											<ListItem.Title style={css.name}>
-												{item.client.user.nome}
+												{item.nome}
 											</ListItem.Title>
 											<ListItem.Title style={css.value}>
 												{item.valorConsulta}
@@ -229,7 +234,7 @@ export default function ProfileMarker(route, navigation) {
 												>
 													Idade:{' '}
 												</Text>
-												{item.client.user.idade}
+												{item.idade}
 											</ListItem.Title>
 											<ListItem.Title
 												style={css.infoContent}
@@ -261,6 +266,16 @@ export default function ProfileMarker(route, navigation) {
 												</Text>
 												{'' + item.tempoSessao}
 											</ListItem.Title>
+											<ListItem.Title
+												style={css.infoContent}
+											>
+												<Text
+													style={css.infoContentTitle}
+												>
+													Endereço do consultorio:{' '}
+												</Text>
+												{'\n' + item.endereco[0]}
+											</ListItem.Title>
 											<Text style={css.infoContentTitle}>
 												Descrição:{' '}
 											</Text>
@@ -275,7 +290,8 @@ export default function ProfileMarker(route, navigation) {
 							</View>
 						)}
 					/>
-					{hasSchedule || position == 0 ? (
+					{console.log('HASSCHEDULE' + hasSchedule)}
+					{(sum && hasSchedule) || position == 0 ? (
 						<>
 							<View style={css.btn}>
 								<TouchableOpacity
@@ -307,68 +323,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-
-								<FlatList
-									data={segunda}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										var varcount = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcount++;
-											console.log(
-												varcount +
-													'tamamho ' +
-													segunda.length
-											);
-											varcount == segunda.length ? (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.inactiveSchedule
-																}
-															>
-																<Text>
-																	Horário
-																	Indisponível
-																</Text>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											) : null;
-										}
-									}}
-								/>
-
+								<FlatSchedule data={segunda} />
 								{terca.length != 0 && terca !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -376,66 +331,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={terca}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										let varcountterca = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountterca = varcountterca + 1;
-											if (varcountterca == terca.length) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
-																	style={
-																		css.inactiveSchedule
-																	}
-																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
-								/>
-
+								<FlatSchedule data={terca} />
 								{quarta.length != 0 && quarta !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -443,67 +339,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={quarta}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										let varcountquarta = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountquarta = varcountquarta + 1;
-											if (
-												varcountquarta == quarta.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
-																	style={
-																		css.inactiveSchedule
-																	}
-																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
-								/>
+								<FlatSchedule data={quarta} />
 								{quinta.length != 0 && quinta.segunda !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -511,72 +347,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={quinta}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										let varcountquinta = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountquinta = varcountquinta + 1;
-											console.log(
-												varcountquinta +
-													'tamamho ' +
-													quinta.length
-											);
-											if (
-												varcountquinta == quinta.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
-																	style={
-																		css.inactiveSchedule
-																	}
-																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
-								/>
+								<FlatSchedule data={quinta} />
 								{sexta.length != 0 && sexta !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -584,65 +355,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={sexta}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										let varcountsexta = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountsexta = varcountsexta + 1;
-											if (varcountsexta == sexta.length) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
-																	style={
-																		css.inactiveSchedule
-																	}
-																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
-								/>
+								<FlatSchedule data={sexta} />
 								{sabado.length != 0 && sabado !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -650,67 +363,8 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={sabado}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										let varcountsabado = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountsabado = varcountsabado + 1;
-											if (
-												varcountsabado == sabado.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
-																	style={
-																		css.inactiveSchedule
-																	}
-																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
-								/>
+								<FlatSchedule data={sabado} />
+
 								{domingo.length != 0 && domingo !== [] ? (
 									<View>
 										<Text style={css.scheduleSubtitle}>
@@ -718,69 +372,7 @@ export default function ProfileMarker(route, navigation) {
 										</Text>
 									</View>
 								) : null}
-								<FlatList
-									data={domingo}
-									horizontal
-									keyExtractor={(item) => Number(item.id)}
-									renderItem={({ item }) => {
-										let varcountdomingo = 0;
-										if (item.disponivel == true) {
-											return (
-												<View>
-													<ListItem>
-														<ListItem.Content>
-															<ListItem.Title
-																style={
-																	css.schedulesTouchable
-																}
-															>
-																<TouchableOpacity>
-																	<Text
-																		style={
-																			css.schedules
-																		}
-																	>
-																		{
-																			item.horarioDisponivel
-																		}
-																	</Text>
-																</TouchableOpacity>
-															</ListItem.Title>
-														</ListItem.Content>
-													</ListItem>
-												</View>
-											);
-										} else {
-											varcountdomingo =
-												varcountdomingo + 1;
-											if (
-												varcountdomingo ==
-												domingo.length
-											) {
-												return (
-													<View>
-														<ListItem>
-															<ListItem.Content>
-																<ListItem.Title
-																	style={
-																		css.inactiveSchedule
-																	}
-																>
-																	<Text>
-																		Horário
-																		Indisponível
-																	</Text>
-																</ListItem.Title>
-															</ListItem.Content>
-														</ListItem>
-													</View>
-												);
-											} else {
-												null;
-											}
-										}
-									}}
-								/>
+								<FlatSchedule data={domingo} />
 							</View>
 						</>
 					) : (

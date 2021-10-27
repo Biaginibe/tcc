@@ -15,7 +15,6 @@ import { css } from './style';
 import { instance } from '../../../config/axios';
 import { Octicons } from '@expo/vector-icons';
 import { useAuth } from '../../../context/Auth';
-import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
 import SwitchSelector from 'react-native-switch-selector';
@@ -29,13 +28,9 @@ export default function editaPsychologistProfile(navigation) {
 
 	const [email, setEmail] = useState(user.email);
 	const [idade, setIdade] = useState(user.idade);
-	const [senha, setSenha] = useState(user.senha);
 	const [crp, setCrp] = useState(psychologist.crp);
 	const [numeroContato, setNumeroContato] = useState(
 		psychologist.numeroContato
-	);
-	const [valorConsulta, setValorConsulta] = useState(
-		psychologist.valorConsulta
 	);
 	const [metodologia, setMetodologia] = useState(psychologist.metodologia);
 	const [tempoSessao, setTempoSessao] = useState(psychologist.tempoSessao);
@@ -45,9 +40,12 @@ export default function editaPsychologistProfile(navigation) {
 	const [prefFaixaEtaria, setPrefFaixaEtaria] = useState(
 		psychologist.prefFaixaEtaria
 	);
+
+	const [senha, setSenha] = useState('');
+	const [novaSenha, setNovaSenha] = useState('');
+
 	const [descricao, setDescricao] = useState(psychologist.descricao);
 	const [update, setUpdate] = useState(null);
-	const [initial, setInitial] = useState(null);
 	const [initial2, setInitial2] = useState(null);
 
 	function handleNavigate() {
@@ -60,13 +58,13 @@ export default function editaPsychologistProfile(navigation) {
 			...psychologist,
 			crp: crp,
 			numeroContato: numeroContato,
-			valorConsulta: valorConsulta,
+			valorConsulta: 'Gratuito',
 			metodologia: metodologia,
 			tempoSessao: tempoSessao,
 			tipoAtendimento: tipoAtendimento,
 			prefFaixaEtaria: prefFaixaEtaria,
 			descricao: descricao,
-		}
+		};
 		setPsychologist(psycho);
 		setUpdate(!update);
 
@@ -74,12 +72,6 @@ export default function editaPsychologistProfile(navigation) {
 	}
 
 	useEffect(() => {
-		if (valorConsulta == 'gratuito') setInitial(1);
-		else if (valorConsulta == '$') setInitial(2);
-		else if (valorConsulta == '$$') setInitial(3);
-		else if (valorConsulta == '$$$') setInitial(4);
-		else setInitial(-1);
-
 		if (tempoSessao == '30 minutos') setInitial2(1);
 		else if (tempoSessao == '40 minutos') setInitial2(2);
 		else if (tempoSessao == '50 minutos') setInitial2(3);
@@ -95,7 +87,7 @@ export default function editaPsychologistProfile(navigation) {
 					try {
 						console.log('Entrou no IF');
 						await instance.put(
-							`/psychologist/${valorrequest}/updatePsychologists?nome=${nome}&idade=${idade}&email=${email}&crp=${crp}&numeroContato=${numeroContato}&valorConsulta=${valorConsulta}&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
+							`/psychologist/${valorrequest}/updatePsychologists?nome=${nome}&idade=${idade}&email=${email}&crp=${crp}&numeroContato=${numeroContato}&valorConsulta=gratuito&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -106,6 +98,31 @@ export default function editaPsychologistProfile(navigation) {
 						setUpdate(null);
 					} catch (err) {
 						console.log(err);
+					}
+
+					if (senha !== '' && novaSenha !== '') {
+						try {
+							await instance.put(
+								`/patientes/${valorrequest}/updatePsychologistsPassword`,
+								{ senha: senha, novaSenha: novaSenha },
+								{
+									headers: {
+										Authorization: 'Bearer ' + token,
+									},
+								}
+							);
+						} catch (err) {
+							Alert.alert('Senha atual incorreta.');
+							console.error(err);
+						}
+					} else if (
+						(senha !== '' && novaSenha === '') ||
+						(senha === '' && novaSenha !== '')
+					) {
+						Alert.alert(
+							'É necessario informar os dois campos para alterar a senha.'
+						);
+						navigate('EditarPsichologist');
 					}
 				}
 				const perfildata = await instance.get(
@@ -127,33 +144,9 @@ export default function editaPsychologistProfile(navigation) {
 		getData();
 	}, [update]);
 
-	console.log(perfil.nome);
+	// console.log(perfil.nome);
 
-	const options = [
-		{
-			value: '',
-		},
-		{
-			label: 'gratuito',
-			value: 'gratuito',
-			accessibilityLabel: 'gratuito',
-		},
-		{
-			label: '$',
-			value: '$',
-			accessibilityLabel: '$',
-		},
-		{
-			label: '$$',
-			value: '$$',
-			accessibilityLabel: '$$',
-		},
-		{
-			label: '$$$',
-			value: '$$$',
-			accessibilityLabel: '$$$',
-		},
-	];
+	//tempo sessão
 	const options2 = [
 		{
 			value: '',
@@ -183,7 +176,7 @@ export default function editaPsychologistProfile(navigation) {
 	return (
 		<View style={css.container}>
 			{console.log(psychologist)}
-			{initial && initial2 && (
+			{initial2 && (
 				<SafeAreaView style={css.containerLateral}>
 					<ScrollView>
 						<View style={css.borderInput}>
@@ -222,20 +215,9 @@ export default function editaPsychologistProfile(navigation) {
 								style={css.input}
 								value={numeroContato}
 								onChangeText={(e) => setNumeroContato(e)}
-								placeholder='Insira o Numero aqui'
+								placeholder='Insira o numero de contato aqui'
 							></TextInputMask>
 						</View>
-						<Text style={css.info}>Faixa de valor da consulta</Text>
-						<SwitchSelector
-							options={options}
-							initial={initial}
-							onPress={(value) => setValorConsulta(value)}
-							buttonColor={'#F1F1F1'}
-							selectedColor={'#0BBF59'}
-							borderRadius={5}
-							style={{ marginBottom: 20 }}
-							hasPadding
-						/>
 						<Text style={css.info}>Tempo da sessão em minutos</Text>
 						<SwitchSelector
 							options={options2}
@@ -327,12 +309,17 @@ export default function editaPsychologistProfile(navigation) {
 							</Picker>
 						</View>
 						<View style={css.borderInput}>
-							<TextInput
+							<TextInputMask
+								type={'custom'}
+								options={{
+								  mask: '99/999999'
+								}}
 								style={css.input}
 								value={crp}
 								onChangeText={(e) => setCrp(e)}
 								placeholder='Insira o CRP aqui'
-							></TextInput>
+								keyboardType='numeric'
+							/>
 						</View>
 						<Text style={css.info}>Descrição:</Text>
 						<View style={css.borderInput}>
@@ -342,6 +329,24 @@ export default function editaPsychologistProfile(navigation) {
 								value={descricao}
 								onChangeText={(e) => setDescricao(e)}
 								placeholder='Descreva-se aqui'
+							></TextInput>
+						</View>
+						<View style={css.borderInput}>
+							<TextInput
+								style={css.input}
+								value={senha}
+								onChangeText={(e) => setSenha(e)}
+								placeholder='Senha atual'
+								secureTextEntry={true}
+							></TextInput>
+						</View>
+						<View style={css.borderInput}>
+							<TextInput
+								style={css.input}
+								value={novaSenha}
+								onChangeText={(e) => setNovaSenha(e)}
+								placeholder='Nova senha'
+								secureTextEntry={true}
 							></TextInput>
 						</View>
 

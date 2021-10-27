@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { css } from './style';
 import { Octicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { useAuth } from '../../../context/Auth';
 import { useNavigation } from '@react-navigation/native';
 import PatienteRoutes from '../../../routes/patiente.routes';
@@ -29,9 +30,15 @@ export default function PacienteProfile() {
 					>
 						<Octicons name='pencil' size={24} color='gray' />
 					</TouchableOpacity>
+					{/* <TouchableOpacity onPress={console.log('foi')}>
+						<AntDesign name='setting' size={24} color='gray' />
+					</TouchableOpacity> */}
 				</View>
 				<Text style={css.info}>{user.email}</Text>
 				<Text style={css.info}>{user.idade} anos</Text>
+				{/* <TouchableOpacity  onPress={()=>console.log('foi')}>
+					<Text style={css.pass}>Trocar senha</Text>
+				</TouchableOpacity> */}
 			</ScrollView>
 		</SafeAreaView>
 	);

@@ -6,7 +6,6 @@ export default function FilterProvider({ children }) {
   const [filters, setFilters] = useState({
     abordagem: "",
     tipoAtendimento: "",
-    valor: "",
     genero: "",
     faixaEtaria: "",
     tempoSessao: "",
