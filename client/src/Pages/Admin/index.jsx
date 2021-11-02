@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../../Styles/Global.css";
-import { useFetch } from "../../Hooks/useFetch";
-import useAsyncRequest from "../../Hooks/useAsyncRequest";
+// import { useFetch } from "../../Hooks/useFetch";
+// import useAsyncRequest from "../../Hooks/useAsyncRequest";
 import NavBarAdmin from "../../Components/NavBar_admin/NavBarAdmin";
-import TabelaAdmin from "../../Components/Tabelas_Admin/TabelaAdmin";
-import { Link } from "react-router-dom";
+// import TabelaAdmin from "../../Components/Tabelas_Admin/TabelaAdmin";
+// import { Link } from "react-router-dom";
 import axios from "axios";
 import useAxios from "axios-hooks";
 import UserTable from "../../Components/UserTable/UserTable";
-import AddUserForm from "../forms/AddUserForm";
-import EditUserForm from "../forms/EditUserForm";
+// import AddUserForm from "../forms/AddUserForm";
+// import EditUserForm from "../forms/EditUserForm";
 
 /*VAI SER NOSSO INDEX NA TELA DO ADMIN*/
 

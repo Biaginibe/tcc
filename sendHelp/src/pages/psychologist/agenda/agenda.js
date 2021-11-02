@@ -24,8 +24,8 @@ export default function Psychologistschedule() {
 	const [modalVisibleUpdate, setmodalVisibleUpdate] = useState(false);
 	const [schedule, setSchedule] = useState(null);
 	const [check, setCheck] = useState(null);
-	const [add, setAdd] = useState(null);
-	const [update, setUpdate] = useState(null);
+	const [add, setAdd] = useState(true);
+	const [update, setUpdate] = useState(true);
 	const [delet, setDelete] = useState(null); //não usei delete por ser palavra reservada
 
 	const { token, user } = useAuth();
@@ -52,10 +52,27 @@ export default function Psychologistschedule() {
 		setDelete(id);
 	}
 
-	function pressAdd() {
+	async function pressAdd() {
 		if (dia != null && horario != null) {
+			try {
+				await instance.post(
+					`/psychologist/${
+						user.id
+					}/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
+				);
+				setHorario(null);
+				setDia(null);
+			} catch (err) {
+				console.error(err);
+			}
+
+			setAdd(!add);
 			setmodalVisibleAdd(false);
-			setAdd(true);
 		} else {
 			alert(
 				'É necessário preencher o dia e o horario disponiveis para adicionar um horário.'
@@ -90,8 +107,24 @@ export default function Psychologistschedule() {
 			);
 	}
 
-	function pressUpdate() {
-		setUpdate(true);
+	async function pressUpdate() {
+		try {
+			await instance.put(
+				`/psychologist/${user.id}/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`,
+				{
+					headers: {
+						Authorization: 'Bearer ' + token,
+					},
+				}
+			);
+			setUpdate(null);
+			setHorario(null);
+			setDia(null);
+			setFindOne(null);
+		} catch (err) {
+			console.error(err);
+		}
+		setUpdate(!update);
 		setmodalVisibleUpdate(false);
 	}
 
@@ -114,44 +147,6 @@ export default function Psychologistschedule() {
 							}
 						);
 						setCheck(null);
-					} catch (err) {
-						console.error(err);
-					}
-				}
-
-				if (add != null) {
-					try {
-						await instance.post(
-							`/psychologist/${
-								user.id
-							}/createSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}&disponivel=${true}`,
-							{
-								headers: {
-									Authorization: 'Bearer ' + token,
-								},
-							}
-						);
-						setAdd(null);
-						setHorario(null);
-						setDia(null);
-					} catch (err) {
-						console.error(err);
-					}
-				}
-				if (update != null) {
-					try {
-						await instance.put(
-							`/psychologist/${user.id}/${findOne}/updateSchedule?diaDisponivel=${dia}&horarioDisponivel=${horario}`,
-							{
-								headers: {
-									Authorization: 'Bearer ' + token,
-								},
-							}
-						);
-						setUpdate(null);
-						setHorario(null);
-						setDia(null);
-						setFindOne(null);
 					} catch (err) {
 						console.error(err);
 					}
@@ -218,7 +213,7 @@ export default function Psychologistschedule() {
 
 	return (
 		<>
-			<ScrollView>
+				{console.log(token)}
 				<View style={{ display: 'flex' }}>
 					<FlatList
 						data={schedule}
@@ -280,7 +275,6 @@ export default function Psychologistschedule() {
 						</View>
 					</TouchableOpacity>
 				</View>
-			</ScrollView>
 
 			{/* MODAL ADD */}
 

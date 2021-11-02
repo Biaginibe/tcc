@@ -28,7 +28,8 @@ authRoute.post(
 );
 
 //TESTES ---DEPOIS TIRAR DO AUTHROUTE
-authRoute.post('/psychologist/position', QueueController.position)
+routes.post('/patiente/NumeroContato', PatienteController.findPsychologistNumberById)
+routes.post('/psychologist/position', QueueController.position)
 routes.post('/psychologist/callNext', QueueController.callTheNext)
 
 routes.put('/update_userToken/:id_user', UserController.updateUserNotiToken)
@@ -75,6 +76,10 @@ routes.put(
 	'/patientes/:id_user/updatePatientes',
 	PatienteController.updatePatientes
 )
+routes.put(
+	'/patientes/:id_user/updatePatientesPassword',
+	PatienteController.updatePatientesPassword
+)
 
 
 
@@ -96,6 +101,10 @@ routes.delete(
 routes.put(
 	'/psychologist/:id_psycho/updatePsychologists',
 	PsychologistController.updatePsychologists
+)
+routes.put(
+	'/psychologist/:id_psycho/updatePsychologistsPassword',
+	PsychologistController.updatePsychologistsPassword
 )
 
 //TELAS PSICOLOGO
@@ -149,6 +158,7 @@ routes.get('/filter', ClientController.findAllPsychologistClientsFilter);
 
 //Exibir na lista
 routes.get('/listar', ClientController.findPsychologistProfileWithUserName);
+routes.post('/listarLike', ClientController.findPsychologistProfileWithUserNameLike);
 
 //Exibir perfil do psicologo
 routes.get(

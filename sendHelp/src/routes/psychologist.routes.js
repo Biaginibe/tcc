@@ -17,29 +17,13 @@ const PsichologistProfileStack = createStackNavigator();
 const PsychologistscheduleStack = createStackNavigator();
 
 
-const ProfilelUserStackScreen = () => (
-	<ProfilelUserStack.Navigator>
-		<ProfilelUserStack.Screen
-			name="Perfil"
-			component={PsychologistProfile}
-			options={{
-				title: 'SendHelp',
-				headerStyle: {
-					backgroundColor: '#053165',
-				},
-				headerTintColor: '#fff',
-				headerTitleStyle: {
-					fontWeight: 'bold',
-					fontSize: 28,
-					fontFamily:'sans-serif'
-				},
-				}}
-				/>
-	</ProfilelUserStack.Navigator>
-);
 
-const PsychologistScheduleStackScreen = () => (
-	<PsychologistscheduleStack.Navigator>
+
+const PsychologistScheduleStackScreen = ({navigation}) => {
+	const { navigate } = useNavigation();
+	const {signOut } = useAuth();
+	return(
+		<PsychologistscheduleStack.Navigator>
 		<PsychologistscheduleStack.Screen
 			name="Agenda"
 			component={Psychologistschedule}
@@ -54,10 +38,23 @@ const PsychologistScheduleStackScreen = () => (
 					fontSize: 28,
 					fontFamily:'sans-serif'
 				},
+				headerRight: () => (
+					<View style={{ marginRight: 10 }}>
+					  <Octicons.Button
+						backgroundColor="#053165"
+						name="sign-out"
+						size={25}
+						color={"white"}
+						onPress={signOut}
+					  />
+					</View>
+				  ),
 			}}
 			/>
 	</PsychologistscheduleStack.Navigator>
-);
+	)
+	
+};
 const PsichologistProfileStackScreen = ({navigation}) => {
 	const { navigate } = useNavigation();
 	const {signOut } = useAuth();

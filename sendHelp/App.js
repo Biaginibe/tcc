@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import FilterProvider from './src/context/Filter';
 import AuthProvider from './src/context/Auth';
 import { Routes } from './src/routes';
+console.disableYellowBox = true;
 
 export default function app() {
 	return (

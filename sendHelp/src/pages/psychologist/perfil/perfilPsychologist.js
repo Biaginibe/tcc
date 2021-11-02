@@ -22,7 +22,7 @@ export default function PsychologistProfile() {
 				const valorrequest = user.id;
 				console.log(user.id);
 				const perfildata = await instance.get(
-					`/Psychologist/${user.id}}/findPsychologistsjoinUsers`,
+					`/Psychologist/${user.id}/findPsychologistsjoinUsers`,
 					{
 						headers: {
 							Authorization: 'Bearer ' + token,
@@ -40,6 +40,7 @@ export default function PsychologistProfile() {
 	return (
 		<SafeAreaView style={css.container}>
 			<ScrollView>
+				{console.log(psychologist)}
 				<View style={css.inline}>
 					<Text style={css.name}>{user.nome}</Text>
 					<TouchableOpacity
@@ -53,53 +54,55 @@ export default function PsychologistProfile() {
 				<Text style={css.info}>{user.idade} anos</Text>
 				<Text style={css.info}>{user.email}</Text>
 				<Text style={css.info}>{user.cpf}</Text>
-				{psychologist.valorConsulta ? (
-					<Text style={css.info}>
-						Valor da Consulta: {psychologist.valorConsulta}
-					</Text>
-				) : (
-					<Text style={css.infoNull}>
-						Registre a faixa de valor da sua consulta
-					</Text>
-				)}
+
 				{psychologist.metodologia ? (
-					<Text style={css.info}>
-						Metodologia: {psychologist.metodologia}
-					</Text>
+					<View>
+						<Text style={css.info}>
+							Metodologia: {psychologist.metodologia}
+						</Text>
+					</View>
 				) : (
 					<Text style={css.infoNull}>
 						Registre a metodologia que você trabalha
 					</Text>
 				)}
 				{psychologist.tempoSessao ? (
-					<Text style={css.info}>
-						{psychologist.tempoSessao} por sessão
-					</Text>
+					<View>
+						<Text style={css.info}>
+							{psychologist.tempoSessao} por sessão
+						</Text>
+					</View>
 				) : (
 					<Text style={css.infoNull}>
 						Registre a duração de cada sessão
 					</Text>
 				)}
 				{psychologist.tipoAtendimento ? (
-					<Text style={css.info}>
-						Atendimento {psychologist.tipoAtendimento}
-					</Text>
+					<View>
+						<Text style={css.info}>
+							Atendimento {psychologist.tipoAtendimento}
+						</Text>
+					</View>
 				) : (
 					<Text style={css.infoNull}>
 						Registre o tipo do de atendimento (online/ remoto)
 					</Text>
 				)}
 				{psychologist.prefFaixaEtaria ? (
-					<Text style={css.info}>
-						Atende a faixa de {psychologist.prefFaixaEtaria}
-					</Text>
+					<View>
+						<Text style={css.info}>
+							Faz atendimento para {psychologist.prefFaixaEtaria}
+						</Text>
+					</View>
 				) : (
 					<Text style={css.infoNull}>
 						Registre a faixa etaria que você atende
 					</Text>
 				)}
 				{psychologist.crp ? (
-					<Text style={css.info}>CRP {psychologist.crp}</Text>
+					<View>
+						<Text style={css.info}>CRP {psychologist.crp}</Text>
+					</View>
 				) : (
 					<Text style={css.infoNull}>Registre o seu CRP</Text>
 				)}
@@ -107,9 +110,13 @@ export default function PsychologistProfile() {
 					<Text style={css.info}>Descrição</Text>
 					<View style={css.desc}>
 						{psychologist.descricao ? (
-							<Text> {psychologist.descricao}</Text>
+							<View>
+								<Text> {psychologist.descricao}</Text>
+							</View>
 						) : (
-							<Text style={css.infoNull}>Registre sua descrição</Text>
+							<Text style={css.infoNull}>
+								Registre sua descrição
+							</Text>
 						)}
 					</View>
 				</View>

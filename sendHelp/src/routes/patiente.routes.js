@@ -182,9 +182,9 @@ const ListPsychologistStackScreen = () => {
         },
         headerRight: () => (
           <View style={{ marginRight: 10 }}>
-            <MaterialCommunityIcons.Button
+            <Octicons.Button
               backgroundColor="#053165"
-              name="account-edit"
+              name="sign-out"
               size={25}
               color={"white"}
               onPress={signOut}

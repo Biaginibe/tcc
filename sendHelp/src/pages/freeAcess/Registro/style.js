@@ -21,7 +21,7 @@ const css = StyleSheet.create({
     subTitle: {
         color: '#A1A1A1',
         fontSize: 15,
-		marginBottom: '30%',
+		marginBottom: '20%',
         textAlign:'center',
         width:'100%',
         backgroundColor: '#EAEAEA',

@@ -223,9 +223,9 @@ module.exports = {
 		const psychologist = await User.sequelize.query(
 			`SELECT p.id 
 			FROM users u 
-		INNER JOIN clients c ON (c.id_user = u.id)
-		INNER JOIN psychologists p ON (p.id_cliente = c.id)
-		WHERE u.id=${id_user} `,
+		INNER JOIN clients c ON c.id_user = u.id
+		INNER JOIN psychologists p ON p.id_cliente = c.id
+		WHERE u.id=${id_user}`,
 			{ type: QueryTypes.SELECT }
 		);
 
@@ -236,23 +236,36 @@ module.exports = {
 				id_psicologo: id_psicologo,
 			},
 		});
+
+		var sum = 0;
+
+
 		schedules.map((schedule) => {
-			if (schedule.dataValues.diaDisponivel === 'Segunda') {
+			if (schedule.dataValues.diaDisponivel === 'Segunda' && schedule.dataValues.disponivel) {
 				scheduleSeg.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Terça') {
+				sum++
+			} else if (schedule.dataValues.diaDisponivel === 'Terça' && schedule.dataValues.disponivel) {
 				scheduleTer.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Quarta') {
+				sum++
+			} else if (schedule.dataValues.diaDisponivel === 'Quarta' && schedule.dataValues.disponivel) {
 				scheduleQua.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Quinta') {
+				sum++
+			} else if (schedule.dataValues.diaDisponivel === 'Quinta' && schedule.dataValues.disponivel) {
 				scheduleQui.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Sexta') {
+				sum++
+			} else if (schedule.dataValues.diaDisponivel === 'Sexta' && schedule.dataValues.disponivel) {
 				scheduleSex.push(schedule);
-			} else if (schedule.dataValues.diaDisponivel === 'Sabado') {
+				sum++
+			} else if (schedule.dataValues.diaDisponivel === 'Sabado' && schedule.dataValues.disponivel) {
+				sum++
 				scheduleSab.push(schedule);
-			} else {
+			} else if(schedule.dataValues.diaDisponivel === 'Domingo' && schedule.dataValues.disponivel) {
 				scheduleDom.push(schedule);
+				sum++
 			}
 		});
+
+		console.log(sum)
 
 		return res.send({
 			scheduleSeg,
@@ -262,6 +275,7 @@ module.exports = {
 			scheduleSex,
 			scheduleSab,
 			scheduleDom,
+			sum
 		});
 	},
 
