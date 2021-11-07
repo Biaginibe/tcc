@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/Auth';
+import changePassword from '../pages/psychologist/perfil/mudarSenha';
 
 const Tabs = createBottomTabNavigator();
 const ProfilelUserStack = createStackNavigator();
@@ -121,6 +122,34 @@ const PsichologistProfileStackScreen = ({ navigation }) => {
 			<PsichologistProfileStack.Screen
 				name='EditarPsichologist'
 				component={editaPsychologistProfile}
+				options={{
+					title: 'SendHelp',
+					headerStyle: {
+						backgroundColor: '#053165',
+					},
+					headerTintColor: '#fff',
+
+					headerTitleStyle: {
+						fontWeight: 'bold',
+						fontSize: 28,
+						fontFamily: 'sans-serif',
+					},
+					headerRight: () => (
+						<View style={{ marginRight: 10 }}>
+							<Octicons.Button
+								backgroundColor='#053165'
+								name='sign-out'
+								size={25}
+								color={'white'}
+								onPress={signOut}
+							/>
+						</View>
+					),
+				}}
+			></PsichologistProfileStack.Screen>
+			<PsichologistProfileStack.Screen
+				name='MudarSenha'
+				component={changePassword}
 				options={{
 					title: 'SendHelp',
 					headerStyle: {

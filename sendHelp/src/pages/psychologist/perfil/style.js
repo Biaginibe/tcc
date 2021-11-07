@@ -14,7 +14,7 @@ const css = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'baseline',
+		alignItems: 'center',
 		justifyContent: 'space-between',
 		paddingHorizontal: '5%',
 		marginBottom: '8%',
@@ -56,6 +56,13 @@ const css = StyleSheet.create({
 		borderRadius: 5,
 		marginVertical: '15%'
 	},
+	btnSavePass:{
+		backgroundColor:'#053165',
+		width: '50%',
+		marginHorizontal: '25%',
+		borderRadius: 5,
+		marginVertical: '20%'
+	},
 	txtSave:{
 		textAlign: 'center',
 		color:'white',
@@ -73,9 +80,26 @@ const css = StyleSheet.create({
 		borderRadius: 5,
 		marginBottom: 15
 	},
+	borderInputPass:{
+		borderColor: '#C2C2C2',
+		borderWidth: 1,
+		paddingVertical: '1.5%',
+		borderRadius: 5,
+		marginBottom: 20
+	},
 	picker:{
 		padding: 13.5,
 		fontSize:16
+	},
+	dropdrown: {
+		backgroundColor:'rgba(0, 0, 0, 0)',
+		width: '50%',
+		position: 'absolute',
+		right: '2%'
+	},
+	containerChangePass:{
+		paddingHorizontal: '15%',
+		marginTop:'50%'
 	}
 });
 

@@ -22,8 +22,6 @@ export default function editaPacienteProfile(navigation) {
 	const [nome, setNome] = useState(user.nome);
 	const [email, setEmail] = useState(user.email);
 	const [idade, setIdade] = useState(user.idade);
-	const [senha, setSenha] = useState('');
-	const [novaSenha, setNovaSenha] = useState('');
 	const [update, setUpdate] = useState(null);
 
 	function handleNavigate() {
@@ -59,28 +57,6 @@ export default function editaPacienteProfile(navigation) {
 						setUpdate(null);
 					} catch (err) {
 						console.error(err);
-					}
-
-					if (senha !== '' && novaSenha !== '') {
-						try {
-							await instance.put(
-								`/patientes/${valorrequest}/updatePatientesPassword`,
-								{ senha: senha, novaSenha: novaSenha },
-								{
-									headers: {
-										Authorization: 'Bearer ' + token,
-									},
-								}
-							);
-						} catch (err) {
-							Alert.alert('Senha atual incorreta.');
-							console.error(err);
-						}
-					}  else if((senha !== '' && novaSenha === '') || (senha === '' && novaSenha !== '')) {
-						Alert.alert(
-							'É necessario informar os dois campos para alterar a senha.'
-						);
-						navigate('EditarPaciente');
 					}
 				}
 
@@ -133,24 +109,7 @@ export default function editaPacienteProfile(navigation) {
 							placeholder='Idade'
 						></TextInput>
 					</View>
-					<View style={css.borderInput}>
-						<TextInput
-							style={css.input}
-							value={senha}
-							onChangeText={(e) => setSenha(e)}
-							placeholder='Senha atual'
-							secureTextEntry={true}
-						></TextInput>
-					</View>
-					<View style={css.borderInput}>
-						<TextInput
-							style={css.input}
-							value={novaSenha}
-							onChangeText={(e) => setNovaSenha(e)}
-							placeholder='Nova senha'
-							secureTextEntry={true}
-						></TextInput>
-					</View>
+					
 					<TouchableOpacity onPress={handleUpdate}>
 						<View style={css.btnSave}>
 							<Text style={css.txtSave}>Salvar</Text>

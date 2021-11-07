@@ -12,6 +12,13 @@ import { useNavigation } from '@react-navigation/native';
 import { instance } from '../../../config/axios';
 import { css } from './style';
 
+// import { enableRipple } from '@syncfusion/ej2-base';
+// import { DropDownButtonComponent } from '@syncfusion/ej2-react-splitbuttons';
+
+import { AntDesign } from '@expo/vector-icons';
+
+import SelectDropdown from 'react-native-select-dropdown';
+
 export default function PsychologistProfile() {
 	const { token, user, signOut, psychologist } = useAuth();
 	const { navigate } = useNavigation();
@@ -20,7 +27,7 @@ export default function PsychologistProfile() {
 		async function getData() {
 			try {
 				const valorrequest = user.id;
-				console.log(user.id);
+				// console.log(user.id);
 				const perfildata = await instance.get(
 					`/Psychologist/${user.id}/findPsychologistsjoinUsers`,
 					{
@@ -37,19 +44,35 @@ export default function PsychologistProfile() {
 		getData();
 	}, []);
 
+	function select(index) {
+		// console.log(index);
+		if (index === 0) {
+			navigate('EditarPsichologist');
+		} else if (index === 1) {
+			navigate('MudarSenha');
+		}
+	}
+	
+
 	return (
 		<SafeAreaView style={css.container}>
 			<ScrollView>
-				{console.log(psychologist)}
+				{/* {console.log(psychologist)} */}
 				<View style={css.inline}>
 					<Text style={css.name}>{user.nome}</Text>
-					<TouchableOpacity
-						onPress={(e) => {
-							navigate('EditarPsichologist');
+					<AntDesign name='setting' size={24} color='black' />
+					<SelectDropdown
+						buttonStyle={css.dropdrown}
+						data={['Editar perfil', 'Alterar senha']}
+						onSelect={(selectedItem, index) => {
+							console.log(selectedItem, index);
+							select(index);
 						}}
-					>
-						<Octicons name='pencil' size={24} color='gray' />
-					</TouchableOpacity>
+						buttonTextAfterSelection={() => {
+							return ' ';
+						}}
+						defaultButtonText=' '
+					/>
 				</View>
 				<Text style={css.info}>{user.idade} anos</Text>
 				<Text style={css.info}>{user.email}</Text>

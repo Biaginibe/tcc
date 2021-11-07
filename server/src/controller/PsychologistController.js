@@ -254,7 +254,7 @@ module.exports = {
 				psychoUpdate.dataValues.client.user.senha
 			))
 		) {
-			return res.status(400).send({ err: 'Senha atual incorreta.' });
+			return res.status(400).send({ error: 'Senha atual incorreta.' });
 		}
 
 		const senhaHash = await bcrypt.hash(novaSenha, 8);
