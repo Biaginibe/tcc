@@ -108,6 +108,13 @@ const css = StyleSheet.create({
     inactiveSchedule: {
         paddingLeft: 18,
         color: 'gray'
+    },
+    grayText: {
+        paddingBottom: 25,
+        color: 'gray',
+        fontSize: 18,
+        width: '100%',
+        textAlign: 'center'
     }
 });
 

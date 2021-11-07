@@ -34,6 +34,10 @@ module.exports = {
 				type: Sequelize.STRING,
 				unique: true,
 			},
+			fila: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+			},
 			id_cliente: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

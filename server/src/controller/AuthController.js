@@ -128,6 +128,7 @@ module.exports = {
 					tempoSessao: '',
 					descricao: '',
 					tipoAtendimento: '',
+					fila: true,
 					crp: '',
 					id_cliente: client.dataValues.id,
 				});

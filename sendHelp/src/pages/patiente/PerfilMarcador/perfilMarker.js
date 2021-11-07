@@ -32,6 +32,7 @@ export default function ProfileMarker(route, navigation) {
 	const [hasSchedule, setHasSchedule] = useState(null);
 	const [position, setPosition] = useState(null);
 	const [thatQueue, setThatQueue] = useState(null);
+	const [enableQueue, setEnableQueue] = useState(null);
 	const [sum, setSum] = useState(null);
 	const [runAgain, setRunAgain] = useState(true);
 
@@ -146,6 +147,24 @@ export default function ProfileMarker(route, navigation) {
 				}
 			);
 			setThatQueue(data2.data);
+
+			const data3 = await instance.post(
+				'/psychologist/checkQueue',
+				{
+					id_user: valorid,
+				},
+				{
+					headers: {
+						Authorization: 'Bearer ' + token,
+					},
+				}
+			);
+			console.log('DATA3')
+			console.log(data3.data)
+			console.log(data3.data)
+			console.log(data3.data)
+			setEnableQueue(data3.data)
+
 			console.log('SOMA');
 			console.log(sum);
 			console.log(sum);
@@ -157,7 +176,7 @@ export default function ProfileMarker(route, navigation) {
 			}
 		}
 		Details();
-	}, [runAgain, sum]);
+	}, [runAgain, sum, route.route.params]);
 
 	async function onClickInsert() {
 		if (hasQueue) {
@@ -291,6 +310,7 @@ export default function ProfileMarker(route, navigation) {
 						)}
 					/>
 					{console.log('HASSCHEDULE' + hasSchedule)}
+					{console.log('ENABLE' + enableQueue)}
 					{(sum && hasSchedule) || position == 0 ? (
 						<>
 							<View style={css.btn}>
@@ -310,11 +330,13 @@ export default function ProfileMarker(route, navigation) {
 									></Ionicons>
 								</TouchableOpacity>
 							</View>
-							<View>
-								<Text style={css.scheduleTitle}>
-									Horarios Disponiveis
-								</Text>
-							</View>
+							{sum && hasSchedule ? (
+								<View>
+									<Text style={css.scheduleTitle}>
+										Horarios Disponiveis
+									</Text>
+								</View>
+							) : null}
 							<View style={css.infoContent}>
 								{segunda.length != 0 && segunda !== [] ? (
 									<View>
@@ -375,7 +397,7 @@ export default function ProfileMarker(route, navigation) {
 								<FlatSchedule data={domingo} />
 							</View>
 						</>
-					) : (
+					) : enableQueue ? (
 						<>
 							{thatQueue ? (
 								<View style={css.btnQuitQueue}>
@@ -395,7 +417,7 @@ export default function ProfileMarker(route, navigation) {
 								</View>
 							)}
 						</>
-					)}
+					) : <Text style={css.grayText}>Este psicologo não possui fila</Text>}
 				</View>
 			</ScrollView>
 		</SafeAreaView>
