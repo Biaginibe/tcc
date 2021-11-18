@@ -21,7 +21,10 @@ export default function Queue() {
 	const { token, psychologist, user, setPsychologist } = useAuth();
 
 	const [size, setSize] = useState(0);
+	const [names, setNames] = useState(null);
 	const [check, setCheck] = useState(psychologist.fila);
+
+	const [run, setRun] = useState(true);
 
 	async function pressCheck() {
 		try {
@@ -55,17 +58,17 @@ export default function Queue() {
 					},
 				}
 			)
-			.then(() =>{
-				Alert.alert('Paciente notificado, aguarde contato dele')
-				setSize(size - 1)
-			}
-			)
-			.catch((error) =>{
-			console.log()
-				Alert.alert(
-					error.response.data.error
-				)}
-			);
+			.then(() => {
+				Alert.alert('Paciente notificado, aguarde contato dele');
+				setSize(size - 1);
+				let arr = names;
+				arr.shift();
+				setNames(arr)
+			})
+			.catch((error) => {
+				console.log();
+				Alert.alert(error.response.data.error);
+			});
 	}
 
 	useEffect(() => {
@@ -82,9 +85,22 @@ export default function Queue() {
 				}
 			);
 			setSize(count.data);
+			const names = await instance.post(
+				'/psychologist/listNames',
+				{
+					id_psico: psychologist.id,
+				},
+				{
+					headers: {
+						Authorization: 'Bearer ' + token,
+					},
+				}
+			);
+			console.log(names.data);
+			setNames(names.data);
 		}
 		count();
-	}, [size]);
+	}, [size, run]);
 
 	return (
 		<SafeAreaView style={css.container}>
@@ -105,11 +121,17 @@ export default function Queue() {
 				/>
 			</View>
 			<Text style={css.txt}>Número de pessoas na fila: {size}</Text>
+			<View style={css.list}>{names && names.map((item, index) => <Text style={css.txtList}>{index + 1 + ' -    ' + item}</Text>)}</View>
 			<TouchableOpacity onPress={callTheNext}>
 				<View style={css.btnCallNext}>
 					<Text style={css.txtCallNext}>Chamar proximo da fila</Text>
 				</View>
 			</TouchableOpacity>
+			{/* <TouchableOpacity onPress={()=>setRun(!run)}>
+				<View style={css.btnCallNext}>
+					<Text style={css.txtCallNext}>RODARODA</Text>
+				</View>
+			</TouchableOpacity> */}
 		</SafeAreaView>
 	);
 }
