@@ -55,8 +55,10 @@ export default function Queue() {
 					},
 				}
 			)
-			.then(() =>
+			.then(() =>{
 				Alert.alert('Paciente notificado, aguarde contato dele')
+				setSize(size - 1)
+			}
 			)
 			.catch((error) =>{
 			console.log()
@@ -82,7 +84,7 @@ export default function Queue() {
 			setSize(count.data);
 		}
 		count();
-	}, []);
+	}, [size]);
 
 	return (
 		<SafeAreaView style={css.container}>
