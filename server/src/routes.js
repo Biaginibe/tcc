@@ -34,6 +34,7 @@ routes.post('/psychologist/callNext', QueueController.callTheNext)
 routes.post('/psychologist/countQueue', QueueController.count)
 routes.post('/psychologist/disable_enableQueue', QueueController.disable_enableQueue)
 routes.post('/psychologist/checkQueue', QueueController.checkQueue)
+routes.post('/psychologist/listNames', QueueController.listTop10)
 
 routes.put('/update_userToken/:id_user', UserController.updateUserNotiToken)
 

@@ -175,6 +175,29 @@ module.exports = {
 		return res.json(count);
 	},
 
+	async listTop10(req, res) {
+		const { id_psico } = req.body;
+
+		const queue = await Queue.findAll({
+			where: { id_psicologo: id_psico, posicao_fila: { [Op.gte]: 1 } },
+			order: [['posicao_fila', 'ASC']],
+			limit: 10,
+		});
+
+		const arr = queue.map((item, index) => {
+			return item.dataValues.id_paciente;
+		});
+		let arr2 = [];
+		for (i = 0; i < arr.length; i++) {
+			const user = await User.findAll({ where: { id: arr[i] } });
+			arr2.push(user[0].dataValues.nome);
+		}
+
+		console.log(arr2);
+
+		res.send(arr2);
+	},
+
 	async disable_enableQueue(req, res) {
 		const { id_psico } = req.body;
 

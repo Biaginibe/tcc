@@ -37,8 +37,24 @@ const css = StyleSheet.create({
     },
     txt:{
         textAlign:'center',
-        marginTop: '25%',
         fontSize: 16
+    },
+    list:{
+        backgroundColor: '#f2f2f2',
+        width: '70%',
+        borderRadius: 2,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#e1e1e1',
+        marginHorizontal: '15%',
+        marginTop: '5%',
+        marginBottom: '10%',
+        minHeight: '30%'
+    },
+    txtList:{
+        marginLeft: '30%',
+        fontSize: 15,
+        paddingTop: 3
     }
 });
 
