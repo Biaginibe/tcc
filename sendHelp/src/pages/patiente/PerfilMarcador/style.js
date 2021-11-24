@@ -4,7 +4,8 @@ const css = StyleSheet.create({
 	container: {
         marginTop: '10%',
         paddingTop: '5%',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        height: '97%'
     },
     inline: {
         width: '100%',

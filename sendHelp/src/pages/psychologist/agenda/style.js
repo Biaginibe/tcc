@@ -14,8 +14,10 @@ const css = StyleSheet.create({
         right: 20,
     },
 	trash: {
+		padding: 5,
         position: 'absolute',
-        right: 0,
+        right: -10,
+		// backgroundColor: 'gray'
     },
 	btnAdd: {
         position: 'relative',
