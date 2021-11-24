@@ -14,76 +14,82 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
 export default function MapPatiente(navigation) {
 	const [origin, setOrigin] = useState(null);
 	const [psychologist, setPsychologist] = useState(null);
 	const { filters } = useFilter();
 	const { token, user, setUser } = useAuth();
-	const {navigate} = useNavigation();
+	const { navigate } = useNavigation();
 	const [expoPushToken, setExpoPushToken] = useState(user.notitoken);
 
-	
-	async function registerForPushNotificationsAsync(){
-        if (Constants.isDevice) {
-          const { status: existingStatus } = await Notifications.getPermissionsAsync();
-          let finalStatus = existingStatus;
-          if (existingStatus !== 'granted') {
-            const { status } = await Notifications.requestPermissionsAsync();
-            finalStatus = status;
-          }
-          if (finalStatus !== 'granted') {
-            alert('Failed to get push token for push notification!');
-            return;
-          }
-          const token = (await Notifications.getExpoPushTokenAsync()).data;
-          setExpoPushToken(token);
-        } else {
+	async function registerForPushNotificationsAsync() {
+		if (Constants.isDevice) {
+			const { status: existingStatus } =
+				await Notifications.getPermissionsAsync();
+			let finalStatus = existingStatus;
+			if (existingStatus !== 'granted') {
+				const { status } =
+					await Notifications.requestPermissionsAsync();
+				finalStatus = status;
+			}
+			if (finalStatus !== 'granted') {
+				alert('Failed to get push token for push notification!');
+				return;
+			}
+			const token = (await Notifications.getExpoPushTokenAsync()).data;
+			setExpoPushToken(token);
+		} else {
 			alert('Must use physical device for Push Notifications');
-        }
-		
-        if (Platform.OS === 'android') {
+		}
+
+		if (Platform.OS === 'android') {
 			Notifications.setNotificationChannelAsync('default', {
 				name: 'default',
 				importance: Notifications.AndroidImportance.MAX,
 				vibrationPattern: [0, 250, 250, 250],
 				lightColor: '#FF231F7C',
 			});
-        }
-    };
+		}
+	}
 
 	useEffect(() => {
-        async function saveUser(){
-            await instance.put(`/update_userToken/${user.id}`, {
-                notitoken: expoPushToken,
-            }, {
-                headers:{
-                    Authorization: 'Bearer ' + token,
-                }
-            })
-            .then(response => {
-                AsyncStorage.removeItem('@sendHelp:user');
-                const data = {...user, notitoken: expoPushToken};
-                AsyncStorage.setItem('@sendHelp:user', JSON.stringify(data));
-                if (response.status === 200){
-                    setUser(data);
-                }
-            })
-            .catch(err => console.log(err))
-        }
+		async function saveUser() {
+			await instance
+				.put(
+					`/update_userToken/${user.id}`,
+					{
+						notitoken: expoPushToken,
+					},
+					{
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					}
+				)
+				.then((response) => {
+					AsyncStorage.removeItem('@sendHelp:user');
+					const data = { ...user, notitoken: expoPushToken };
+					AsyncStorage.setItem(
+						'@sendHelp:user',
+						JSON.stringify(data)
+					);
+					if (response.status === 200) {
+						setUser(data);
+					}
+				})
+				.catch((err) => console.log(err));
+		}
 
-        saveUser();
-    }, [expoPushToken]);
-	
+		saveUser();
+	}, [expoPushToken]);
+
 	useEffect(() => {
-		if(!user.notitoken){
+		if (!user.notitoken) {
 			registerForPushNotificationsAsync();
 		} else {
 			return;
 		}
 	}, []);
-
 
 	useEffect(() => {
 		(async function getLocationAsync() {
@@ -145,39 +151,42 @@ export default function MapPatiente(navigation) {
 			}
 		}
 
-    fetch();
-  }, [filters]);
- 
- 
+		fetch();
+	}, [filters]);
 
-  return (
-    <View style={css.container}>
-      <MapView
-        style={css.map}
-        initialRegion={origin}
-        showsUserLocation={true}
-        loadingEnabled={false}
-        zoomEnabled={true}
-        showsMyLocationButton={true}
-      >
-        {psychologist &&
-          psychologist.map((psychologist, index) => (
-            
-            <Marker
-              key={index}
-              coordinate={{
-                latitude: Number(psychologist.latitude),
-                longitude: Number(psychologist.longitude),
-              }}
-             onPress={(e)=>{navigate('ProfileMarker', {valorid: psychologist.id} )}}
-            >
-              
-              <AntDesign name='enviroment' size={24} color='#054781'  />
-            </Marker>
-         
-          ))}
-      </MapView>
-      <Filters cssName={'mapa'} />
+	return (
+		<View style={css.container}>
+			<MapView
+				style={css.map}
+				initialRegion={origin}
+				showsUserLocation={true}
+				loadingEnabled={false}
+				zoomEnabled={true}
+				showsMyLocationButton={true}
+			>
+				{psychologist &&
+					psychologist.map((psychologist, index) => (
+						<Marker
+							key={index}
+							coordinate={{
+								latitude: Number(psychologist.latitude),
+								longitude: Number(psychologist.longitude),
+							}}
+							onPress={(e) => {
+								navigate('ProfileMarker', {
+									valorid: psychologist.id,
+								});
+							}}
+						>
+							<AntDesign
+								name='enviroment'
+								size={24}
+								color='#054781'
+							/>
+						</Marker>
+					))}
+			</MapView>
+			<Filters cssName={'mapa'} />
 
 			<StatusBar style='auto' />
 		</View>

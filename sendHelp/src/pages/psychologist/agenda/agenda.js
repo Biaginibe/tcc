@@ -237,7 +237,7 @@ export default function Psychologistschedule() {
 
 										<View style={css.checkbox}>
 											<CheckBox
-												color='#053260'
+												checkedColor='#053260'
 												center
 												title='Disponivel'
 												onPress={() =>
@@ -267,13 +267,13 @@ export default function Psychologistschedule() {
 							<Text style={css.textAdd}>Adicionar horario</Text>
 						</View>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={callTheNext}>
+					{/* <TouchableOpacity onPress={callTheNext}>
 						<View style={css.btnCallNext}>
 							<Text style={css.txtCallNext}>
 								Chamar proximo da fila
 							</Text>
 						</View>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 
 			{/* MODAL ADD */}

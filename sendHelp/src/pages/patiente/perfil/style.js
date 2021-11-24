@@ -7,7 +7,8 @@ const css = StyleSheet.create({
 		height: '100%',
 	},
 	containerLateral:{
-		paddingHorizontal: '10%'
+		paddingHorizontal: '10%',
+		marginTop: '30%'
 	},
 	inline: {
 		width: '100%',
@@ -60,7 +61,7 @@ const css = StyleSheet.create({
 		width: '50%',
 		marginHorizontal: '25%',
 		borderRadius: 5,
-		marginVertical: '15%'
+		marginVertical: '20%'
 	},
 	txtSave:{
 		textAlign: 'center',
@@ -77,8 +78,32 @@ const css = StyleSheet.create({
 		borderWidth: 1,
 		paddingVertical: '1.5%',
 		borderRadius: 5,
-		marginBottom: 15
-	}
+		marginBottom: 25
+	},
+	containerChangePass:{
+		paddingHorizontal: '15%',
+		marginTop:'50%'
+	},
+	btnSavePass:{
+		backgroundColor:'#053165',
+		width: '50%',
+		marginHorizontal: '25%',
+		borderRadius: 5,
+		marginVertical: '18%'
+	},
+	borderInputPass:{
+		borderColor: '#C2C2C2',
+		borderWidth: 1,
+		paddingVertical: '1.5%',
+		borderRadius: 5,
+		marginBottom: 20
+	},
+	dropdrown: {
+		backgroundColor:'rgba(0, 0, 0, 0)',
+		width: '50%',
+		position: 'absolute',
+		right: '2%'
+	},
 });
 
 export { css };

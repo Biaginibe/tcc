@@ -87,7 +87,7 @@ module.exports = {
 						as: 'user',
 						where: {
 							nome: {
-								[Op.like]: `%${like}`,
+								[Op.like]: `%${like}%`,
 							},
 						},
 					},

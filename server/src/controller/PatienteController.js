@@ -12,6 +12,7 @@ module.exports = {
 		});
 		return res.json(Patientes);
 	},
+	
 	async disable_enableUser(req, res) {
 		const { id_user } = req.params;
 		const patiente = await User.findOne({
@@ -43,6 +44,7 @@ module.exports = {
 			return res.json(change);
 		}
 	},
+	
 	async deletePatiente(req, res) {
 		const { id_user } = req.params;
 		await User.destroy({
@@ -53,6 +55,7 @@ module.exports = {
 		success = `Patiente whith id ${id_user} has been successfully deleted`;
 		return res.json(success);
 	},
+	
 	async findPacientejoinUsers(req, res) {
 		const { id_user } = req.params;
 		const patiente = await User.findAll({
@@ -73,6 +76,7 @@ module.exports = {
 		success = `Sucesso`;
 		return res.json(patiente);
 	},
+	
 	async findOnebyIDPatientes(req, res) {
 		const { id_user } = req.params;
 		const Patientes = await User.findOne({

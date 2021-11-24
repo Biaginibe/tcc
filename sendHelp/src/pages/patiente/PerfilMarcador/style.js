@@ -4,7 +4,8 @@ const css = StyleSheet.create({
 	container: {
         marginTop: '10%',
         paddingTop: '5%',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        height: '97%'
     },
     inline: {
         width: '100%',
@@ -108,6 +109,13 @@ const css = StyleSheet.create({
     inactiveSchedule: {
         paddingLeft: 18,
         color: 'gray'
+    },
+    grayText: {
+        paddingBottom: 25,
+        color: 'gray',
+        fontSize: 18,
+        width: '100%',
+        textAlign: 'center'
     }
 });
 

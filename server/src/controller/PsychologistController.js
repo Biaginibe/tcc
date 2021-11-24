@@ -16,6 +16,7 @@ module.exports = {
 			tempoSessao,
 			tipoAtendimento,
 			descricao,
+			fila,
 			crp,
 		} = req.body;
 
@@ -33,12 +34,14 @@ module.exports = {
 			tempoSessao,
 			descricao,
 			tipoAtendimento,
+			fila,
 			crp,
 			id_cliente,
 		});
 
 		return res.json(psychologist);
 	},
+	
 	async findAllPerfil(req, res) {
 		const psychologist = await Psychologist.findAll();
 
@@ -48,6 +51,7 @@ module.exports = {
 
 		return res.json(psychologist);
 	},
+	
 	async findAllPsycologists(req, res) {
 		const psycologists = await User.findAll({
 			where: {
@@ -56,6 +60,7 @@ module.exports = {
 		});
 		return res.json(psycologists);
 	},
+	
 	async disable_enablePsychologist(req, res) {
 		const { id_user } = req.params;
 
@@ -88,6 +93,7 @@ module.exports = {
 			return res.json(change);
 		}
 	},
+	
 	async deletePsychologist(req, res) {
 		const { id_user } = req.params;
 		await User.destroy({
@@ -98,6 +104,7 @@ module.exports = {
 		success = `Psychologist whith id ${id_user} has been successfully deleted`;
 		return res.json(success);
 	},
+	
 	async findPsychologistsjoinUsers(req, res) {
 		const { id_user } = req.params;
 
@@ -247,7 +254,7 @@ module.exports = {
 				psychoUpdate.dataValues.client.user.senha
 			))
 		) {
-			return res.status(400).send({ err: 'Senha atual incorreta.' });
+			return res.status(400).send({ error: 'Senha atual incorreta.' });
 		}
 
 		const senhaHash = await bcrypt.hash(novaSenha, 8);

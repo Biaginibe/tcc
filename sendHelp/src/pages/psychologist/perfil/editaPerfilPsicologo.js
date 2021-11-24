@@ -41,9 +41,6 @@ export default function editaPsychologistProfile(navigation) {
 		psychologist.prefFaixaEtaria
 	);
 
-	const [senha, setSenha] = useState('');
-	const [novaSenha, setNovaSenha] = useState('');
-
 	const [descricao, setDescricao] = useState(psychologist.descricao);
 	const [update, setUpdate] = useState(null);
 	const [initial2, setInitial2] = useState(null);
@@ -87,7 +84,7 @@ export default function editaPsychologistProfile(navigation) {
 					try {
 						console.log('Entrou no IF');
 						await instance.put(
-							`/psychologist/${valorrequest}/updatePsychologists?nome=${nome}&idade=${idade}&email=${email}&crp=${crp}&numeroContato=${numeroContato}&valorConsulta=gratuito&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
+							`/psychologist/${valorrequest}/updatePsychologists?nome=${nome}&idade=${idade}&email=${email}&crp=${crp}&numeroContato=${numeroContato}&valorConsulta=Gratuito&metodologia=${metodologia}&tempoSessao=${tempoSessao}&tipoAtendimento=${tipoAtendimento}&prefFaixaEtaria=${prefFaixaEtaria}&descricao=${descricao}`,
 							{
 								headers: {
 									Authorization: 'Bearer ' + token,
@@ -98,31 +95,6 @@ export default function editaPsychologistProfile(navigation) {
 						setUpdate(null);
 					} catch (err) {
 						console.log(err);
-					}
-
-					if (senha !== '' && novaSenha !== '') {
-						try {
-							await instance.put(
-								`/patientes/${valorrequest}/updatePsychologistsPassword`,
-								{ senha: senha, novaSenha: novaSenha },
-								{
-									headers: {
-										Authorization: 'Bearer ' + token,
-									},
-								}
-							);
-						} catch (err) {
-							Alert.alert('Senha atual incorreta.');
-							console.error(err);
-						}
-					} else if (
-						(senha !== '' && novaSenha === '') ||
-						(senha === '' && novaSenha !== '')
-					) {
-						Alert.alert(
-							'É necessario informar os dois campos para alterar a senha.'
-						);
-						navigate('EditarPsichologist');
 					}
 				}
 				const perfildata = await instance.get(
@@ -312,7 +284,7 @@ export default function editaPsychologistProfile(navigation) {
 							<TextInputMask
 								type={'custom'}
 								options={{
-								  mask: '99/999999'
+									mask: '99/999999',
 								}}
 								style={css.input}
 								value={crp}
@@ -331,25 +303,6 @@ export default function editaPsychologistProfile(navigation) {
 								placeholder='Descreva-se aqui'
 							></TextInput>
 						</View>
-						<View style={css.borderInput}>
-							<TextInput
-								style={css.input}
-								value={senha}
-								onChangeText={(e) => setSenha(e)}
-								placeholder='Senha atual'
-								secureTextEntry={true}
-							></TextInput>
-						</View>
-						<View style={css.borderInput}>
-							<TextInput
-								style={css.input}
-								value={novaSenha}
-								onChangeText={(e) => setNovaSenha(e)}
-								placeholder='Nova senha'
-								secureTextEntry={true}
-							></TextInput>
-						</View>
-
 						<TouchableOpacity onPress={handleUpdate}>
 							<View style={css.btnSave}>
 								<Text style={css.txtSave}>Salvar</Text>
