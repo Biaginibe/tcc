@@ -7,7 +7,7 @@ const css = StyleSheet.create({
         height: '100%'
 	},
     title:{
-        paddingBottom: '15%',
+        paddingBottom: '10%',
         fontSize: 24,
         fontWeight: 'bold',
         color: '#A0A0A0',
@@ -18,17 +18,18 @@ const css = StyleSheet.create({
 		width: '60%',
 		marginHorizontal: '20%',
 		borderRadius: 5,
-		marginVertical: '5%'
+		marginVertical: '5%',
+        
 	},
 	txtCallNext:{
 		textAlign: 'center',
 		color:'white',
 		paddingVertical: 8,
         fontSize: 18,
-        paddingHorizontal: 15
+        paddingHorizontal: 8
 	},
     check:{
-        marginBottom: '30%',
+        marginBottom: '13%',
         display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center',
@@ -48,7 +49,7 @@ const css = StyleSheet.create({
         borderColor: '#e1e1e1',
         marginHorizontal: '15%',
         marginTop: '5%',
-        marginBottom: '10%',
+        marginBottom: '2%',
         minHeight: '30%'
     },
     txtList:{

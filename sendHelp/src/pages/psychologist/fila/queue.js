@@ -104,6 +104,7 @@ export default function Queue() {
 
 	return (
 		<SafeAreaView style={css.container}>
+		
 			<Text style={css.title}>Gerenciamento de fila</Text>
 			<View style={css.check}>
 				<Text style={{ width: '60%', fontSize: 16 }}>
@@ -132,6 +133,7 @@ export default function Queue() {
 					<Text style={css.txtCallNext}>RODARODA</Text>
 				</View>
 			</TouchableOpacity> */}
+			
 		</SafeAreaView>
 	);
 }
