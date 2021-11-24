@@ -11,6 +11,9 @@ export default function AuthProvider({ children }) {
         setUser(response.user);
         setToken(response.token);
         setType(response.type);
+        console.log(response);
+        
+        
     }
 
     const signOut = useCallback(async () => {
@@ -22,6 +25,9 @@ export default function AuthProvider({ children }) {
 	return (
 		<AuthContext.Provider value={{ signIn, signOut, user, type, setToken, setType, setUser, token }}>
 			{children}
+            {console.log(user)}
+            {console.log(token)}
+            {console.log(type)}
 		</AuthContext.Provider>
 	);
 }

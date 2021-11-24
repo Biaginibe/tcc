@@ -47,10 +47,10 @@ const UserTable = (props) => {
                   <td>
                     <div className="btn-table">
                     <button onClick={() => props.deleteUser(id)}>
-                      <IoTrashBinSharp size={"20px"} />
+                      <IoTrashBinSharp size={"20px"} color="rgb(30,30,30)" />
                     </button>
                     <button onClick={() => props.enableUser(id)}>
-                      <IoIosRemoveCircle size={"20px"} />
+                      <IoIosRemoveCircle size={"20px"} color="rgb(30,30,30)" />
                     </button>
                     </div>
                   </td>

@@ -8,6 +8,7 @@ import NavBarAdmin from "../../Components/NavBar_admin/NavBarAdmin";
 import axios from "axios";
 import useAxios from "axios-hooks";
 import UserTable from "../../Components/UserTable/UserTable";
+import { useAuth } from "../../Context/AuthContext";
 // import AddUserForm from "../forms/AddUserForm";
 // import EditUserForm from "../forms/EditUserForm";
 
@@ -15,13 +16,37 @@ import UserTable from "../../Components/UserTable/UserTable";
 
 const Admin = () => {
   const [users, setUsers] = useState(null);
-  const [{ data, loading, error }, refetch] = useAxios(
-    "http://localhost:3333/admin/findUsers"
-  );
+  const { token, user, signOut, signIn, type } = useAuth();
+  const config = {
+    headers: {
+      'Authorization': "Bearer " + token,
+    },
+  };
+  
+  const [{ data, loading, error }, refetch] = useAxios({
+    url: "http://localhost:3333/admin/findUsers",
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  // const [
+  //   { data: putData, loading: putLoading, error: putError },
+  //   executePut
+  // ] = useAxios(
+  //   {
+  //     url: 'https://api.myjson.com/bins/820fc',
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   },
+  //   { manual: true }
+  // )
 
   const deleteUser = (id) => {
     axios
-      .delete(`http://localhost:3333/admin/${id}/deleteUser`)
+      .delete(`http://localhost:3333/admin/${id}/deleteUser`,id, config)
       .then((res) => {
         console.log(res);
         console.log(res.data);
@@ -31,9 +56,10 @@ const Admin = () => {
         console.error("Erro!!", error);
       });
   };
+  console.log(token);
   const enableUser = (id, e) => {
     axios
-      .put(`http://localhost:3333/admin/${id}/disable_enablePatiente`)
+      .put(`http://localhost:3333/admin/${id}/disable_enablePatiente`,id, config)
       .then((res) => {
         console.log(res);
         console.log(res.data);
@@ -67,7 +93,6 @@ const Admin = () => {
     return (
       <div className="container">
         <NavBarAdmin />
-        
 
         {loading || !users ? (
           <p>Carregando...</p>

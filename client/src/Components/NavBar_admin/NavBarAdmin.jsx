@@ -1,8 +1,19 @@
 import "../../Pages/Admin/css/style.css";
+import {Button} from 'react'
+import { useAuth } from "../../Context/AuthContext";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
+
 
 function NavBarAdmin(/*nome*/) {
+  const { signOut } = useAuth();
+  let history = useHistory();
+  function handlelogout(){
+  
+    signOut()
+    history.push("/")
+  }
   return (
     <header className="navbarDesktop">
       <div className="links-container">
@@ -17,9 +28,8 @@ function NavBarAdmin(/*nome*/) {
         </Link>
         {/* <p className="bemvindo">Bem vindo, nome | sair</p> */}
         <div className="logologout">
-          <Link to="/">
-              <FaSignOutAlt size={18} />
-          </Link>
+          
+          <FaSignOutAlt size={18} onClick={handlelogout} />
         </div>
       </div>
     </header>

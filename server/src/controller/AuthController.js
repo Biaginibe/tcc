@@ -9,8 +9,9 @@ const { QueryTypes } = require('sequelize');
 module.exports = {
 	async signIn(req, res) {
 		try {
+			
 			const { cpf, pass } = req.body;
-
+			
 			const user = await User.findOne({ where: { cpf: cpf } });
 
 			if (!user) {
